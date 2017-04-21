@@ -1,0 +1,6 @@
+jid3-lib
+
+Release 0.6.0 4/21/2017	
+
+Removed build.xml (ant) and created pom.xml (maven)
+Test cases are all working. Conversions between tag types should work now
