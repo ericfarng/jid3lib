@@ -3,6 +3,7 @@ Java library implementing ID3 tags for MP3 files
 
 This library reads song information, such as song title, artist, and album, from an MP3 file. It supports ID3v1, ID3v1.1, Lyrics3v1, Lyrics3v2, ID3v2.2, ID3v2.3, and ID3v2.4 tags. MP3 Frame Headers can also be read. There is a FilenameTag, a ID3v2.4 tag that is intelligently derived from the file name. It contains tag synchronization utilities, multiple save options, and easy tag conversion methods.
 
+Compiled jar can be found at https://sourceforge.net/projects/javamusictag/
 
 ## MP3 Tag java library Quick Start
 
