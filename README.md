@@ -19,15 +19,15 @@ There are three types of tags found in an MP3 file found in this order:
 
 In addition, there are different versions for each tag:
 1. ID3v2
-- ID3v2.2
-- ID3v2.3
-- ID3v2.4
+-- ID3v2.2
+-- ID3v2.3
+-- ID3v2.4
 2. Lyrics3
-- Lyrics3v1
-- Lyrics3v2
+-- Lyrics3v1
+-- Lyrics3v2
 3. ID3v1
-- ID3v1.0
-- ID3v1.1
+-- ID3v1.0
+-- ID3v1.1
 
 **Compiling:**
 
@@ -36,53 +36,53 @@ This is a simple Maven project. To build, just use
 
 **Reading:**
 ```
-    File sourceFile;
-    MP3File mp3file = new MP3File(sourceFile);
-    if (mp3file.hasID3V2Tag()) {
-        AbstractID3v2 tag = mp3file.getID3v2Tag();
-        String albumTitle = tag.getAlbumTitle();
-    }
+File sourceFile;
+MP3File mp3file = new MP3File(sourceFile);
+if (mp3file.hasID3V2Tag()) {
+    AbstractID3v2 tag = mp3file.getID3v2Tag();
+    String albumTitle = tag.getAlbumTitle();
+}
 ```
 You can also read specific tags:
 ```
-    ID3v1_1 tag = new ID3v1_1(sourceFile);
-    ID3v1 tag = new ID3v1(sourceFile);
-    ID3v2_4 tag = new ID3v2_4(sourceFile);
-    ID3v2_3 tag = new ID3v2_3(sourceFile);
-    ID3v2_2 tag = new ID3v2_2(sourceFile);
-    Lyrics3v2 tag = new Lyrics3v2(sourceFile);
-    Lyrics3v1 tag = new Lyrics3v1(sourceFile);
+ID3v1_1 tag = new ID3v1_1(sourceFile);
+ID3v1 tag = new ID3v1(sourceFile);
+ID3v2_4 tag = new ID3v2_4(sourceFile);
+ID3v2_3 tag = new ID3v2_3(sourceFile);
+ID3v2_2 tag = new ID3v2_2(sourceFile);
+Lyrics3v2 tag = new Lyrics3v2(sourceFile);
+Lyrics3v1 tag = new Lyrics3v1(sourceFile);
 ```
 
 **Creating:**
 
 ```
-    MP3File mp3file = new MP3File("mysong.mp3");
-    TagOptionSingleton.getInstance().setDefaultSaveMode(TagConstant.MP3_FILE_SAVE_OVERWRITE);
+MP3File mp3file = new MP3File("mysong.mp3");
+TagOptionSingleton.getInstance().setDefaultSaveMode(TagConstant.MP3_FILE_SAVE_OVERWRITE);
 
-    // setup id3v1
-    ID3v1_1 id3v1 = new ID3v1_1();
-    id3v1.setAlbumTitle("Album Title");
-    mp3file.setID3v1Tag(id3v1);
-    mp3file.save();
+// setup id3v1
+ID3v1_1 id3v1 = new ID3v1_1();
+id3v1.setAlbumTitle("Album Title");
+mp3file.setID3v1Tag(id3v1);
+mp3file.save();
 
-    // setup id3v2
-    ID3v2_3 id3v2 = new ID3v2_3();
-    id3v2.setAlbumTitle("Album Title");
-    mp3file.setID3v2Tag(id3v2);
-    mp3file.save();
+// setup id3v2
+ID3v2_3 id3v2 = new ID3v2_3();
+id3v2.setAlbumTitle("Album Title");
+mp3file.setID3v2Tag(id3v2);
+mp3file.save();
 
-    // setup lyrics3v2
-    Lyrics3v2 lyrics3v2 = new Lyrics3v2();
-    lyrics3v2.setAlbumTitle("Album Title");
-    mp3file.setLyrics3Tag(lyrics3v2);
-    mp3file.save();
+// setup lyrics3v2
+Lyrics3v2 lyrics3v2 = new Lyrics3v2();
+lyrics3v2.setAlbumTitle("Album Title");
+mp3file.setLyrics3Tag(lyrics3v2);
+mp3file.save();
 
-    // setup filename tag
-    FilenameTag filenameTag = new FilenameTag();
-    filenameTag.setAlbumTitle("Album Title");
-    mp3file.setFilenameTag(filenameTag);
-    mp3file.save();
+// setup filename tag
+FilenameTag filenameTag = new FilenameTag();
+filenameTag.setAlbumTitle("Album Title");
+mp3file.setFilenameTag(filenameTag);
+mp3file.save();
 ```
 
 **Things to note:**
@@ -92,50 +92,50 @@ The default save mode is "write but do not delete." This means each field in the
 
 There are convience methods defined in AbstractMP3Tag to edit common data fields. Not all tags have all fields listed here.
 ```
-    public abstract String getSongTitle();
-    public abstract String getLeadArtist();
-    public abstract String getAlbumTitle();
-    public abstract String getYearReleased();
-    public abstract String getSongComment();
-    public abstract String getSongGenre();
-    public abstract String getTrackNumberOnAlbum();
-    public abstract String getSongLyric();
-    public abstract String getAuthorComposer();
-    public abstract void setSongTitle(String songTitle);
-    public abstract void setLeadArtist(String leadArtist);
-    public abstract void setAlbumTitle(String albumTitle);
-    public abstract void setYearReleased(String yearReleased);
-    public abstract void setSongComment(String songComment);
-    public abstract void setSongGenre(String songGenre);
-    public abstract void setTrackNumberOnAlbum(String trackNumberOnAlbum);
-    public abstract void setSongLyric(String songLyrics);
-    public abstract void setAuthorComposer(String authorComposer);
+public abstract String getSongTitle();
+public abstract String getLeadArtist();
+public abstract String getAlbumTitle();
+public abstract String getYearReleased();
+public abstract String getSongComment();
+public abstract String getSongGenre();
+public abstract String getTrackNumberOnAlbum();
+public abstract String getSongLyric();
+public abstract String getAuthorComposer();
+public abstract void setSongTitle(String songTitle);
+public abstract void setLeadArtist(String leadArtist);
+public abstract void setAlbumTitle(String albumTitle);
+public abstract void setYearReleased(String yearReleased);
+public abstract void setSongComment(String songComment);
+public abstract void setSongGenre(String songGenre);
+public abstract void setTrackNumberOnAlbum(String trackNumberOnAlbum);
+public abstract void setSongLyric(String songLyrics);
+public abstract void setAuthorComposer(String authorComposer);
 ```
 
 **Editing Part 2:**
 
 If the field you want is not listed above, you can use these methods.
 ```
-    id3v1 = mp3file.getID3v1Tag();
-    id3v2 = mp3file.getID3v2Tag();
-    lyrics3 = mp3file.getLyrics3Tag();
+id3v1 = mp3file.getID3v1Tag();
+id3v2 = mp3file.getID3v2Tag();
+lyrics3 = mp3file.getLyrics3Tag();
 ```
 
 ID3v1 tags have fixed fields and use accessor methods to change it's properties.
 
 ID3v2 tags have multiple frames. Use this to set the title of the tag.
 ```
-    // setup id3v2
-    frameBody frameBody = new FrameBodyTALB((byte) 0, "albumTitle");
-    AbstractID3v2Frame frame = new ID3v2_4Frame(frameBody);
-    id3v2.setFrame(frame);
+// setup id3v2
+frameBody frameBody = new FrameBodyTALB((byte) 0, "albumTitle");
+AbstractID3v2Frame frame = new ID3v2_4Frame(frameBody);
+id3v2.setFrame(frame);
 ```    
 Lyrics3 tags have multiple fields. Use this to set the title of the tag.
 ```
-    // setup lyrics3v2
-    AbstractLyrics3v2FieldBody fieldBody = new FieldBodyEAL("albumTitle");
-    Lyrics3v2Field field = new Lyrics3v2Field(fieldBody);
-    lyrics3.setField(field);
+// setup lyrics3v2
+AbstractLyrics3v2FieldBody fieldBody = new FieldBodyEAL("albumTitle");
+Lyrics3v2Field field = new Lyrics3v2Field(fieldBody);
+lyrics3.setField(field);
 ```
     
 **Writing:**
