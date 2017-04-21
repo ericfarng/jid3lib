@@ -13,21 +13,21 @@ True to the title, this is quick. There are many more read/write/edit options if
 
 There are three types of tags found in an MP3 file found in this order:
 - ID3v2
-- <MP3 Data>
+- *MP3 Data*
 - Lyrics3
 - ID3v1
 
 In addition, there are different versions for each tag:
 1. ID3v2
--- ID3v2.2
--- ID3v2.3
--- ID3v2.4
+  * ID3v2.2
+  * ID3v2.3
+  * ID3v2.4
 2. Lyrics3
--- Lyrics3v1
--- Lyrics3v2
+  * Lyrics3v1
+  * Lyrics3v2
 3. ID3v1
--- ID3v1.0
--- ID3v1.1
+  * ID3v1.0
+  * ID3v1.1
 
 **Compiling:**
 
