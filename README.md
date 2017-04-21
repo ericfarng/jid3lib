@@ -159,3 +159,26 @@ Here is a mapping of the commonly used fields
 |Lyrics|||SYL or ULT|SYLT or USLT|SYLT or USLT|lyric|LYR|
 |Author / Composer|||TCM|TCOM|TCOM||AUT|
 
+## Further Documentation
+(Copied from www.id3.org)
+
+- [The short history of tagging](http://javamusictag.sourceforge.net/doc/history.html)
+- [ID3v1 made easy](http://javamusictag.sourceforge.net/doc/ID3%20made%20easy.htm)
+- [ID3v2 made easy](http://javamusictag.sourceforge.net/doc/easy.html)
+- [Lyrics3 made easy](http://javamusictag.sourceforge.net/doc/Lyrics3%20made%20easy.htm)
+
+
+- [ID3 v 2.2](http://javamusictag.sourceforge.net/doc/ID3%20v2.2.0%20Commented.htm)
+- [ID3 v 2.3](http://javamusictag.sourceforge.net/doc/ID3%20v2.3.0.htm)
+- [ID3 v 2.4 Structure](http://javamusictag.sourceforge.net/doc/ID3%20v2.4.0%20Structure.htm)
+- [ID3 v 2.4 Frames](http://javamusictag.sourceforge.net/doc/ID3%20v2.4.0%20Frames.htm)
+- [ID3 v 2.4 Changes](http://javamusictag.sourceforge.net/doc/ID3%20v2.4.0%20Changes.htm)
+- [Lyrics3 v2.00](http://javamusictag.sourceforge.net/doc/Lyrics3%20v2.00.htm)
+
+
+- [The private life of MP3 frames](http://javamusictag.sourceforge.net/doc/The%20private%20life%20of%20MP3%20frames.htm)
+- [MP3 Audio Frame Heaer](http://javamusictag.sourceforge.net/doc/MPEG%20Audio%20Frame%20Header.htm)
+
+
+
+
