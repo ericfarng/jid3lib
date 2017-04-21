@@ -162,22 +162,22 @@ Here is a mapping of the commonly used fields
 ## Further Documentation
 (Copied from www.id3.org)
 
-- [The short history of tagging](http://javamusictag.sourceforge.net/doc/history.html)
-- [ID3v1 made easy](http://javamusictag.sourceforge.net/doc/ID3%20made%20easy.htm)
-- [ID3v2 made easy](http://javamusictag.sourceforge.net/doc/easy.html)
-- [Lyrics3 made easy](http://javamusictag.sourceforge.net/doc/Lyrics3%20made%20easy.htm)
+- [The short history of tagging](http://htmlpreview.github.com/?https://github.com/ericfarng/jid3lib/blob/master/doc/history.html)
+- [ID3v1 made easy](http://htmlpreview.github.com/?https://github.com/ericfarng/jid3lib/blob/master/doc/ID3%20made%20easy.htm)
+- [ID3v2 made easy](http://htmlpreview.github.com/?https://github.com/ericfarng/jid3lib/blob/master/doc/easy.html) 
+- [Lyrics3 made easy](http://htmlpreview.github.com/?https://github.com/ericfarng/jid3lib/blob/master/doc/Lyrics3%20v2.00.htm) 
 
 
-- [ID3 v 2.2](http://javamusictag.sourceforge.net/doc/ID3%20v2.2.0%20Commented.htm)
-- [ID3 v 2.3](http://javamusictag.sourceforge.net/doc/ID3%20v2.3.0.htm)
-- [ID3 v 2.4 Structure](http://javamusictag.sourceforge.net/doc/ID3%20v2.4.0%20Structure.htm)
-- [ID3 v 2.4 Frames](http://javamusictag.sourceforge.net/doc/ID3%20v2.4.0%20Frames.htm)
-- [ID3 v 2.4 Changes](http://javamusictag.sourceforge.net/doc/ID3%20v2.4.0%20Changes.htm)
-- [Lyrics3 v2.00](http://javamusictag.sourceforge.net/doc/Lyrics3%20v2.00.htm)
+- [ID3 v 2.2](http://htmlpreview.github.com/?https://github.com/ericfarng/jid3lib/blob/master/doc/ID3%20v2.2.0%20Commented.htm)
+- [ID3 v 2.3](http://htmlpreview.github.com/?https://github.com/ericfarng/jid3lib/blob/master/doc/ID3%20v2.3.0.htm)
+- [ID3 v 2.4 Structure](http://htmlpreview.github.com/?https://github.com/ericfarng/jid3lib/blob/master/doc/ID3%20v2.4.0%20Structure.htm)
+- [ID3 v 2.4 Frames](http://htmlpreview.github.com/?https://github.com/ericfarng/jid3lib/blob/master/doc/ID3%20v2.4.0%20Frames.htm)
+- [ID3 v 2.4 Changes](http://htmlpreview.github.com/?https://github.com/ericfarng/jid3lib/blob/master/doc/ID3%20v2.4.0%20Structure.htm)
+- [Lyrics3 v2.00](http://htmlpreview.github.com/?https://github.com/ericfarng/jid3lib/blob/master/doc/Lyrics3%20v2.00.htm)
 
 
-- [The private life of MP3 frames](http://javamusictag.sourceforge.net/doc/The%20private%20life%20of%20MP3%20frames.htm)
-- [MP3 Audio Frame Heaer](http://javamusictag.sourceforge.net/doc/MPEG%20Audio%20Frame%20Header.htm)
+- [The private life of MP3 frames](http://htmlpreview.github.com/?https://github.com/ericfarng/jid3lib/blob/master/doc/The%20private%20life%20of%20MP3%20frames.htm)
+- [MP3 Audio Frame Heaer](http://htmlpreview.github.com/?https://github.com/ericfarng/jid3lib/blob/master/doc/MPEG%20Audio%20Frame%20Header.htm)
 
 
 
