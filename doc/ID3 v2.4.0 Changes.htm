@@ -1,0 +1,222 @@
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+    <meta name="GENERATOR" content="Microsoft FrontPage 4.0">
+    <meta name="ProgId" content="FrontPage.Editor.Document">
+    <title>Informal standard Document</title>
+</head>
+
+<body>
+<table border="0" width="100%">
+    <tr>
+        <td>Informal standard<br>
+            Document: id3v2.4.0-changes.html</td>
+        <td align="right">M. Nilsson<br>
+            Latest change:
+            21st December 2000</td>
+    </tr>
+</table>
+
+<h1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    ID3 tag version 2.4.0 - Changes</h1>
+<a name="status"></a>
+
+<h3>Status of this document</h3>
+
+<p>&nbsp;&nbsp; This document describes the changes between ID3v2.3.0
+    [ID3v2.3.0] and<br>
+    &nbsp;&nbsp; ID3v2.4.0 [ID3v2.4.0-strct][ID3v2.4.0-frames]. This document does
+    not<br>
+    &nbsp;&nbsp; claim to be complete nor correct. </p>
+
+<p>&nbsp;&nbsp; Distribution of this document is unlimited.<br>
+</p>
+<a name="abstract"></a>
+
+<h3>Abstract</h3>
+
+<p>&nbsp;&nbsp; This document outlines the more important differences between<br>
+    &nbsp;&nbsp; ID3v2.3.0 and ID3v2.4.0. In general ID3v.2.4.0 can be said to be
+    more<br>
+    &nbsp;&nbsp; consistent and easier to implement and more suitable to real world<br>
+    &nbsp;&nbsp; conditions than the previous versions.<br>
+</p>
+<a name="toc"></a>
+
+<h3>1. Table of contents</h3>
+
+<p><center>
+
+    <table border="0">
+        <tr>
+            <td>
+                <dl>
+
+                    <dt><a href="#status">Status of this document</a></dt>
+                    <dt><a href="#abstract">Abstract</a></dt>
+                    <dt>1. <a href="#toc">Table of contents</a></dt>
+                    <dt>2. <a href="#sec2">Conventions in this document</a></dt>
+                    <dt>3. <a href="#sec3">Tag structure changes</a></dt>
+                    <dt>4. <a href="#sec4">Deprecated ID3v2 frames</a></dt>
+                    <dt>5. <a href="#sec5">New frames</a></dt>
+                    <dt>6. <a href="#sec6">References</a></dt>
+
+                </dl>
+            </td>
+        </tr>
+    </table>
+
+</center>
+
+<a name="sec2"></a>
+
+<h3>2.&nbsp;&nbsp; Conventions in this document</h3>
+
+<p>&nbsp;&nbsp; References to sections in the ID3v2.4.0 Main Structure<br>
+    &nbsp;&nbsp; [ID3v2.4.0-strct] document will be given as [S:x.y] where x is the<br>
+    &nbsp;&nbsp; section and y is the subsection. In a similar fashion references to<br>
+    &nbsp;&nbsp; sections in the ID3v2.4.0 Native Frames [ID3v2.4.0-frames] document<br>
+    &nbsp;&nbsp; will be given as [F:x.y].<br>
+</p>
+<a name="sec3"></a>
+
+<h3>3.&nbsp;&nbsp; Tag structure changes</h3>
+
+<p>&nbsp;&nbsp; The location of tags in a file as well as methods to find and
+    merge<br>
+    &nbsp;&nbsp; tags are far better defined in ID3v2.4.0 [S:5] than previous<br>
+    &nbsp;&nbsp; versions. A reverse search for tags are improved by the addition of
+    a<br>
+    &nbsp;&nbsp; tag footer [S:3.4]. A tag footer flag has been added to the header<br>
+    &nbsp;&nbsp; flags to indicate the presence of a ID3v2 footer, hence the size<br>
+    &nbsp;&nbsp; field is not affected by the footer [S:3.1].</p>
+
+<p>&nbsp;&nbsp; The extended header has been completely rewritten [S:3.2] and
+    can not<br>
+    &nbsp;&nbsp; produce false synchs. It is also possible to indicate artificial
+    tag<br>
+    &nbsp;&nbsp; restrictions in the extended header, for use with thinner clients.<br>
+    &nbsp;&nbsp; </p>
+
+<p>&nbsp;&nbsp; Unsynchronisation [S:6.1] is done on frame level, instead of on
+    tag<br>
+    &nbsp;&nbsp; level, making it easier to skip frames, increasing the
+    streamability<br>
+    &nbsp;&nbsp; of the tag. The unsynchronisation flag in the header [S:3.1]<br>
+    &nbsp;&nbsp; indicates if all frames has been unsynchronized, while the new<br>
+    &nbsp;&nbsp; unsynchronisation flag in the frame header [S:4.1.2] indicates<br>
+    &nbsp;&nbsp; unsynchronisation. To avoid false synchronisations in the frame<br>
+    &nbsp;&nbsp; header the size description and flag field has been rewritten
+    [S:4].<br>
+    &nbsp;&nbsp; Resynchronisation of the complete tag when the unsynchronisation
+    flag<br>
+    &nbsp;&nbsp; in the tag header is set might result in a corrupt tag.</p>
+
+<p>&nbsp;&nbsp; The character encodings UTF-16BE and UTF-8 has been added to the
+    list<br>
+    &nbsp;&nbsp; of valid encodings [S:4].<br>
+</p>
+<a name="sec4"></a>
+
+<h3>4.&nbsp;&nbsp; Deprecated ID3v2 frames</h3>
+
+<p>&nbsp; EQUA - Equalization<br>
+    &nbsp;&nbsp;&nbsp; This frame is replaced by the EQU2 frame, 'Equalisation (2)'<br>
+    &nbsp;&nbsp;&nbsp; [F:4.12].</p>
+
+<p>&nbsp; IPLS - Involved people list<br>
+    &nbsp;&nbsp;&nbsp; This frame is replaced by the two frames TMCL, 'Musician
+    credits<br>
+    &nbsp;&nbsp;&nbsp; list' [F:4.2.2], and TIPL, 'Involved people list' [F:4.2.2].</p>
+
+<p>&nbsp; RVAD - Relative volume adjustment<br>
+    &nbsp;&nbsp;&nbsp; This frame is replaced by the RVA2 frame, 'Relative volume<br>
+    &nbsp;&nbsp;&nbsp; adjustment (2)' [F:4.11].<br>
+    &nbsp;&nbsp;&nbsp; </p>
+
+<p>&nbsp; TDAT - Date<br>
+    &nbsp;&nbsp;&nbsp; This frame is replaced by the TDRC frame, 'Recording time'<br>
+    &nbsp;&nbsp;&nbsp; [F:4.2.5].<br>
+    &nbsp;&nbsp;&nbsp; </p>
+
+<p>&nbsp; TIME - Time<br>
+    &nbsp;&nbsp;&nbsp; This frame is replaced by the TDRC frame, 'Recording time'<br>
+    &nbsp;&nbsp;&nbsp; [F:4.2.5].<br>
+    &nbsp;&nbsp;&nbsp; </p>
+
+<p>&nbsp; TORY - Original release year<br>
+    &nbsp;&nbsp;&nbsp; This frame is replaced by the TDOR frame, 'Original release
+    time'<br>
+    &nbsp;&nbsp;&nbsp; [F:4.2.5].<br>
+    &nbsp;&nbsp;&nbsp; </p>
+
+<p>&nbsp; TRDA - Recording dates<br>
+    &nbsp;&nbsp;&nbsp; This frame is replaced by the TDRC frame, 'Recording time'<br>
+    &nbsp;&nbsp;&nbsp; [F:4.2.5].<br>
+    &nbsp;&nbsp;&nbsp; </p>
+
+<p>&nbsp; TSIZ - Size<br>
+    &nbsp;&nbsp;&nbsp; The information contained in this frame is in the general
+    case<br>
+    &nbsp;&nbsp;&nbsp; either trivial to calculate for the player or impossible for
+    the<br>
+    &nbsp;&nbsp;&nbsp; tagger to calculate. There is however no good use for such<br>
+    &nbsp;&nbsp;&nbsp; information. The frame is therefore completely deprecated.<br>
+    &nbsp;&nbsp;&nbsp; </p>
+
+<p>&nbsp; TYER - Year<br>
+    &nbsp;&nbsp;&nbsp; This frame is replaced by the TDRC frame, 'Recording time'<br>
+    &nbsp;&nbsp;&nbsp; [F:4.2.5].<br>
+</p>
+<a name="sec5"></a>
+
+<h3>5.&nbsp;&nbsp; New frames</h3>
+
+<p>&nbsp;&nbsp; ASPI Audio seek point index [F:4.30]<br>
+    &nbsp;&nbsp; EQU2 Equalisation (2) [F:4.12]<br>
+    &nbsp;&nbsp; RVA2 Relative volume adjustment (2) [F:4.11]<br>
+    &nbsp;&nbsp; SEEK Seek frame [F:4.29]<br>
+    &nbsp;&nbsp; SIGN Signature frame [F:4.28]<br>
+    &nbsp;&nbsp; TDEN Encoding time [F:4.2.5]<br>
+    &nbsp;&nbsp; TDOR Original release time [F:4.2.5]<br>
+    &nbsp;&nbsp; TDRC Recording time [F:4.2.5]<br>
+    &nbsp;&nbsp; TDRL Release time [F:4.2.5]<br>
+    &nbsp;&nbsp; TDTG Tagging time [F:4.2.5]<br>
+    &nbsp;&nbsp; TIPL Involved people list [F:4.2.2]<br>
+    &nbsp;&nbsp; TMCL Musician credits list [F:4.2.2]<br>
+    &nbsp;&nbsp; TMOO Mood [F:4.2.3]<br>
+    &nbsp;&nbsp; TPRO Produced notice [F:4.2.4]<br>
+    &nbsp;&nbsp; TSOA Album sort order [F:4.2.5]<br>
+    &nbsp;&nbsp; TSOP Performer sort order [F:4.2.5]<br>
+    &nbsp;&nbsp; TSOT Title sort order [F:4.2.5]<br>
+    &nbsp;&nbsp; TSST Set subtitle [F:4.2.1]<br>
+</p>
+<a name="sec6"></a>
+
+<h3>6.&nbsp;&nbsp; References</h3>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [ID3v2.3.0] Martin Nilsson, &quot;ID3v2
+    informal standard&quot;.<br>
+    &nbsp;&nbsp; </p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;url:http://www.id3.org/id3v2.3.0.txt&gt;<br>
+    &nbsp;&nbsp; </p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [ID3v2-frames] Martin Nilsson,<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;ID3 tag version 2.4.0 - Native Frames&quot;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;url:http//www.id3.org/id3v2.4.0-frames.txt&gt;</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [ID3v2-strct] Martin Nilsson,<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;ID3 tag version 2.4.0 - Main
+    Structure&quot;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;url:http//www.id3.org/id3v2.4.0-structure.txt&gt;<br>
+</p>
+
+</body>
+
+</html>

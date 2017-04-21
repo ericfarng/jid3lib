@@ -1,0 +1,16 @@
+org/farng/mp3/id3/AbstractMP3Tag.class
+org/farng/mp3/MP3FileTest.class
+org/farng/mp3/TagUtilityTest.class
+org/farng/mp3/object/ObjectBooleanStringTest.class
+org/farng/mp3/AllTestCase$1.class
+org/farng/mp3/object/ObjectByteArraySizeTerminatedTest.class
+org/farng/mp3/AllTestCase$2.class
+org/farng/mp3/object/AbstractMP3ObjectTest.class
+org/farng/mp3/FileOnlyFileFilter.class
+org/farng/mp3/object/ObjectLyrics3ImageTest.class
+org/farng/mp3/MiscellaneousTest.class
+org/farng/mp3/object/ObjectID3v2LyricLineTest.class
+org/farng/mp3/object/ObjectLyrics3LineTest.class
+org/farng/mp3/object/ObjectGroupRepeatedTest.class
+org/farng/mp3/AllTestCase.class
+org/farng/mp3/object/ObjectBooleanByteTest.class

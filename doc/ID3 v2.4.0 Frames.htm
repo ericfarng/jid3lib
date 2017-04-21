@@ -1,0 +1,2307 @@
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+    <meta name="GENERATOR" content="Microsoft FrontPage 4.0">
+    <meta name="ProgId" content="FrontPage.Editor.Document">
+    <title>Informal standard Document</title>
+</head>
+
+<body>
+<table border="0" width="100%">
+    <tr>
+        <td>Informal standard<br>
+            Document: id3v2.4.0-frames.html</td>
+        <td align="right">M. Nilsson<br>
+            Latest change:
+            1st November 2000</td>
+    </tr>
+</table>
+<h1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    ID3 tag version 2.4.0 - Native Frames</h1>
+<a name="status"></a>
+
+<h3>Status of this document</h3>
+
+<p>&nbsp;&nbsp; This document is an informal standard and replaces the ID3v2.3.0<br>
+    &nbsp;&nbsp; standard [ID3v2]. A formal standard will use another revision
+    number<br>
+    &nbsp;&nbsp; even if the content is identical to document. The contents in this<br>
+    &nbsp;&nbsp; document may change for clarifications but never for added or
+    altered<br>
+    &nbsp;&nbsp; functionallity.</p>
+
+<p>&nbsp;&nbsp; Distribution of this document is unlimited.<br>
+</p>
+<a name="abstract"></a>
+
+<h3>Abstract</h3>
+
+<p>&nbsp;&nbsp; This document describes the frames natively supported by
+    ID3v2.4.0,<br>
+    &nbsp;&nbsp; which is a revised version of the ID3v2 informal standard
+    [ID3v2.3.0]<br>
+    &nbsp;&nbsp; version 2.3.0. The ID3v2 offers a flexible way of storing audio
+    meta<br>
+    &nbsp;&nbsp; information within audio file itself. The information may be<br>
+    &nbsp;&nbsp; technical information, such as equalisation curves, as well as
+    title,<br>
+    &nbsp;&nbsp; performer, copyright etc.</p>
+
+<p>&nbsp;&nbsp; ID3v2.4.0 is meant to be as close as possible to ID3v2.3.0 in
+    order<br>
+    &nbsp;&nbsp; to allow for implementations to be revised as easily as possible.<br>
+</p>
+<a name="toc"></a>
+
+<h3>1.&nbsp;&nbsp; Table of contents</h3>
+
+<p>&nbsp;&nbsp; 2.&nbsp;&nbsp; Conventions in this document<br>
+    &nbsp;&nbsp; 3.&nbsp;&nbsp; Default flags<br>
+    &nbsp;&nbsp; 4.&nbsp;&nbsp; Declared ID3v2 frames<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 4.1.&nbsp;&nbsp; Unique file identifier<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 4.2.&nbsp;&nbsp; Text information frames<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4.2.1.&nbsp;&nbsp; Identification frames<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4.2.2.&nbsp;&nbsp; Involved persons frames<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4.2.3.&nbsp;&nbsp; Derived and subjective
+    properties frames<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4.2.4.&nbsp;&nbsp; Rights and license
+    frames<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4.2.5.&nbsp;&nbsp; Other text frames<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4.2.6.&nbsp;&nbsp; User defined text
+    information frame<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 4.3.&nbsp;&nbsp; URL link frames<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4.3.1.&nbsp;&nbsp; URL link frames -
+    details<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4.3.2.&nbsp;&nbsp; User defined URL link
+    frame<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 4.4.&nbsp;&nbsp; Music CD Identifier<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 4.5.&nbsp;&nbsp; Event timing codes<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 4.6.&nbsp;&nbsp; MPEG location lookup table<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 4.7.&nbsp;&nbsp; Synced tempo codes<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 4.8.&nbsp;&nbsp; Unsynchronised lyrics/text
+    transcription<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 4.9.&nbsp; Synchronised lyrics/text<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 4.10.&nbsp; Comments<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 4.11.&nbsp; Relative volume adjustment (2)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 4.12.&nbsp; Equalisation (2)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 4.13.&nbsp; Reverb<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 4.14.&nbsp; Attached picture<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 4.15.&nbsp; General encapsulated object<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 4.16.&nbsp; Play counter<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 4.17.&nbsp; Popularimeter<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 4.18.&nbsp; Recommended buffer size<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 4.19.&nbsp; Audio encryption<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 4.20.&nbsp; Linked information<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 4.21.&nbsp; Position synchronisation frame<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 4.22.&nbsp; Terms of use<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 4.23.&nbsp; Ownership frame<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 4.24.&nbsp; Commercial frame<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 4.25.&nbsp; Encryption method registration<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 4.26.&nbsp; Group identification registration<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 4.27.&nbsp; Private frame<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 4.28.&nbsp; Signature frame<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 4.29.&nbsp; Seek frame<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 4.30.&nbsp; Audio seek point index<br>
+    &nbsp;&nbsp; 5.&nbsp;&nbsp; Copyright<br>
+    &nbsp;&nbsp; 6.&nbsp;&nbsp; References<br>
+    &nbsp;&nbsp; 7.&nbsp;&nbsp; Appendix<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; A.&nbsp;&nbsp; Appendix A - Genre List from ID3v1<br>
+    &nbsp;&nbsp; 8.&nbsp;&nbsp; Author's Address<br>
+</p>
+<a name="sec2"></a>
+
+<h3>2.&nbsp;&nbsp; Conventions in this document</h3>
+
+<p>&nbsp;&nbsp; Text within &quot;&quot; is a text string exactly as it appears
+    in a tag.<br>
+    &nbsp;&nbsp; Numbers preceded with $ are hexadecimal and numbers preceded with %<br>
+    &nbsp;&nbsp; are binary. $xx is used to indicate a byte with unknown content. %x<br>
+    &nbsp;&nbsp; is used to indicate a bit with unknown content. The most
+    significant<br>
+    &nbsp;&nbsp; bit (MSB) of a byte is called 'bit 7' and the least significant bit<br>
+    &nbsp;&nbsp; (LSB) is called 'bit 0'.</p>
+
+<p>&nbsp;&nbsp; A tag is the whole tag described the ID3v2 main structure
+    document<br>
+    &nbsp;&nbsp; [ID3v2-strct]. A frame is a block of information in the tag. The
+    tag<br>
+    &nbsp;&nbsp; consists of a header, frames and optional padding. A field is a
+    piece<br>
+    &nbsp;&nbsp; of information; one value, a string etc. A numeric string is a
+    string<br>
+    &nbsp;&nbsp; that consists of the characters &quot;0123456789&quot; only.</p>
+
+<p>&nbsp;&nbsp; The key words &quot;MUST&quot;, &quot;MUST NOT&quot;,
+    &quot;REQUIRED&quot;, &quot;SHALL&quot;, &quot;SHALL NOT&quot;,<br>
+    &nbsp;&nbsp; &quot;SHOULD&quot;, &quot;SHOULD NOT&quot;,
+    &quot;RECOMMENDED&quot;,&nbsp; &quot;MAY&quot;, and &quot;OPTIONAL&quot; in this<br>
+    &nbsp;&nbsp; document are to be interpreted as described in RFC 2119 [KEYWORDS].<br>
+</p>
+<a name="sec3"></a>
+
+<h3>3.&nbsp;&nbsp; Default flags</h3>
+
+<p>&nbsp;&nbsp; The default settings for the frames described in this document
+    can be<br>
+    &nbsp;&nbsp; divided into the following classes. The flags may be set
+    differently<br>
+    &nbsp;&nbsp; if found more suitable by the software.</p>
+
+<p>&nbsp;&nbsp;&nbsp; 1. Discarded if tag is altered, discarded if file is
+    altered.</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; None.</p>
+
+<p>&nbsp;&nbsp;&nbsp; 2. Discarded if tag is altered, preserved if file is
+    altered.</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; None.</p>
+
+<p>&nbsp;&nbsp;&nbsp; 3. Preserved if tag is altered, discarded if file is
+    altered.</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ASPI, AENC, ETCO, EQU2, MLLT, POSS,
+    SEEK, SYLT, SYTC, RVA2, TENC,<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TLEN</p>
+
+<p>&nbsp;&nbsp;&nbsp; 4. Preserved if tag is altered, preserved if file is
+    altered.</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; The rest of the frames.<br>
+</p>
+<a name="sec4"></a>
+
+<h3>4.&nbsp;&nbsp; Declared ID3v2 frames</h3>
+
+<p>&nbsp;&nbsp; The following frames are declared in this draft.</p>
+
+<p>&nbsp; 4.19&nbsp; AENC Audio encryption<br>
+    &nbsp; 4.14&nbsp; APIC Attached picture<br>
+    &nbsp; 4.30&nbsp; ASPI Audio seek point index</p>
+
+<p>&nbsp; 4.10&nbsp; COMM Comments<br>
+    &nbsp; 4.24&nbsp; COMR Commercial frame</p>
+
+<p>&nbsp; 4.25&nbsp; ENCR Encryption method registration<br>
+    &nbsp; 4.12&nbsp; EQU2 Equalisation (2)<br>
+    &nbsp; 4.5&nbsp;&nbsp; ETCO Event timing codes</p>
+
+<p>&nbsp; 4.15&nbsp; GEOB General encapsulated object<br>
+    &nbsp; 4.26&nbsp; GRID Group identification registration</p>
+
+<p>&nbsp; 4.20&nbsp; LINK Linked information</p>
+
+<p>&nbsp; 4.4&nbsp;&nbsp; MCDI Music CD identifier<br>
+    &nbsp; 4.6&nbsp;&nbsp; MLLT MPEG location lookup table</p>
+
+<p>&nbsp; 4.23&nbsp; OWNE Ownership frame</p>
+
+<p>&nbsp; 4.27&nbsp; PRIV Private frame<br>
+    &nbsp; 4.16&nbsp; PCNT Play counter<br>
+    &nbsp; 4.17&nbsp; POPM Popularimeter<br>
+    &nbsp; 4.21&nbsp; POSS Position synchronisation frame</p>
+
+<p>&nbsp; 4.18&nbsp; RBUF Recommended buffer size<br>
+    &nbsp; 4.11&nbsp; RVA2 Relative volume adjustment (2)<br>
+    &nbsp; 4.13&nbsp; RVRB Reverb</p>
+
+<p>&nbsp; 4.29&nbsp; SEEK Seek frame<br>
+    &nbsp; 4.28&nbsp; SIGN Signature frame<br>
+    &nbsp; 4.9&nbsp;&nbsp; SYLT Synchronised lyric/text<br>
+    &nbsp; 4.7&nbsp;&nbsp; SYTC Synchronised tempo codes</p>
+
+<p>&nbsp; 4.2.1 TALB Album/Movie/Show title<br>
+    &nbsp; 4.2.3 TBPM BPM (beats per minute)<br>
+    &nbsp; 4.2.2 TCOM Composer<br>
+    &nbsp; 4.2.3 TCON Content type<br>
+    &nbsp; 4.2.4 TCOP Copyright message<br>
+    &nbsp; 4.2.5 TDEN Encoding time<br>
+    &nbsp; 4.2.5 TDLY Playlist delay<br>
+    &nbsp; 4.2.5 TDOR Original release time<br>
+    &nbsp; 4.2.5 TDRC Recording time<br>
+    &nbsp; 4.2.5 TDRL Release time<br>
+    &nbsp; 4.2.5 TDTG Tagging time<br>
+    &nbsp; 4.2.2 TENC Encoded by<br>
+    &nbsp; 4.2.2 TEXT Lyricist/Text writer<br>
+    &nbsp; 4.2.3 TFLT File type<br>
+    &nbsp; 4.2.2 TIPL Involved people list<br>
+    &nbsp; 4.2.1 TIT1 Content group description<br>
+    &nbsp; 4.2.1 TIT2 Title/songname/content description<br>
+    &nbsp; 4.2.1 TIT3 Subtitle/Description refinement<br>
+    &nbsp; 4.2.3 TKEY Initial key<br>
+    &nbsp; 4.2.3 TLAN Language(s)<br>
+    &nbsp; 4.2.3 TLEN Length<br>
+    &nbsp; 4.2.2 TMCL Musician credits list<br>
+    &nbsp; 4.2.3 TMED Media type<br>
+    &nbsp; 4.2.3 TMOO Mood<br>
+    &nbsp; 4.2.1 TOAL Original album/movie/show title<br>
+    &nbsp; 4.2.5 TOFN Original filename<br>
+    &nbsp; 4.2.2 TOLY Original lyricist(s)/text writer(s)<br>
+    &nbsp; 4.2.2 TOPE Original artist(s)/performer(s)<br>
+    &nbsp; 4.2.4 TOWN File owner/licensee<br>
+    &nbsp; 4.2.2 TPE1 Lead performer(s)/Soloist(s)<br>
+    &nbsp; 4.2.2 TPE2 Band/orchestra/accompaniment<br>
+    &nbsp; 4.2.2 TPE3 Conductor/performer refinement<br>
+    &nbsp; 4.2.2 TPE4 Interpreted, remixed, or otherwise modified by<br>
+    &nbsp; 4.2.1 TPOS Part of a set<br>
+    &nbsp; 4.2.4 TPRO Produced notice<br>
+    &nbsp; 4.2.4 TPUB Publisher<br>
+    &nbsp; 4.2.1 TRCK Track number/Position in set<br>
+    &nbsp; 4.2.4 TRSN Internet radio station name<br>
+    &nbsp; 4.2.4 TRSO Internet radio station owner<br>
+    &nbsp; 4.2.5 TSOA Album sort order<br>
+    &nbsp; 4.2.5 TSOP Performer sort order<br>
+    &nbsp; 4.2.5 TSOT Title sort order<br>
+    &nbsp; 4.2.1 TSRC ISRC (international standard recording code)<br>
+    &nbsp; 4.2.5 TSSE Software/Hardware and settings used for encoding<br>
+    &nbsp; 4.2.1 TSST Set subtitle<br>
+    &nbsp; 4.2.2 TXXX User defined text information frame</p>
+
+<p>&nbsp; 4.1&nbsp;&nbsp; UFID Unique file identifier<br>
+    &nbsp; 4.22&nbsp; USER Terms of use<br>
+    &nbsp; 4.8&nbsp;&nbsp; USLT Unsynchronised lyric/text transcription</p>
+
+<p>&nbsp; 4.3.1 WCOM Commercial information<br>
+    &nbsp; 4.3.1 WCOP Copyright/Legal information<br>
+    &nbsp; 4.3.1 WOAF Official audio file webpage<br>
+    &nbsp; 4.3.1 WOAR Official artist/performer webpage<br>
+    &nbsp; 4.3.1 WOAS Official audio source webpage<br>
+    &nbsp; 4.3.1 WORS Official Internet radio station homepage<br>
+    &nbsp; 4.3.1 WPAY Payment<br>
+    &nbsp; 4.3.1 WPUB Publishers official webpage<br>
+    &nbsp; 4.3.2 WXXX User defined URL link frame<br>
+</p>
+<a name="sec4.2"></a>
+<a name="UFID"></a>
+
+<h3>4.1.&nbsp;&nbsp; Unique file identifier</h3>
+
+<p>&nbsp;&nbsp; This frame's purpose is to be able to identify the audio file in
+    a<br>
+    &nbsp;&nbsp; database, that may provide more information relevant to the
+    content.<br>
+    &nbsp;&nbsp; Since standardisation of such a database is beyond this document,
+    all<br>
+    &nbsp;&nbsp; UFID frames begin with an 'owner identifier' field. It is a null-<br>
+    &nbsp;&nbsp; terminated string with a URL [URL] containing an email address, or
+    a<br>
+    &nbsp;&nbsp; link to a location where an email address can be found, that
+    belongs<br>
+    &nbsp;&nbsp; to the organisation responsible for this specific database<br>
+    &nbsp;&nbsp; implementation. Questions regarding the database should be sent to<br>
+    &nbsp;&nbsp; the indicated email address. The URL should not be used for the<br>
+    &nbsp;&nbsp; actual database queries. The string<br>
+    &nbsp;&nbsp; &quot;http://www.id3.org/dummy/ufid.html&quot; should be used for
+    tests. The<br>
+    &nbsp;&nbsp; 'Owner identifier' must be non-empty (more than just a
+    termination).<br>
+    &nbsp;&nbsp; The 'Owner identifier' is then followed by the actual identifier,<br>
+    &nbsp;&nbsp; which may be up to 64 bytes. There may be more than one &quot;UFID&quot;
+    frame<br>
+    &nbsp;&nbsp; in a tag, but only one with the same 'Owner identifier'.</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; &lt;Header for 'Unique file identifier', ID: &quot;UFID&quot;&gt;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Owner
+    identifier&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;text string&gt; $00<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    Identifier&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &lt;up to 64 bytes binary data&gt;<br>
+</p>
+<a name="sec4.2"></a>
+
+<h3>4.2.&nbsp;&nbsp; Text information frames</h3>
+
+<p>&nbsp;&nbsp; The text information frames are often the most important frames,<br>
+    &nbsp;&nbsp; containing information like artist, album and more. There may only
+    be<br>
+    &nbsp;&nbsp; one text information frame of its kind in an tag. All text<br>
+    &nbsp;&nbsp; information frames supports multiple strings, stored as a null<br>
+    &nbsp;&nbsp; separated list, where null is reperesented by the termination code<br>
+    &nbsp;&nbsp; for the charater encoding. All text frame identifiers begin with
+    &quot;T&quot;.<br>
+    &nbsp;&nbsp; Only text frame identifiers begin with &quot;T&quot;, with the
+    exception of the<br>
+    &nbsp;&nbsp; &quot;TXXX&quot; frame. All the text information frames have the
+    following<br>
+    &nbsp;&nbsp; format:</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; &lt;Header for 'Text information frame', ID:
+    &quot;T000&quot; - &quot;TZZZ&quot;,<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; excluding &quot;TXXX&quot; described in 4.2.6.&gt;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Text
+    encoding&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    $xx<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    Information&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &lt;text string(s) according to encoding&gt;<br>
+</p>
+<a name="sec4.2.1"></a>
+
+<h3>4.2.1.&nbsp;&nbsp; Identification frames</h3>
+<a name="TIT1"></a>
+
+<p>&nbsp; TIT1<br>
+    &nbsp;&nbsp; The 'Content group description' frame is used if the sound belongs
+    to<br>
+    &nbsp;&nbsp; a larger category of sounds/music. For example, classical music is<br>
+    &nbsp;&nbsp; often sorted in different musical sections (e.g. &quot;Piano
+    Concerto&quot;,<br>
+    &nbsp;&nbsp; &quot;Weather - Hurricane&quot;).</p>
+<a name="TIT2"></a>
+
+<p>&nbsp; TIT2<br>
+    &nbsp;&nbsp; The 'Title/Songname/Content description' frame is the actual name
+    of<br>
+    &nbsp;&nbsp; the piece (e.g. &quot;Adagio&quot;, &quot;Hurricane Donna&quot;).</p>
+<a name="TIT3"></a>
+
+<p>&nbsp; TIT3<br>
+    &nbsp;&nbsp; The 'Subtitle/Description refinement' frame is used for information<br>
+    &nbsp;&nbsp; directly related to the contents title (e.g. &quot;Op. 16&quot; or
+    &quot;Performed<br>
+    &nbsp;&nbsp; live at Wembley&quot;).</p>
+<a name="TALB"></a>
+
+<p>&nbsp; TALB<br>
+    &nbsp;&nbsp; The 'Album/Movie/Show title' frame is intended for the title of the<br>
+    &nbsp;&nbsp; recording (or source of sound) from which the audio in the file is<br>
+    &nbsp;&nbsp; taken.</p>
+<a name="TOAL"></a>
+
+<p>&nbsp; TOAL<br>
+    &nbsp;&nbsp; The 'Original album/movie/show title' frame is intended for the
+    title<br>
+    &nbsp;&nbsp; of the original recording (or source of sound), if for example the<br>
+    &nbsp;&nbsp; music in the file should be a cover of a previously released song.</p>
+<a name="TRCK"></a>
+
+<p>&nbsp; TRCK<br>
+    &nbsp;&nbsp; The 'Track number/Position in set' frame is a numeric string<br>
+    &nbsp;&nbsp; containing the order number of the audio-file on its original<br>
+    &nbsp;&nbsp; recording. This MAY be extended with a &quot;/&quot; character and
+    a numeric<br>
+    &nbsp;&nbsp; string containing the total number of tracks/elements on the
+    original<br>
+    &nbsp;&nbsp; recording. E.g. &quot;4/9&quot;.</p>
+<a name="TPOS"></a>
+
+<p>&nbsp; TPOS<br>
+    &nbsp;&nbsp; The 'Part of a set' frame is a numeric string that describes which<br>
+    &nbsp;&nbsp; part of a set the audio came from. This frame is used if the source<br>
+    &nbsp;&nbsp; described in the &quot;TALB&quot; frame is divided into several
+    mediums, e.g. a<br>
+    &nbsp;&nbsp; double CD. The value MAY be extended with a &quot;/&quot; character
+    and a<br>
+    &nbsp;&nbsp; numeric string containing the total number of parts in the set.
+    E.g.<br>
+    &nbsp;&nbsp; &quot;1/2&quot;.</p>
+<a name="TSST"></a>
+
+<p>&nbsp; TSST<br>
+    &nbsp;&nbsp; The 'Set subtitle' frame is intended for the subtitle of the part
+    of<br>
+    &nbsp;&nbsp; a set this track belongs to.</p>
+<a name="TSRC"></a>
+
+<p>&nbsp; TSRC<br>
+    &nbsp;&nbsp; The 'ISRC' frame should contain the International Standard
+    Recording<br>
+    &nbsp;&nbsp; Code [ISRC] (12 characters).<br>
+</p>
+<a name="sec4.2.2"></a>
+
+<h3>4.2.2.&nbsp;&nbsp; Involved persons frames</h3>
+<a name="TPE1"></a>
+
+<p>&nbsp; TPE1<br>
+    &nbsp;&nbsp; The 'Lead artist/Lead performer/Soloist/Performing group' is<br>
+    &nbsp;&nbsp; used for the main artist.</p>
+<a name="TPE2"></a>
+
+<p>&nbsp; TPE2<br>
+    &nbsp;&nbsp; The 'Band/Orchestra/Accompaniment' frame is used for additional<br>
+    &nbsp;&nbsp; information about the performers in the recording.</p>
+<a name="TPE3"></a>
+
+<p>&nbsp; TPE3<br>
+    &nbsp;&nbsp; The 'Conductor' frame is used for the name of the conductor.</p>
+<a name="TPE4"></a>
+
+<p>&nbsp; TPE4<br>
+    &nbsp;&nbsp; The 'Interpreted, remixed, or otherwise modified by' frame contains<br>
+    &nbsp;&nbsp; more information about the people behind a remix and similar<br>
+    &nbsp;&nbsp; interpretations of another existing piece.</p>
+<a name="TOPE"></a>
+
+<p>&nbsp; TOPE<br>
+    &nbsp;&nbsp; The 'Original artist/performer' frame is intended for the performer<br>
+    &nbsp;&nbsp; of the original recording, if for example the music in the file<br>
+    &nbsp;&nbsp; should be a cover of a previously released song.</p>
+<a name="TEXT"></a>
+
+<p>&nbsp; TEXT<br>
+    &nbsp;&nbsp; The 'Lyricist/Text writer' frame is intended for the writer of the<br>
+    &nbsp;&nbsp; text or lyrics in the recording.</p>
+<a name="TOLY"></a>
+
+<p>&nbsp; TOLY<br>
+    &nbsp;&nbsp; The 'Original lyricist/text writer' frame is intended for the<br>
+    &nbsp;&nbsp; text writer of the original recording, if for example the music in<br>
+    &nbsp;&nbsp; the file should be a cover of a previously released song.</p>
+<a name="TCOM"></a>
+
+<p>&nbsp; TCOM<br>
+    &nbsp;&nbsp; The 'Composer' frame is intended for the name of the composer.</p>
+<a name="TMCL"></a>
+
+<p>&nbsp; TMCL<br>
+    &nbsp;&nbsp; The 'Musician credits list' is intended as a mapping between<br>
+    &nbsp;&nbsp; instruments and the musician that played it. Every odd field is an<br>
+    &nbsp;&nbsp; instrument and every even is an artist or a comma delimited list of<br>
+    &nbsp;&nbsp; artists.</p>
+<a name="TIPL"></a>
+
+<p>&nbsp; TIPL<br>
+    &nbsp;&nbsp; The 'Involved people list' is very similar to the musician credits<br>
+    &nbsp;&nbsp; list, but maps between functions, like producer, and names.</p>
+<a name="TENC"></a>
+
+<p>&nbsp; TENC<br>
+    &nbsp;&nbsp; The 'Encoded by' frame contains the name of the person or<br>
+    &nbsp;&nbsp; organisation that encoded the audio file. This field may contain a<br>
+    &nbsp;&nbsp; copyright message, if the audio file also is copyrighted by the<br>
+    &nbsp;&nbsp; encoder.<br>
+</p>
+<a name="sec4.2.3"></a>
+
+<h3>4.2.3.&nbsp;&nbsp; Derived and subjective properties frames</h3>
+<a name="TBPM"></a>
+
+<p>&nbsp; TBPM<br>
+    &nbsp;&nbsp; The 'BPM' frame contains the number of beats per minute in the<br>
+    &nbsp;&nbsp; main part of the audio. The BPM is an integer and represented as a<br>
+    &nbsp;&nbsp; numerical string.</p>
+<a name="TLEN"></a>
+
+<p>&nbsp; TLEN<br>
+    &nbsp;&nbsp; The 'Length' frame contains the length of the audio file in<br>
+    &nbsp;&nbsp; milliseconds, represented as a numeric string.</p>
+<a name="TKEY"></a>
+
+<p>&nbsp; TKEY<br>
+    &nbsp;&nbsp; The 'Initial key' frame contains the musical key in which the sound<br>
+    &nbsp;&nbsp; starts. It is represented as a string with a maximum length of
+    three<br>
+    &nbsp;&nbsp; characters. The ground keys are represented with &quot;A&quot;,&quot;B&quot;,&quot;C&quot;,&quot;D&quot;,&quot;E&quot;,
+    <br>
+    &nbsp;&nbsp; &quot;F&quot; and &quot;G&quot; and halfkeys represented with
+    &quot;b&quot; and &quot;#&quot;. Minor is<br>
+    &nbsp;&nbsp; represented as &quot;m&quot;, e.g. &quot;Dbm&quot; $00. Off key is
+    represented with an<br>
+    &nbsp;&nbsp; &quot;o&quot; only.</p>
+<a name="TLAN"></a>
+
+<p>&nbsp; TLAN<br>
+    &nbsp;&nbsp; The 'Language' frame should contain the languages of the text or<br>
+    &nbsp;&nbsp; lyrics spoken or sung in the audio. The language is represented
+    with<br>
+    &nbsp;&nbsp; three characters according to ISO-639-2 [ISO-639-2]. If more than
+    one<br>
+    &nbsp;&nbsp; language is used in the text their language codes should follow<br>
+    &nbsp;&nbsp; according to the amount of their usage, e.g. &quot;eng&quot; $00
+    &quot;sve&quot; $00.</p>
+<a name="TCON"></a>
+
+<p>&nbsp; TCON<br>
+    &nbsp;&nbsp; The 'Content type', which ID3v1 was stored as a one byte numeric<br>
+    &nbsp;&nbsp; value only, is now a string. You may use one or several of the
+    ID3v1<br>
+    &nbsp;&nbsp; types as numerical strings, or, since the category list would be<br>
+    &nbsp;&nbsp; impossible to maintain with accurate and up to date categories,<br>
+    &nbsp;&nbsp; define your own. Example: &quot;21&quot; $00 &quot;Eurodisco&quot;
+    $00</p>
+
+<p>&nbsp;&nbsp; You may also use any of the following keywords:<br>
+    &nbsp;&nbsp; </p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; RX&nbsp; Remix<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; CR&nbsp; Cover</p>
+<a name="TFLT"></a>
+
+<p>&nbsp; TFLT<br>
+    &nbsp;&nbsp; The 'File type' frame indicates which type of audio this tag
+    defines.<br>
+    &nbsp;&nbsp; The following types and refinements are defined:</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; MIME&nbsp;&nbsp; MIME type follows<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; MPG&nbsp;&nbsp;&nbsp; MPEG Audio<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /1&nbsp;&nbsp;&nbsp;&nbsp; MPEG 1/2 layer I<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /2&nbsp;&nbsp;&nbsp;&nbsp; MPEG 1/2 layer
+    II<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /3&nbsp;&nbsp;&nbsp;&nbsp; MPEG 1/2 layer
+    III<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /2.5&nbsp;&nbsp; MPEG 2.5<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /AAC&nbsp;&nbsp; Advanced audio compression<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; VQF&nbsp;&nbsp;&nbsp; Transform-domain Weighted
+    Interleave Vector Quantisation<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; PCM&nbsp;&nbsp;&nbsp; Pulse Code Modulated audio</p>
+
+<p>&nbsp;&nbsp; but other types may be used, but not for these types though.
+    This is<br>
+    &nbsp;&nbsp; used in a similar way to the predefined types in the &quot;TMED&quot;
+    frame,<br>
+    &nbsp;&nbsp; but without parentheses. If this frame is not present audio type is<br>
+    &nbsp;&nbsp; assumed to be &quot;MPG&quot;.</p>
+<a name="TMED"></a>
+
+<p>&nbsp; TMED<br>
+    &nbsp;&nbsp; The 'Media type' frame describes from which media the sound<br>
+    &nbsp;&nbsp; originated. This may be a text string or a reference to the<br>
+    &nbsp;&nbsp; predefined media types found in the list below. Example:<br>
+    &nbsp;&nbsp; &quot;VID/PAL/VHS&quot; $00.</p>
+
+<p>&nbsp;&nbsp;&nbsp; DIG&nbsp;&nbsp;&nbsp; Other digital media<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /A&nbsp;&nbsp;&nbsp; Analogue transfer from media</p>
+
+<p>&nbsp;&nbsp;&nbsp; ANA&nbsp;&nbsp;&nbsp; Other analogue media<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /WAC&nbsp; Wax cylinder<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /8CA&nbsp; 8-track tape cassette</p>
+
+<p>&nbsp;&nbsp;&nbsp; CD&nbsp;&nbsp;&nbsp;&nbsp; CD<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /A&nbsp;&nbsp;&nbsp; Analogue transfer from media<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /DD&nbsp;&nbsp; DDD<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /AD&nbsp;&nbsp; ADD<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /AA&nbsp;&nbsp; AAD</p>
+
+<p>&nbsp;&nbsp;&nbsp; LD&nbsp;&nbsp;&nbsp;&nbsp; Laserdisc</p>
+
+<p>&nbsp;&nbsp;&nbsp; TT&nbsp;&nbsp;&nbsp;&nbsp; Turntable records<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /33&nbsp;&nbsp;&nbsp; 33.33 rpm<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /45&nbsp;&nbsp;&nbsp; 45 rpm<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /71&nbsp;&nbsp;&nbsp; 71.29 rpm<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /76&nbsp;&nbsp;&nbsp; 76.59 rpm<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /78&nbsp;&nbsp;&nbsp; 78.26 rpm<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /80&nbsp;&nbsp;&nbsp; 80 rpm</p>
+
+<p>&nbsp;&nbsp;&nbsp; MD&nbsp;&nbsp;&nbsp;&nbsp; MiniDisc<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /A&nbsp;&nbsp;&nbsp; Analogue transfer from media</p>
+
+<p>&nbsp;&nbsp;&nbsp; DAT&nbsp;&nbsp;&nbsp; DAT<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /A&nbsp;&nbsp;&nbsp; Analogue transfer from media<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /1&nbsp;&nbsp;&nbsp; standard, 48 kHz/16 bits,
+    linear<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /2&nbsp;&nbsp;&nbsp; mode 2, 32 kHz/16 bits,
+    linear<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /3&nbsp;&nbsp;&nbsp; mode 3, 32 kHz/12 bits,
+    non-linear, low speed<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /4&nbsp;&nbsp;&nbsp; mode 4, 32 kHz/12 bits, 4
+    channels<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /5&nbsp;&nbsp;&nbsp; mode 5, 44.1 kHz/16 bits,
+    linear<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /6&nbsp;&nbsp;&nbsp; mode 6, 44.1 kHz/16 bits,
+    'wide track' play</p>
+
+<p>&nbsp;&nbsp;&nbsp; DCC&nbsp;&nbsp;&nbsp; DCC<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /A&nbsp;&nbsp;&nbsp; Analogue transfer from media</p>
+
+<p>&nbsp;&nbsp;&nbsp; DVD&nbsp;&nbsp;&nbsp; DVD<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /A&nbsp;&nbsp;&nbsp; Analogue transfer from media</p>
+
+<p>&nbsp;&nbsp;&nbsp; TV&nbsp;&nbsp;&nbsp;&nbsp; Television<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /PAL&nbsp;&nbsp;&nbsp; PAL<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /NTSC&nbsp;&nbsp; NTSC<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /SECAM&nbsp; SECAM</p>
+
+<p>&nbsp;&nbsp;&nbsp; VID&nbsp;&nbsp;&nbsp; Video<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /PAL&nbsp;&nbsp;&nbsp; PAL<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /NTSC&nbsp;&nbsp; NTSC<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /SECAM&nbsp; SECAM<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /VHS&nbsp;&nbsp;&nbsp; VHS<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /SVHS&nbsp;&nbsp; S-VHS<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /BETA&nbsp;&nbsp; BETAMAX</p>
+
+<p>&nbsp;&nbsp;&nbsp; RAD&nbsp;&nbsp;&nbsp; Radio<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /FM&nbsp;&nbsp; FM<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /AM&nbsp;&nbsp; AM<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /LW&nbsp;&nbsp; LW<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /MW&nbsp;&nbsp; MW</p>
+
+<p>&nbsp;&nbsp;&nbsp; TEL&nbsp;&nbsp;&nbsp; Telephone<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /I&nbsp;&nbsp;&nbsp; ISDN</p>
+
+<p>&nbsp;&nbsp;&nbsp; MC&nbsp;&nbsp;&nbsp;&nbsp; MC (normal cassette)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /4&nbsp;&nbsp;&nbsp; 4.75 cm/s (normal speed for
+    a two sided cassette)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /9&nbsp;&nbsp;&nbsp; 9.5 cm/s<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /I&nbsp;&nbsp;&nbsp; Type I cassette
+    (ferric/normal)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /II&nbsp;&nbsp; Type II cassette (chrome)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /III&nbsp; Type III cassette (ferric chrome)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /IV&nbsp;&nbsp; Type IV cassette (metal)</p>
+
+<p>&nbsp;&nbsp;&nbsp; REE&nbsp;&nbsp;&nbsp; Reel<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /9&nbsp;&nbsp;&nbsp; 9.5 cm/s<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /19&nbsp;&nbsp; 19 cm/s<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /38&nbsp;&nbsp; 38 cm/s<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /76&nbsp;&nbsp; 76 cm/s<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /I&nbsp;&nbsp;&nbsp; Type I cassette
+    (ferric/normal)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /II&nbsp;&nbsp; Type II cassette (chrome)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /III&nbsp; Type III cassette (ferric chrome)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /IV&nbsp;&nbsp; Type IV cassette (metal)</p>
+<a name="TMOO"></a>
+
+<p>&nbsp; TMOO<br>
+    &nbsp;&nbsp; The 'Mood' frame is intended to reflect the mood of the audio with
+    a<br>
+    &nbsp;&nbsp; few keywords, e.g. &quot;Romantic&quot; or &quot;Sad&quot;.<br>
+</p>
+<a name="sec4.2.4"></a>
+
+<h3>4.2.4.&nbsp;&nbsp; Rights and license frames</h3>
+<a name="TCOP"></a>
+
+<p>&nbsp; TCOP<br>
+    &nbsp;&nbsp; The 'Copyright message' frame, in which the string must begin with
+    a<br>
+    &nbsp;&nbsp; year and a space character (making five characters), is intended
+    for<br>
+    &nbsp;&nbsp; the copyright holder of the original sound, not the audio file<br>
+    &nbsp;&nbsp; itself. The absence of this frame means only that the copyright<br>
+    &nbsp;&nbsp; information is unavailable or has been removed, and must not be<br>
+    &nbsp;&nbsp; interpreted to mean that the audio is public domain. Every time
+    this<br>
+    &nbsp;&nbsp; field is displayed the field must be preceded with &quot;Copyright
+    &quot; (C) &quot;<br>
+    &nbsp;&nbsp; &quot;, where (C) is one character showing a C in a circle.</p>
+<a name="TPRO"></a>
+
+<p>&nbsp; TPRO<br>
+    &nbsp;&nbsp; The 'Produced notice' frame, in which the string must begin with a<br>
+    &nbsp;&nbsp; year and a space character (making five characters), is intended
+    for<br>
+    &nbsp;&nbsp; the production copyright holder of the original sound, not the
+    audio<br>
+    &nbsp;&nbsp; file itself. The absence of this frame means only that the
+    production<br>
+    &nbsp;&nbsp; copyright information is unavailable or has been removed, and must<br>
+    &nbsp;&nbsp; not be interpreted to mean that the audio is public domain. Every<br>
+    &nbsp;&nbsp; time this field is displayed the field must be preceded with<br>
+    &nbsp;&nbsp; &quot;Produced &quot; (P) &quot; &quot;, where (P) is one character
+    showing a P in a<br>
+    &nbsp;&nbsp; circle.</p>
+<a name="TPUB"></a>
+
+<p>&nbsp; TPUB<br>
+    &nbsp;&nbsp; The 'Publisher' frame simply contains the name of the label or<br>
+    &nbsp;&nbsp; publisher.</p>
+<a name="TOWN"></a>
+
+<p>&nbsp; TOWN<br>
+    &nbsp;&nbsp; The 'File owner/licensee' frame contains the name of the owner or<br>
+    &nbsp;&nbsp; licensee of the file and it's contents.</p>
+<a name="TRSN"></a>
+
+<p>&nbsp; TRSN<br>
+    &nbsp;&nbsp; The 'Internet radio station name' frame contains the name of the<br>
+    &nbsp;&nbsp; internet radio station from which the audio is streamed.</p>
+<a name="TRSO"></a>
+
+<p>&nbsp; TRSO<br>
+    &nbsp;&nbsp; The 'Internet radio station owner' frame contains the name of the<br>
+    &nbsp;&nbsp; owner of the internet radio station from which the audio is<br>
+    &nbsp;&nbsp; streamed.</p>
+<a name="sec4.2.5"></a>
+
+<h3>4.2.5.&nbsp;&nbsp; Other text frames</h3>
+<a name="TOFN"></a>
+
+<p>&nbsp; TOFN<br>
+    &nbsp;&nbsp; The 'Original filename' frame contains the preferred filename for
+    the<br>
+    &nbsp;&nbsp; file, since some media doesn't allow the desired length of the<br>
+    &nbsp;&nbsp; filename. The filename is case sensitive and includes its suffix.</p>
+<a name="TDLY"></a>
+
+<p>&nbsp; TDLY<br>
+    &nbsp;&nbsp; The 'Playlist delay' defines the numbers of milliseconds of silence<br>
+    &nbsp;&nbsp; that should be inserted before this audio. The value zero indicates<br>
+    &nbsp;&nbsp; that this is a part of a multifile audio track that should be
+    played<br>
+    &nbsp;&nbsp; continuously.</p>
+<a name="TDEN"></a>
+
+<p>&nbsp; TDEN<br>
+    &nbsp;&nbsp; The 'Encoding time' frame contains a timestamp describing when the<br>
+    &nbsp;&nbsp; audio was encoded. Timestamp format is described in the ID3v2<br>
+    &nbsp;&nbsp; structure document [ID3v2-strct].</p>
+<a name="TDOR"></a>
+
+<p>&nbsp; TDOR<br>
+    &nbsp;&nbsp; The 'Original release time' frame contains a timestamp describing<br>
+    &nbsp;&nbsp; when the original recording of the audio was released. Timestamp<br>
+    &nbsp;&nbsp; format is described in the ID3v2 structure document [ID3v2-strct].</p>
+<a name="TDRC"></a>
+
+<p>&nbsp; TDRC<br>
+    &nbsp;&nbsp; The 'Recording time' frame contains a timestamp describing when the<br>
+    &nbsp;&nbsp; audio was recorded. Timestamp format is described in the ID3v2<br>
+    &nbsp;&nbsp; structure document [ID3v2-strct].</p>
+<a name="TDRL"></a>
+
+<p>&nbsp; TDRL<br>
+    &nbsp;&nbsp; The 'Release time' frame contains a timestamp describing when the<br>
+    &nbsp;&nbsp; audio was first released. Timestamp format is described in the
+    ID3v2<br>
+    &nbsp;&nbsp; structure document [ID3v2-strct].</p>
+<a name="TDTG"></a>
+
+<p>&nbsp; TDTG<br>
+    &nbsp;&nbsp; The 'Tagging time' frame contains a timestamp describing then the<br>
+    &nbsp;&nbsp; audio was tagged. Timestamp format is described in the ID3v2<br>
+    &nbsp;&nbsp; structure document [ID3v2-strct].</p>
+<a name="TSSE"></a>
+
+<p>&nbsp; TSSE<br>
+    &nbsp;&nbsp; The 'Software/Hardware and settings used for encoding' frame<br>
+    &nbsp;&nbsp; includes the used audio encoder and its settings when the file was<br>
+    &nbsp;&nbsp; encoded. Hardware refers to hardware encoders, not the computer on<br>
+    &nbsp;&nbsp; which a program was run.</p>
+<a name="TSOA"></a>
+
+<p>&nbsp; TSOA<br>
+    &nbsp;&nbsp; The 'Album sort order' frame defines a string which should be used<br>
+    &nbsp;&nbsp; instead of the album name (TALB) for sorting purposes. E.g. an
+    album<br>
+    &nbsp;&nbsp; named &quot;A Soundtrack&quot; might preferably be sorted as
+    &quot;Soundtrack&quot;.</p>
+<a name="TSOP"></a>
+
+<p>&nbsp; TSOP<br>
+    &nbsp;&nbsp; The 'Performer sort order' frame defines a string which should be<br>
+    &nbsp;&nbsp; used instead of the performer (TPE2) for sorting purposes.</p>
+<a name="TSOT"></a>
+
+<p>&nbsp; TSOT<br>
+    &nbsp;&nbsp; The 'Title sort order' frame defines a string which should be used<br>
+    &nbsp;&nbsp; instead of the title (TIT2) for sorting purposes.<br>
+</p>
+<a name="sec4.2.6"></a>
+<a name="TXXX"></a>
+
+<h3>4.2.6.&nbsp;&nbsp; User defined text information frame</h3>
+
+<p>&nbsp;&nbsp; This frame is intended for one-string text information
+    concerning the<br>
+    &nbsp;&nbsp; audio file in a similar way to the other &quot;T&quot;-frames. The
+    frame body<br>
+    &nbsp;&nbsp; consists of a description of the string, represented as a
+    terminated<br>
+    &nbsp;&nbsp; string, followed by the actual string. There may be more than one<br>
+    &nbsp;&nbsp; &quot;TXXX&quot; frame in each tag, but only one with the same
+    description.</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; &lt;Header for 'User defined text information
+    frame', ID: &quot;TXXX&quot;&gt;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Text encoding&nbsp;&nbsp;&nbsp;&nbsp; $xx<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Description&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &lt;text string according to encoding&gt; $00 (00)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    Value&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &lt;text string according to encoding&gt;<br>
+</p>
+<a name="sec4.3"></a>
+
+<h3>4.3.&nbsp;&nbsp; URL link frames</h3>
+
+<p>&nbsp;&nbsp; With these frames dynamic data such as webpages with touring<br>
+    &nbsp;&nbsp; information, price information or plain ordinary news can be added
+    to<br>
+    &nbsp;&nbsp; the tag. There may only be one URL [URL] link frame of its kind in
+    an<br>
+    &nbsp;&nbsp; tag, except when stated otherwise in the frame description. If the<br>
+    &nbsp;&nbsp; text string is followed by a string termination, all the following<br>
+    &nbsp;&nbsp; information should be ignored and not be displayed. All URL link<br>
+    &nbsp;&nbsp; frame identifiers begins with &quot;W&quot;. Only URL link frame
+    identifiers<br>
+    &nbsp;&nbsp; begins with &quot;W&quot;, except for &quot;WXXX&quot;. All URL
+    link frames have the<br>
+    &nbsp;&nbsp; following format:</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; &lt;Header for 'URL link frame', ID:
+    &quot;W000&quot; - &quot;WZZZ&quot;, excluding &quot;WXXX&quot;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; described in 4.3.2.&gt;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    URL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &lt;text string&gt;<br>
+</p>
+<a name="4.3.1"></a>
+
+<h3>4.3.1.&nbsp;&nbsp; URL link frames - details</h3>
+<a name="WCOM"></a>
+
+<p>&nbsp; WCOM<br>
+    &nbsp;&nbsp; The 'Commercial information' frame is a URL pointing at a webpage<br>
+    &nbsp;&nbsp; with information such as where the album can be bought. There may
+    be<br>
+    &nbsp;&nbsp; more than one &quot;WCOM&quot; frame in a tag, but not with the
+    same content.</p>
+<a name="WCOP"></a>
+
+<p>&nbsp; WCOP<br>
+    &nbsp;&nbsp; The 'Copyright/Legal information' frame is a URL pointing at a<br>
+    &nbsp;&nbsp; webpage where the terms of use and ownership of the file is<br>
+    &nbsp;&nbsp; described.</p>
+<a name="WOAF"></a>
+
+<p>&nbsp; WOAF<br>
+    &nbsp;&nbsp; The 'Official audio file webpage' frame is a URL pointing at a file<br>
+    &nbsp;&nbsp; specific webpage.</p>
+<a name="WOAR"></a>
+
+<p>&nbsp; WOAR<br>
+    &nbsp;&nbsp; The 'Official artist/performer webpage' frame is a URL pointing at<br>
+    &nbsp;&nbsp; the artists official webpage. There may be more than one &quot;WOAR&quot;
+    frame<br>
+    &nbsp;&nbsp; in a tag if the audio contains more than one performer, but not
+    with<br>
+    &nbsp;&nbsp; the same content.</p>
+<a name="WOAS"></a>
+
+<p>&nbsp; WOAS<br>
+    &nbsp;&nbsp; The 'Official audio source webpage' frame is a URL pointing at the<br>
+    &nbsp;&nbsp; official webpage for the source of the audio file, e.g. a movie.</p>
+<a name="WORS"></a>
+
+<p>&nbsp; WORS<br>
+    &nbsp;&nbsp; The 'Official Internet radio station homepage' contains a URL<br>
+    &nbsp;&nbsp; pointing at the homepage of the internet radio station.</p>
+<a name="WPAY"></a>
+
+<p>&nbsp; WPAY<br>
+    &nbsp;&nbsp; The 'Payment' frame is a URL pointing at a webpage that will handle<br>
+    &nbsp;&nbsp; the process of paying for this file.</p>
+<a name="WPUB"></a>
+
+<p>&nbsp; WPUB<br>
+    &nbsp;&nbsp; The 'Publishers official webpage' frame is a URL pointing at the<br>
+    &nbsp;&nbsp; official webpage for the publisher.<br>
+</p>
+<a name="sec4.3.2"></a>
+<a name="WXXX"></a>
+
+<h3>4.3.2.&nbsp;&nbsp; User defined URL link frame</h3>
+
+<p>&nbsp;&nbsp; This frame is intended for URL [URL] links concerning the audio
+    file<br>
+    &nbsp;&nbsp; in a similar way to the other &quot;W&quot;-frames. The frame body
+    consists<br>
+    &nbsp;&nbsp; of a description of the string, represented as a terminated string,<br>
+    &nbsp;&nbsp; followed by the actual URL. The URL is always encoded with
+    ISO-8859-1<br>
+    &nbsp;&nbsp; [ISO-8859-1]. There may be more than one &quot;WXXX&quot; frame in
+    each tag,<br>
+    &nbsp;&nbsp; but only one with the same description.</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; &lt;Header for 'User defined URL link frame', ID:
+    &quot;WXXX&quot;&gt;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Text encoding&nbsp;&nbsp;&nbsp;&nbsp; $xx<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Description&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &lt;text string according to encoding&gt; $00 (00)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    URL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &lt;text string&gt;<br>
+</p>
+<a name="MCDI"></a>
+
+<h3>4.4.&nbsp;&nbsp; Music CD identifier</h3>
+
+<p>&nbsp;&nbsp; This frame is intended for music that comes from a CD, so that
+    the CD<br>
+    &nbsp;&nbsp; can be identified in databases such as the CDDB [CDDB]. The frame<br>
+    &nbsp;&nbsp; consists of a binary dump of the Table Of Contents, TOC, from the
+    CD,<br>
+    &nbsp;&nbsp; which is a header of 4 bytes and then 8 bytes/track on the CD plus
+    8<br>
+    &nbsp;&nbsp; bytes for the 'lead out', making a maximum of 804 bytes. The offset<br>
+    &nbsp;&nbsp; to the beginning of every track on the CD should be described with
+    a<br>
+    &nbsp;&nbsp; four bytes absolute CD-frame address per track, and not with
+    absolute<br>
+    &nbsp;&nbsp; time. When this frame is used the presence of a valid &quot;TRCK&quot;
+    frame is<br>
+    &nbsp;&nbsp; REQUIRED, even if the CD's only got one track. It is recommended
+    that<br>
+    &nbsp;&nbsp; this frame is always added to tags originating from CDs. There may<br>
+    &nbsp;&nbsp; only be one &quot;MCDI&quot; frame in each tag.</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; &lt;Header for 'Music CD identifier', ID: &quot;MCDI&quot;&gt;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; CD
+    TOC&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &lt;binary data&gt;<br>
+</p>
+<a name="ETCO"></a>
+
+<h3>4.5.&nbsp;&nbsp; Event timing codes</h3>
+
+<p>&nbsp;&nbsp; This frame allows synchronisation with key events in the audio.
+    The<br>
+    &nbsp;&nbsp; header is:</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; &lt;Header for 'Event timing codes', ID: &quot;ETCO&quot;&gt;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Time stamp format&nbsp;&nbsp;&nbsp; $xx</p>
+
+<p>&nbsp;&nbsp; Where time stamp format is:</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; $01&nbsp; Absolute time, 32 bit sized, using MPEG
+    [MPEG] frames as unit<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; $02&nbsp; Absolute time, 32 bit sized, using
+    milliseconds as unit</p>
+
+<p>&nbsp;&nbsp; Absolute time means that every stamp contains the time from the<br>
+    &nbsp;&nbsp; beginning of the file.</p>
+
+<p>&nbsp;&nbsp; Followed by a list of key events in the following format:</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; Type of event&nbsp;&nbsp; $xx<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Time stamp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $xx (xx ...)</p>
+
+<p>&nbsp;&nbsp; The 'Time stamp' is set to zero if directly at the beginning of
+    the<br>
+    &nbsp;&nbsp; sound or after the previous event. All events MUST be sorted in<br>
+    &nbsp;&nbsp; chronological order. The type of event is as follows:</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; $00&nbsp; padding (has no meaning)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; $01&nbsp; end of initial silence<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; $02&nbsp; intro start<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; $03&nbsp; main part start<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; $04&nbsp; outro start<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; $05&nbsp; outro end<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; $06&nbsp; verse start<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; $07&nbsp; refrain start<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; $08&nbsp; interlude start<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; $09&nbsp; theme start<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; $0A&nbsp; variation start<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; $0B&nbsp; key change<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; $0C&nbsp; time change<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; $0D&nbsp; momentary unwanted noise (Snap, Crackle &amp;
+    Pop)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; $0E&nbsp; sustained noise<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; $0F&nbsp; sustained noise end<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; $10&nbsp; intro end<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; $11&nbsp; main part end<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; $12&nbsp; verse end<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; $13&nbsp; refrain end<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; $14&nbsp; theme end<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; $15&nbsp; profanity<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; $16&nbsp; profanity end</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; $17-$DF&nbsp; reserved for future use</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; $E0-$EF&nbsp; not predefined synch 0-F</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; $F0-$FC&nbsp; reserved for future use</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; $FD&nbsp; audio end (start of silence)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; $FE&nbsp; audio file ends<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; $FF&nbsp; one more byte of events follows (all the
+    following bytes with<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; the value $FF have the
+    same function)</p>
+
+<p>&nbsp;&nbsp; Terminating the start events such as &quot;intro start&quot; is
+    OPTIONAL. The<br>
+    &nbsp;&nbsp; 'Not predefined synch's ($E0-EF) are for user events. You might
+    want<br>
+    &nbsp;&nbsp; to synchronise your music to something, like setting off an
+    explosion<br>
+    &nbsp;&nbsp; on-stage, activating a screensaver etc.</p>
+
+<p>&nbsp;&nbsp; There may only be one &quot;ETCO&quot; frame in each tag.<br>
+</p>
+<a name="MLLT"></a>
+
+<h3>4.6.&nbsp;&nbsp; MPEG location lookup table</h3>
+
+<p>&nbsp;&nbsp; To increase performance and accuracy of jumps within a MPEG
+    [MPEG]<br>
+    &nbsp;&nbsp; audio file, frames with time codes in different locations in the
+    file<br>
+    &nbsp;&nbsp; might be useful. This ID3v2 frame includes references that the<br>
+    &nbsp;&nbsp; software can use to calculate positions in the file. After the
+    frame<br>
+    &nbsp;&nbsp; header follows a descriptor of how much the 'frame counter' should
+    be<br>
+    &nbsp;&nbsp; increased for every reference. If this value is two then the first<br>
+    &nbsp;&nbsp; reference points out the second frame, the 2nd reference the 4th<br>
+    &nbsp;&nbsp; frame, the 3rd reference the 6th frame etc. In a similar way the<br>
+    &nbsp;&nbsp; 'bytes between reference' and 'milliseconds between reference'
+    points<br>
+    &nbsp;&nbsp; out bytes and milliseconds respectively.</p>
+
+<p>&nbsp;&nbsp; Each reference consists of two parts; a certain number of bits,
+    as<br>
+    &nbsp;&nbsp; defined in 'bits for bytes deviation', that describes the
+    difference<br>
+    &nbsp;&nbsp; between what is said in 'bytes between reference' and the reality
+    and<br>
+    &nbsp;&nbsp; a certain number of bits, as defined in 'bits for milliseconds<br>
+    &nbsp;&nbsp; deviation', that describes the difference between what is said in<br>
+    &nbsp;&nbsp; 'milliseconds between reference' and the reality. The number of
+    bits<br>
+    &nbsp;&nbsp; in every reference, i.e. 'bits for bytes deviation'+'bits for<br>
+    &nbsp;&nbsp; milliseconds deviation', must be a multiple of four. There may only<br>
+    &nbsp;&nbsp; be one &quot;MLLT&quot; frame in each tag.</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; &lt;Header for 'Location lookup table', ID: &quot;MLLT&quot;&gt;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; MPEG frames between reference&nbsp; $xx xx<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Bytes between
+    reference&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $xx xx xx<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Milliseconds between reference $xx xx xx<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Bits for bytes
+    deviation&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $xx<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Bits for milliseconds dev.&nbsp;&nbsp;&nbsp;&nbsp; $xx</p>
+
+<p>&nbsp;&nbsp; Then for every reference the following data is included;</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; Deviation in
+    bytes&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; %xxx....<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Deviation in milliseconds&nbsp; %xxx....<br>
+</p>
+<a name="SYTC"></a>
+
+<h3>4.7.&nbsp;&nbsp; Synchronised tempo codes</h3>
+
+<p>&nbsp;&nbsp; For a more accurate description of the tempo of a musical piece,
+    this<br>
+    &nbsp;&nbsp; frame might be used. After the header follows one byte describing<br>
+    &nbsp;&nbsp; which time stamp format should be used. Then follows one or more<br>
+    &nbsp;&nbsp; tempo codes. Each tempo code consists of one tempo part and one
+    time<br>
+    &nbsp;&nbsp; part. The tempo is in BPM described with one or two bytes. If the<br>
+    &nbsp;&nbsp; first byte has the value $FF, one more byte follows, which is added<br>
+    &nbsp;&nbsp; to the first giving a range from 2 - 510 BPM, since $00 and $01 is<br>
+    &nbsp;&nbsp; reserved. $00 is used to describe a beat-free time period, which is<br>
+    &nbsp;&nbsp; not the same as a music-free time period. $01 is used to indicate
+    one<br>
+    &nbsp;&nbsp; single beat-stroke followed by a beat-free period.</p>
+
+<p>&nbsp;&nbsp; The tempo descriptor is followed by a time stamp. Every time the<br>
+    &nbsp;&nbsp; tempo in the music changes, a tempo descriptor may indicate this
+    for<br>
+    &nbsp;&nbsp; the player. All tempo descriptors MUST be sorted in chronological<br>
+    &nbsp;&nbsp; order. The first beat-stroke in a time-period is at the same time
+    as<br>
+    &nbsp;&nbsp; the beat description occurs. There may only be one &quot;SYTC&quot;
+    frame in<br>
+    &nbsp;&nbsp; each tag.</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; &lt;Header for 'Synchronised tempo codes', ID:
+    &quot;SYTC&quot;&gt;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Time stamp format&nbsp;&nbsp; $xx<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Tempo
+    data&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;binary data&gt;</p>
+
+<p>&nbsp;&nbsp; Where time stamp format is:</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; $01&nbsp; Absolute time, 32 bit sized, using MPEG
+    [MPEG] frames as unit<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; $02&nbsp; Absolute time, 32 bit sized, using
+    milliseconds as unit</p>
+
+<p>&nbsp;&nbsp; Absolute time means that every stamp contains the time from the<br>
+    &nbsp;&nbsp; beginning of the file.<br>
+</p>
+<a name="USLT"></a>
+
+<h3>4.8.&nbsp;&nbsp; Unsynchronised lyrics/text transcription</h3>
+
+<p>&nbsp;&nbsp; This frame contains the lyrics of the song or a text
+    transcription of<br>
+    &nbsp;&nbsp; other vocal activities. The head includes an encoding descriptor
+    and<br>
+    &nbsp;&nbsp; a content descriptor. The body consists of the actual text. The<br>
+    &nbsp;&nbsp; 'Content descriptor' is a terminated string. If no descriptor is<br>
+    &nbsp;&nbsp; entered, 'Content descriptor' is $00 (00) only. Newline characters<br>
+    &nbsp;&nbsp; are allowed in the text. There may be more than one 'Unsynchronised<br>
+    &nbsp;&nbsp; lyrics/text transcription' frame in each tag, but only one with the<br>
+    &nbsp;&nbsp; same language and content descriptor.</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; &lt;Header for 'Unsynchronised lyrics/text
+    transcription', ID: &quot;USLT&quot;&gt;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Text encoding&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    $xx<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    Language&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    $xx xx xx<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Content descriptor&nbsp;&nbsp; &lt;text string
+    according to encoding&gt; $00 (00)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    Lyrics/text&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;full text
+    string according to encoding&gt;<br>
+</p>
+<a name="SYLT"></a>
+
+<h3>4.9.&nbsp;&nbsp; Synchronised lyrics/text</h3>
+
+<p>&nbsp;&nbsp; This is another way of incorporating the words, said or sung
+    lyrics,<br>
+    &nbsp;&nbsp; in the audio file as text, this time, however, in sync with the<br>
+    &nbsp;&nbsp; audio. It might also be used to describing events e.g. occurring on
+    a<br>
+    &nbsp;&nbsp; stage or on the screen in sync with the audio. The header includes
+    a<br>
+    &nbsp;&nbsp; content descriptor, represented with as terminated text string. If
+    no<br>
+    &nbsp;&nbsp; descriptor is entered, 'Content descriptor' is $00 (00) only.</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; &lt;Header for 'Synchronised lyrics/text', ID:
+    &quot;SYLT&quot;&gt;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Text encoding&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    $xx<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    Language&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    $xx xx xx<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Time stamp format&nbsp;&nbsp;&nbsp; $xx<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Content
+    type&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $xx<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Content descriptor&nbsp;&nbsp; &lt;text string
+    according to encoding&gt; $00 (00)</p>
+
+<p>&nbsp;&nbsp; Content type:&nbsp;&nbsp; $00 is other<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    $01 is lyrics<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    $02 is text transcription<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    $03 is movement/part name (e.g. &quot;Adagio&quot;)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    $04 is events (e.g. &quot;Don Quijote enters the stage&quot;)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    $05 is chord (e.g. &quot;Bb F Fsus&quot;)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    $06 is trivia/'pop up' information<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    $07 is URLs to webpages<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    $08 is URLs to images</p>
+
+<p>&nbsp;&nbsp; Time stamp format:</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; $01&nbsp; Absolute time, 32 bit sized, using MPEG
+    [MPEG] frames as unit<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; $02&nbsp; Absolute time, 32 bit sized, using
+    milliseconds as unit</p>
+
+<p>&nbsp;&nbsp; Absolute time means that every stamp contains the time from the<br>
+    &nbsp;&nbsp; beginning of the file.</p>
+
+<p>&nbsp;&nbsp; The text that follows the frame header differs from that of the<br>
+    &nbsp;&nbsp; unsynchronised lyrics/text transcription in one major way. Each<br>
+    &nbsp;&nbsp; syllable (or whatever size of text is considered to be convenient
+    by<br>
+    &nbsp;&nbsp; the encoder) is a null terminated string followed by a time stamp<br>
+    &nbsp;&nbsp; denoting where in the sound file it belongs. Each sync thus has the<br>
+    &nbsp;&nbsp; following structure:</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; Terminated text to be synced (typically a syllable)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Sync identifier (terminator to above
+    string)&nbsp;&nbsp; $00 (00)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Time
+    stamp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    $xx (xx ...)</p>
+
+<p>&nbsp;&nbsp; The 'time stamp' is set to zero or the whole sync is omitted if<br>
+    &nbsp;&nbsp; located directly at the beginning of the sound. All time stamps<br>
+    &nbsp;&nbsp; should be sorted in chronological order. The sync can be considered<br>
+    &nbsp;&nbsp; as a validator of the subsequent string.</p>
+
+<p>&nbsp;&nbsp; Newline characters are allowed in all &quot;SYLT&quot; frames
+    and MUST be used<br>
+    &nbsp;&nbsp; after every entry (name, event etc.) in a frame with the content
+    type<br>
+    &nbsp;&nbsp; $03 - $04.</p>
+
+<p>&nbsp;&nbsp; A few considerations regarding whitespace characters: Whitespace<br>
+    &nbsp;&nbsp; separating words should mark the beginning of a new word, thus<br>
+    &nbsp;&nbsp; occurring in front of the first syllable of a new word. This is
+    also<br>
+    &nbsp;&nbsp; valid for new line characters. A syllable followed by a comma
+    should<br>
+    &nbsp;&nbsp; not be broken apart with a sync (both the syllable and the comma<br>
+    &nbsp;&nbsp; should be before the sync).</p>
+
+<p>&nbsp;&nbsp; An example: The &quot;USLT&quot; passage</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; &quot;Strangers in the night&quot; $0A
+    &quot;Exchanging glances&quot;</p>
+
+<p>&nbsp;&nbsp; would be &quot;SYLT&quot; encoded as:</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; &quot;Strang&quot; $00 xx xx &quot;ers&quot; $00 xx
+    xx &quot; in&quot; $00 xx xx &quot; the&quot; $00 xx xx<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; &quot; night&quot; $00 xx xx 0A &quot;Ex&quot; $00 xx
+    xx &quot;chang&quot; $00 xx xx &quot;ing&quot; $00 xx<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; xx &quot;glan&quot; $00 xx xx &quot;ces&quot; $00 xx xx</p>
+
+<p>&nbsp;&nbsp; There may be more than one &quot;SYLT&quot; frame in each tag,
+    but only one<br>
+    &nbsp;&nbsp; with the same language and content descriptor.<br>
+</p>
+<a name="COMM"></a>
+
+<h3>4.10.&nbsp;&nbsp; Comments</h3>
+
+<p>&nbsp;&nbsp; This frame is intended for any kind of full text information
+    that<br>
+    &nbsp;&nbsp; does not fit in any other frame. It consists of a frame header<br>
+    &nbsp;&nbsp; followed by encoding, language and content descriptors and is ended<br>
+    &nbsp;&nbsp; with the actual comment as a text string. Newline characters are<br>
+    &nbsp;&nbsp; allowed in the comment text string. There may be more than one<br>
+    &nbsp;&nbsp; comment frame in each tag, but only one with the same language and<br>
+    &nbsp;&nbsp; content descriptor.</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; &lt;Header for 'Comment', ID: &quot;COMM&quot;&gt;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Text
+    encoding&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $xx<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    Language&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    $xx xx xx<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Short content descrip. &lt;text string according to
+    encoding&gt; $00 (00)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; The actual
+    text&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;full text string according to
+    encoding&gt;<br>
+</p>
+<a name="RVA2"></a>
+
+<h3>4.11.&nbsp;&nbsp; Relative volume adjustment (2)</h3>
+
+<p>&nbsp;&nbsp; This is a more subjective frame than the previous ones. It
+    allows the<br>
+    &nbsp;&nbsp; user to say how much he wants to increase/decrease the volume on
+    each<br>
+    &nbsp;&nbsp; channel when the file is played. The purpose is to be able to align<br>
+    &nbsp;&nbsp; all files to a reference volume, so that you don't have to change
+    the<br>
+    &nbsp;&nbsp; volume constantly. This frame may also be used to balance adjust
+    the<br>
+    &nbsp;&nbsp; audio. The volume adjustment is encoded as a fixed point decibel<br>
+    &nbsp;&nbsp; value, 16 bit signed integer representing (adjustment*512), giving<br>
+    &nbsp;&nbsp; +/- 64 dB with a precision of 0.001953125 dB. E.g. +2 dB is stored
+    as<br>
+    &nbsp;&nbsp; $04 00 and -2 dB is $FC 00. There may be more than one
+    &quot;RVA2&quot; frame<br>
+    &nbsp;&nbsp; in each tag, but only one with the same identification string.</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; &lt;Header for 'Relative volume adjustment (2)', ID:
+    &quot;RVA2&quot;&gt;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    Identification&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;text
+    string&gt; $00</p>
+
+<p>&nbsp;&nbsp; The 'identification' string is used to identify the situation
+    and/or<br>
+    &nbsp;&nbsp; device where this adjustment should apply. The following is then<br>
+    &nbsp;&nbsp; repeated for every channel</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; Type of
+    channel&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $xx<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Volume adjustment&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $xx
+    xx<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Bits representing peak&nbsp; $xx<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Peak
+    volume&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $xx
+    (xx ...)<br>
+</p>
+
+<p>&nbsp;&nbsp; Type of channel:&nbsp; $00&nbsp; Other<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    $01&nbsp; Master volume<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    $02&nbsp; Front right<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    $03&nbsp; Front left<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    $04&nbsp; Back right<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    $05&nbsp; Back left<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    $06&nbsp; Front centre<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    $07&nbsp; Back centre<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    $08&nbsp; Subwoofer</p>
+
+<p>&nbsp;&nbsp; Bits representing peak can be any number between 0 and 255. 0
+    means<br>
+    &nbsp;&nbsp; that there is no peak volume field. The peak volume field is always<br>
+    &nbsp;&nbsp; padded to whole bytes, setting the most significant bits to zero.<br>
+</p>
+<a name="EQU2"></a>
+
+<h3>4.12.&nbsp;&nbsp; Equalisation (2)</h3>
+
+<p>&nbsp;&nbsp; This is another subjective, alignment frame. It allows the user
+    to<br>
+    &nbsp;&nbsp; predefine an equalisation curve within the audio file. There may be<br>
+    &nbsp;&nbsp; more than one &quot;EQU2&quot; frame in each tag, but only one with
+    the same<br>
+    &nbsp;&nbsp; identification string.</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; &lt;Header of 'Equalisation (2)', ID:
+    &quot;EQU2&quot;&gt;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Interpolation method&nbsp; $xx<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    Identification&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;text string&gt; $00</p>
+
+<p>&nbsp;&nbsp; The 'interpolation method' describes which method is preferred
+    when<br>
+    &nbsp;&nbsp; an interpolation between the adjustment point that follows. The<br>
+    &nbsp;&nbsp; following methods are currently defined:</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; $00&nbsp; Band<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; No interpolation is made.
+    A jump from one adjustment level to<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; another occurs in the
+    middle between two adjustment points.<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; $01&nbsp; Linear<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Interpolation between
+    adjustment points is linear.</p>
+
+<p>&nbsp;&nbsp; The 'identification' string is used to identify the situation
+    and/or<br>
+    &nbsp;&nbsp; device where this adjustment should apply. The following is then<br>
+    &nbsp;&nbsp; repeated for every adjustment point</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;
+    Frequency&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $xx xx<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Volume adjustment&nbsp; $xx xx</p>
+
+<p>&nbsp;&nbsp; The frequency is stored in units of 1/2 Hz, giving it a range
+    from 0<br>
+    &nbsp;&nbsp; to 32767 Hz.</p>
+
+<p>&nbsp;&nbsp; The volume adjustment is encoded as a fixed point decibel value,
+    16<br>
+    &nbsp;&nbsp; bit signed integer representing (adjustment*512), giving +/- 64 dB<br>
+    &nbsp;&nbsp; with a precision of 0.001953125 dB. E.g. +2 dB is stored as $04 00<br>
+    &nbsp;&nbsp; and -2 dB is $FC 00.</p>
+
+<p>&nbsp;&nbsp; Adjustment points should be ordered by frequency and one
+    frequency<br>
+    &nbsp;&nbsp; should only be described once in the frame.<br>
+</p>
+<a name="RVRB"></a>
+
+<h3>4.13.&nbsp;&nbsp; Reverb</h3>
+
+<p>&nbsp;&nbsp; Yet another subjective frame, with which you can adjust echoes
+    of<br>
+    &nbsp;&nbsp; different kinds. Reverb left/right is the delay between every
+    bounce<br>
+    &nbsp;&nbsp; in ms. Reverb bounces left/right is the number of bounces that
+    should<br>
+    &nbsp;&nbsp; be made. $FF equals an infinite number of bounces. Feedback is the<br>
+    &nbsp;&nbsp; amount of volume that should be returned to the next echo bounce.
+    $00<br>
+    &nbsp;&nbsp; is 0%, $FF is 100%. If this value were $7F, there would be 50%
+    volume<br>
+    &nbsp;&nbsp; reduction on the first bounce, 50% of that on the second and so on.<br>
+    &nbsp;&nbsp; Left to left means the sound from the left bounce to be played in
+    the<br>
+    &nbsp;&nbsp; left speaker, while left to right means sound from the left bounce
+    to<br>
+    &nbsp;&nbsp; be played in the right speaker.</p>
+
+<p>&nbsp;&nbsp; 'Premix left to right' is the amount of left sound to be mixed
+    in the<br>
+    &nbsp;&nbsp; right before any reverb is applied, where $00 id 0% and $FF is
+    100%.<br>
+    &nbsp;&nbsp; 'Premix right to left' does the same thing, but right to left.<br>
+    &nbsp;&nbsp; Setting both premix to $FF would result in a mono output (if the<br>
+    &nbsp;&nbsp; reverb is applied symmetric). There may only be one &quot;RVRB&quot;
+    frame in<br>
+    &nbsp;&nbsp; each tag.</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; &lt;Header for 'Reverb', ID: &quot;RVRB&quot;&gt;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Reverb left
+    (ms)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    $xx xx<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Reverb right
+    (ms)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    $xx xx<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Reverb bounces,
+    left&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $xx<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Reverb bounces,
+    right&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $xx<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Reverb feedback, left to left&nbsp;&nbsp;&nbsp; $xx<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Reverb feedback, left to right&nbsp;&nbsp; $xx<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Reverb feedback, right to right&nbsp; $xx<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Reverb feedback, right to left&nbsp;&nbsp; $xx<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Premix left to
+    right&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $xx<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Premix right to
+    left&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $xx<br>
+</p>
+<a name="APIC"></a>
+
+<h3>4.14.&nbsp;&nbsp; Attached picture</h3>
+
+<p>&nbsp;&nbsp; This frame contains a picture directly related to the audio
+    file.<br>
+    &nbsp;&nbsp; Image format is the MIME type and subtype [MIME] for the image. In<br>
+    &nbsp;&nbsp; the event that the MIME media type name is omitted,
+    &quot;image/&quot; will be<br>
+    &nbsp;&nbsp; implied. The &quot;image/png&quot; [PNG] or &quot;image/jpeg&quot;
+    [JFIF] picture format<br>
+    &nbsp;&nbsp; should be used when interoperability is wanted. Description is a<br>
+    &nbsp;&nbsp; short description of the picture, represented as a terminated<br>
+    &nbsp;&nbsp; text string. There may be several pictures attached to one file,
+    each<br>
+    &nbsp;&nbsp; in their individual &quot;APIC&quot; frame, but only one with the
+    same content<br>
+    &nbsp;&nbsp; descriptor. There may only be one picture with the picture type<br>
+    &nbsp;&nbsp; declared as picture type $01 and $02 respectively. There is the<br>
+    &nbsp;&nbsp; possibility to put only a link to the image file by using the 'MIME<br>
+    &nbsp;&nbsp; type' &quot;--&gt;&quot; and having a complete URL [URL] instead of
+    picture data.<br>
+    &nbsp;&nbsp; The use of linked files should however be used sparingly since
+    there<br>
+    &nbsp;&nbsp; is the risk of separation of files.</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; &lt;Header for 'Attached picture', ID: &quot;APIC&quot;&gt;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Text encoding&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $xx<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; MIME
+    type&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;text string&gt;
+    $00<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Picture type&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $xx<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Description&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &lt;text string according to encoding&gt; $00 (00)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Picture data&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &lt;binary data&gt;<br>
+</p>
+
+<p>&nbsp;&nbsp; Picture type:&nbsp; $00&nbsp; Other<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    $01&nbsp; 32x32 pixels 'file icon' (PNG only)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    $02&nbsp; Other file icon<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    $03&nbsp; Cover (front)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    $04&nbsp; Cover (back)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    $05&nbsp; Leaflet page<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    $06&nbsp; Media (e.g. label side of CD)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    $07&nbsp; Lead artist/lead performer/soloist<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    $08&nbsp; Artist/performer<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    $09&nbsp; Conductor<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    $0A&nbsp; Band/Orchestra<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    $0B&nbsp; Composer<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    $0C&nbsp; Lyricist/text writer<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    $0D&nbsp; Recording Location<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    $0E&nbsp; During recording<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    $0F&nbsp; During performance<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    $10&nbsp; Movie/video screen capture<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    $11&nbsp; A bright coloured fish<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    $12&nbsp; Illustration<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    $13&nbsp; Band/artist logotype<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    $14&nbsp; Publisher/Studio logotype<br>
+</p>
+<a name="GEOB"></a>
+
+<h3>4.15.&nbsp;&nbsp; General encapsulated object</h3>
+
+<p>&nbsp;&nbsp; In this frame any type of file can be encapsulated. After the
+    header,<br>
+    &nbsp;&nbsp; 'Frame size' and 'Encoding' follows 'MIME type' [MIME] represented
+    as<br>
+    &nbsp;&nbsp; as a terminated string encoded with ISO 8859-1 [ISO-8859-1]. The<br>
+    &nbsp;&nbsp; filename is case sensitive and is encoded as 'Encoding'. Then
+    follows<br>
+    &nbsp;&nbsp; a content description as terminated string, encoded as 'Encoding'.<br>
+    &nbsp;&nbsp; The last thing in the frame is the actual object. The first two<br>
+    &nbsp;&nbsp; strings may be omitted, leaving only their terminations. MIME type
+    is<br>
+    &nbsp;&nbsp; always an ISO-8859-1 text string. There may be more than one &quot;GEOB&quot;<br>
+    &nbsp;&nbsp; frame in each tag, but only one with the same content descriptor.</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; &lt;Header for 'General encapsulated object', ID:
+    &quot;GEOB&quot;&gt;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Text
+    encoding&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $xx<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; MIME
+    type&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &lt;text string&gt; $00<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    Filename&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &lt;text string according to encoding&gt; $00 (00)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Content description&nbsp;&nbsp;&nbsp; &lt;text string
+    according to encoding&gt; $00 (00)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Encapsulated object&nbsp;&nbsp;&nbsp; &lt;binary
+    data&gt;<br>
+</p>
+<a name="PCNT"></a>
+
+<h3>4.16.&nbsp;&nbsp; Play counter</h3>
+
+<p>&nbsp;&nbsp; This is simply a counter of the number of times a file has been<br>
+    &nbsp;&nbsp; played. The value is increased by one every time the file begins to<br>
+    &nbsp;&nbsp; play. There may only be one &quot;PCNT&quot; frame in each tag.
+    When the<br>
+    &nbsp;&nbsp; counter reaches all one's, one byte is inserted in front of the<br>
+    &nbsp;&nbsp; counter thus making the counter eight bits bigger.&nbsp; The
+    counter must<br>
+    &nbsp;&nbsp; be at least 32-bits long to begin with.</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; &lt;Header for 'Play counter', ID: &quot;PCNT&quot;&gt;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Counter&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $xx
+    xx xx xx (xx ...)<br>
+</p>
+<a name="POPM"></a>
+
+<h3>4.17.&nbsp;&nbsp; Popularimeter</h3>
+
+<p>&nbsp;&nbsp; The purpose of this frame is to specify how good an audio file
+    is.<br>
+    &nbsp;&nbsp; Many interesting applications could be found to this frame such as
+    a<br>
+    &nbsp;&nbsp; playlist that features better audio files more often than others or<br>
+    &nbsp;&nbsp; it could be used to profile a person's taste and find other 'good'<br>
+    &nbsp;&nbsp; files by comparing people's profiles. The frame contains the email<br>
+    &nbsp;&nbsp; address to the user, one rating byte and a four byte play counter,<br>
+    &nbsp;&nbsp; intended to be increased with one for every time the file is
+    played.<br>
+    &nbsp;&nbsp; The email is a terminated string. The rating is 1-255 where 1 is<br>
+    &nbsp;&nbsp; worst and 255 is best. 0 is unknown. If no personal counter is
+    wanted<br>
+    &nbsp;&nbsp; it may be omitted. When the counter reaches all one's, one byte is<br>
+    &nbsp;&nbsp; inserted in front of the counter thus making the counter eight bits<br>
+    &nbsp;&nbsp; bigger in the same away as the play counter (&quot;PCNT&quot;).
+    There may be<br>
+    &nbsp;&nbsp; more than one &quot;POPM&quot; frame in each tag, but only one with
+    the same<br>
+    &nbsp;&nbsp; email address.</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; &lt;Header for 'Popularimeter', ID: &quot;POPM&quot;&gt;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Email to user&nbsp;&nbsp; &lt;text string&gt; $00<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    Rating&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $xx<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Counter&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    $xx xx xx xx (xx ...)<br>
+</p>
+<a name="RBUF"></a>
+
+<h3>4.18.&nbsp;&nbsp; Recommended buffer size</h3>
+
+<p>&nbsp;&nbsp; Sometimes the server from which an audio file is streamed is
+    aware of<br>
+    &nbsp;&nbsp; transmission or coding problems resulting in interruptions in the<br>
+    &nbsp;&nbsp; audio stream. In these cases, the size of the buffer can be<br>
+    &nbsp;&nbsp; recommended by the server using this frame. If the 'embedded info<br>
+    &nbsp;&nbsp; flag' is true (1) then this indicates that an ID3 tag with the<br>
+    &nbsp;&nbsp; maximum size described in 'Buffer size' may occur in the audio<br>
+    &nbsp;&nbsp; stream. In such case the tag should reside between two MPEG [MPEG]<br>
+    &nbsp;&nbsp; frames, if the audio is MPEG encoded. If the position of the next
+    tag<br>
+    &nbsp;&nbsp; is known, 'offset to next tag' may be used. The offset is
+    calculated<br>
+    &nbsp;&nbsp; from the end of tag in which this frame resides to the first byte
+    of<br>
+    &nbsp;&nbsp; the header in the next. This field may be omitted. Embedded tags
+    are<br>
+    &nbsp;&nbsp; generally not recommended since this could render unpredictable<br>
+    &nbsp;&nbsp; behaviour from present software/hardware.</p>
+
+<p>&nbsp;&nbsp; For applications like streaming audio it might be an idea to
+    embed<br>
+    &nbsp;&nbsp; tags into the audio stream though. If the clients connects to<br>
+    &nbsp;&nbsp; individual connections like HTTP and there is a possibility to
+    begin<br>
+    &nbsp;&nbsp; every transmission with a tag, then this tag should include a<br>
+    &nbsp;&nbsp; 'recommended buffer size' frame. If the client is connected to a<br>
+    &nbsp;&nbsp; arbitrary point in the stream, such as radio or multicast, then the<br>
+    &nbsp;&nbsp; 'recommended buffer size' frame SHOULD be included in every tag.</p>
+
+<p>&nbsp;&nbsp; The 'Buffer size' should be kept to a minimum. There may only be
+    one<br>
+    &nbsp;&nbsp; &quot;RBUF&quot; frame in each tag.</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; &lt;Header for 'Recommended buffer size', ID: &quot;RBUF&quot;&gt;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Buffer
+    size&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    $xx xx xx<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Embedded info
+    flag&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; %0000000x<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Offset to next
+    tag&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $xx xx xx xx<br>
+</p>
+<a name="AENC"></a>
+
+<h3>4.19.&nbsp;&nbsp; Audio encryption</h3>
+
+<p>&nbsp;&nbsp; This frame indicates if the actual audio stream is encrypted,
+    and by<br>
+    &nbsp;&nbsp; whom. Since standardisation of such encryption scheme is beyond
+    this<br>
+    &nbsp;&nbsp; document, all &quot;AENC&quot; frames begin with a terminated
+    string with a<br>
+    &nbsp;&nbsp; URL containing an email address, or a link to a location where an<br>
+    &nbsp;&nbsp; email address can be found, that belongs to the organisation<br>
+    &nbsp;&nbsp; responsible for this specific encrypted audio file. Questions<br>
+    &nbsp;&nbsp; regarding the encrypted audio should be sent to the email address<br>
+    &nbsp;&nbsp; specified. If a $00 is found directly after the 'Frame size' and
+    the<br>
+    &nbsp;&nbsp; audio file indeed is encrypted, the whole file may be considered<br>
+    &nbsp;&nbsp; useless.</p>
+
+<p>&nbsp;&nbsp; After the 'Owner identifier', a pointer to an unencrypted part
+    of the<br>
+    &nbsp;&nbsp; audio can be specified. The 'Preview start' and 'Preview length' is<br>
+    &nbsp;&nbsp; described in frames. If no part is unencrypted, these fields should<br>
+    &nbsp;&nbsp; be left zeroed. After the 'preview length' field follows optionally
+    a<br>
+    &nbsp;&nbsp; data block required for decryption of the audio. There may be more<br>
+    &nbsp;&nbsp; than one &quot;AENC&quot; frames in a tag, but only one with the
+    same 'Owner<br>
+    &nbsp;&nbsp; identifier'.</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; &lt;Header for 'Audio encryption', ID: &quot;AENC&quot;&gt;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Owner identifier&nbsp;&nbsp; &lt;text string&gt; $00<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Preview start&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $xx xx<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Preview length&nbsp;&nbsp;&nbsp;&nbsp; $xx xx<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Encryption info&nbsp;&nbsp;&nbsp; &lt;binary data&gt;<br>
+</p>
+<a name="LINK"></a>
+
+<h3>4.20.&nbsp;&nbsp; Linked information</h3>
+
+<p>&nbsp;&nbsp; To keep information duplication as low as possible this frame
+    may be<br>
+    &nbsp;&nbsp; used to link information from another ID3v2 tag that might reside
+    in<br>
+    &nbsp;&nbsp; another audio file or alone in a binary file. It is RECOMMENDED
+    that<br>
+    &nbsp;&nbsp; this method is only used when the files are stored on a CD-ROM or<br>
+    &nbsp;&nbsp; other circumstances when the risk of file separation is low. The<br>
+    &nbsp;&nbsp; frame contains a frame identifier, which is the frame that should
+    be<br>
+    &nbsp;&nbsp; linked into this tag, a URL [URL] field, where a reference to the<br>
+    &nbsp;&nbsp; file where the frame is given, and additional ID data, if needed.<br>
+    &nbsp;&nbsp; Data should be retrieved from the first tag found in the file to<br>
+    &nbsp;&nbsp; which this link points. There may be more than one &quot;LINK&quot;
+    frame in a<br>
+    &nbsp;&nbsp; tag, but only one with the same contents. A linked frame is to be<br>
+    &nbsp;&nbsp; considered as part of the tag and has the same restrictions as if
+    it<br>
+    &nbsp;&nbsp; was a physical part of the tag (i.e. only one &quot;RVRB&quot;
+    frame allowed,<br>
+    &nbsp;&nbsp; whether it's linked or not).</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; &lt;Header for 'Linked information', ID:
+    &quot;LINK&quot;&gt;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Frame
+    identifier&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $xx xx xx xx<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    URL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &lt;text string&gt; $00<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; ID and additional data&nbsp; &lt;text string(s)&gt;</p>
+
+<p>&nbsp;&nbsp; Frames that may be linked and need no additional data are &quot;ASPI&quot;,<br>
+    &nbsp;&nbsp; &quot;ETCO&quot;, &quot;EQU2&quot;, &quot;MCID&quot;, &quot;MLLT&quot;,
+    &quot;OWNE&quot;, &quot;RVA2&quot;, &quot;RVRB&quot;, &quot;SYTC&quot;, the<br>
+    &nbsp;&nbsp; text information frames and the URL link frames.</p>
+
+<p>&nbsp;&nbsp; The &quot;AENC&quot;, &quot;APIC&quot;, &quot;GEOB&quot; and
+    &quot;TXXX&quot; frames may be linked with<br>
+    &nbsp;&nbsp; the content descriptor as additional ID data.</p>
+
+<p>&nbsp;&nbsp; The &quot;USER&quot; frame may be linked with the language field
+    as additional<br>
+    &nbsp;&nbsp; ID data.<br>
+    &nbsp;&nbsp; </p>
+
+<p>&nbsp;&nbsp; The &quot;PRIV&quot; frame may be linked with the owner
+    identifier as<br>
+    &nbsp;&nbsp; additional ID data.</p>
+
+<p>&nbsp;&nbsp; The &quot;COMM&quot;, &quot;SYLT&quot; and &quot;USLT&quot;
+    frames may be linked with three bytes<br>
+    &nbsp;&nbsp; of language descriptor directly followed by a content descriptor as<br>
+    &nbsp;&nbsp; additional ID data.<br>
+</p>
+<a name="POSS"></a>
+
+<h3>4.21.&nbsp;&nbsp; Position synchronisation frame</h3>
+
+<p>&nbsp;&nbsp; This frame delivers information to the listener of how far into
+    the<br>
+    &nbsp;&nbsp; audio stream he picked up; in effect, it states the time offset
+    from<br>
+    &nbsp;&nbsp; the first frame in the stream. The frame layout is:</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; &lt;Head for 'Position synchronisation', ID: &quot;POSS&quot;&gt;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Time stamp
+    format&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $xx<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    Position&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    $xx (xx ...)</p>
+
+<p>&nbsp;&nbsp; Where time stamp format is:</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; $01&nbsp; Absolute time, 32 bit sized, using MPEG
+    frames as unit<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; $02&nbsp; Absolute time, 32 bit sized, using
+    milliseconds as unit</p>
+
+<p>&nbsp;&nbsp; and position is where in the audio the listener starts to
+    receive,<br>
+    &nbsp;&nbsp; i.e. the beginning of the next frame. If this frame is used in the<br>
+    &nbsp;&nbsp; beginning of a file the value is always 0. There may only be one<br>
+    &nbsp;&nbsp; &quot;POSS&quot; frame in each tag.<br>
+</p>
+<a name="USER"></a>
+
+<h3>4.22.&nbsp;&nbsp; Terms of use frame</h3>
+
+<p>&nbsp;&nbsp; This frame contains a brief description of the terms of use and<br>
+    &nbsp;&nbsp; ownership of the file. More detailed information concerning the
+    legal<br>
+    &nbsp;&nbsp; terms might be available through the &quot;WCOP&quot; frame.
+    Newlines are<br>
+    &nbsp;&nbsp; allowed in the text. There may be more than one 'Terms of use'
+    frame<br>
+    &nbsp;&nbsp; in a tag, but only one with the same 'Language'.</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; &lt;Header for 'Terms of use frame', ID:
+    &quot;USER&quot;&gt;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Text encoding&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    $xx<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    Language&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    $xx xx xx<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; The actual text&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;text
+    string according to encoding&gt;<br>
+</p>
+<a name="OWNE"></a>
+
+<h3>4.23.&nbsp;&nbsp; Ownership frame</h3>
+
+<p>&nbsp;&nbsp; The ownership frame might be used as a reminder of a made
+    transaction<br>
+    &nbsp;&nbsp; or, if signed, as proof. Note that the &quot;USER&quot; and
+    &quot;TOWN&quot; frames are<br>
+    &nbsp;&nbsp; good to use in conjunction with this one. The frame begins, after
+    the<br>
+    &nbsp;&nbsp; frame ID, size and encoding fields, with a 'price paid' field. The<br>
+    &nbsp;&nbsp; first three characters of this field contains the currency used for<br>
+    &nbsp;&nbsp; the transaction, encoded according to ISO 4217 [ISO-4217]
+    alphabetic<br>
+    &nbsp;&nbsp; currency code. Concatenated to this is the actual price paid, as a<br>
+    &nbsp;&nbsp; numerical string using &quot;.&quot; as the decimal separator. Next
+    is an 8<br>
+    &nbsp;&nbsp; character date string (YYYYMMDD) followed by a string with the name<br>
+    &nbsp;&nbsp; of the seller as the last field in the frame. There may only be one<br>
+    &nbsp;&nbsp; &quot;OWNE&quot; frame in a tag.</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; &lt;Header for 'Ownership frame', ID: &quot;OWNE&quot;&gt;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Text encoding&nbsp;&nbsp;&nbsp;&nbsp; $xx<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Price paid&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &lt;text string&gt; $00<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Date of purch.&nbsp;&nbsp;&nbsp; &lt;text string&gt;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    Seller&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &lt;text string according to encoding&gt;<br>
+</p>
+<a name="COMR"></a>
+
+<h3>4.24.&nbsp;&nbsp; Commercial frame</h3>
+
+<p>&nbsp;&nbsp; This frame enables several competing offers in the same tag by<br>
+    &nbsp;&nbsp; bundling all needed information. That makes this frame rather
+    complex<br>
+    &nbsp;&nbsp; but it's an easier solution than if one tries to achieve the same<br>
+    &nbsp;&nbsp; result with several frames. The frame begins, after the frame ID,<br>
+    &nbsp;&nbsp; size and encoding fields, with a price string field. A price is<br>
+    &nbsp;&nbsp; constructed by one three character currency code, encoded according<br>
+    &nbsp;&nbsp; to ISO 4217 [ISO-4217] alphabetic currency code, followed by a<br>
+    &nbsp;&nbsp; numerical value where &quot;.&quot; is used as decimal separator.
+    In the price<br>
+    &nbsp;&nbsp; string several prices may be concatenated, separated by a
+    &quot;/&quot;<br>
+    &nbsp;&nbsp; character, but there may only be one currency of each type.</p>
+
+<p>&nbsp;&nbsp; The price string is followed by an 8 character date string in
+    the<br>
+    &nbsp;&nbsp; format YYYYMMDD, describing for how long the price is valid. After<br>
+    &nbsp;&nbsp; that is a contact URL, with which the user can contact the seller,<br>
+    &nbsp;&nbsp; followed by a one byte 'received as' field. It describes how the<br>
+    &nbsp;&nbsp; audio is delivered when bought according to the following list:</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $00&nbsp; Other<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $01&nbsp; Standard CD album with
+    other songs<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $02&nbsp; Compressed audio on CD<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $03&nbsp; File over the Internet<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $04&nbsp; Stream over the Internet<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $05&nbsp; As note sheets<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $06&nbsp; As note sheets in a book
+    with other sheets<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $07&nbsp; Music on other media<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $08&nbsp; Non-musical merchandise</p>
+
+<p>&nbsp;&nbsp; Next follows a terminated string with the name of the seller
+    followed<br>
+    &nbsp;&nbsp; by a terminated string with a short description of the product. The<br>
+    &nbsp;&nbsp; last thing is the ability to include a company logotype. The first
+    of<br>
+    &nbsp;&nbsp; them is the 'Picture MIME type' field containing information about<br>
+    &nbsp;&nbsp; which picture format is used. In the event that the MIME media type<br>
+    &nbsp;&nbsp; name is omitted, &quot;image/&quot; will be implied. Currently only
+    &quot;image/png&quot;<br>
+    &nbsp;&nbsp; and &quot;image/jpeg&quot; are allowed. This format string is
+    followed by the<br>
+    &nbsp;&nbsp; binary picture data. This two last fields may be omitted if no<br>
+    &nbsp;&nbsp; picture is attached. There may be more than one 'commercial frame'
+    in<br>
+    &nbsp;&nbsp; a tag, but no two may be identical.</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; &lt;Header for 'Commercial frame', ID: &quot;COMR&quot;&gt;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Text encoding&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $xx<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Price string&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &lt;text string&gt; $00<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Valid until&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &lt;text string&gt;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Contact URL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &lt;text string&gt; $00<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Received as&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $xx<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Name of seller&nbsp;&nbsp;&nbsp;&nbsp; &lt;text string
+    according to encoding&gt; $00 (00)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Description&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &lt;text string according to encoding&gt; $00 (00)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Picture MIME type&nbsp; &lt;string&gt; $00<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Seller logo&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &lt;binary data&gt;<br>
+</p>
+<a name="ENCR"></a>
+
+<h3>4.25.&nbsp;&nbsp; Encryption method registration</h3>
+
+<p>&nbsp;&nbsp; To identify with which method a frame has been encrypted the<br>
+    &nbsp;&nbsp; encryption method must be registered in the tag with this frame.
+    The<br>
+    &nbsp;&nbsp; 'Owner identifier' is a null-terminated string with a URL [URL]<br>
+    &nbsp;&nbsp; containing an email address, or a link to a location where an email<br>
+    &nbsp;&nbsp; address can be found, that belongs to the organisation responsible<br>
+    &nbsp;&nbsp; for this specific encryption method. Questions regarding the<br>
+    &nbsp;&nbsp; encryption method should be sent to the indicated email address.
+    The<br>
+    &nbsp;&nbsp; 'Method symbol' contains a value that is associated with this
+    method<br>
+    &nbsp;&nbsp; throughout the whole tag, in the range $80-F0. All other values are<br>
+    &nbsp;&nbsp; reserved. The 'Method symbol' may optionally be followed by<br>
+    &nbsp;&nbsp; encryption specific data. There may be several &quot;ENCR&quot;
+    frames in a tag<br>
+    &nbsp;&nbsp; but only one containing the same symbol and only one containing the<br>
+    &nbsp;&nbsp; same owner identifier. The method must be used somewhere in the
+    tag.<br>
+    &nbsp;&nbsp; See the description of the frame encryption flag in the ID3v2<br>
+    &nbsp;&nbsp; structure document [ID3v2-strct] for more information.</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; &lt;Header for 'Encryption method registration', ID:
+    &quot;ENCR&quot;&gt;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Owner identifier&nbsp;&nbsp;&nbsp; &lt;text string&gt;
+    $00<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Method symbol&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $xx<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Encryption data&nbsp;&nbsp;&nbsp;&nbsp; &lt;binary
+    data&gt;<br>
+</p>
+<a name="GRID"></a>
+
+<h3>4.26.&nbsp;&nbsp; Group identification registration</h3>
+
+<p>&nbsp;&nbsp; This frame enables grouping of otherwise unrelated frames. This
+    can<br>
+    &nbsp;&nbsp; be used when some frames are to be signed. To identify which frames<br>
+    &nbsp;&nbsp; belongs to a set of frames a group identifier must be registered in<br>
+    &nbsp;&nbsp; the tag with this frame. The 'Owner identifier' is a
+    null-terminated<br>
+    &nbsp;&nbsp; string with a URL [URL] containing an email address, or a link to a<br>
+    &nbsp;&nbsp; location where an email address can be found, that belongs to the<br>
+    &nbsp;&nbsp; organisation responsible for this grouping. Questions regarding the<br>
+    &nbsp;&nbsp; grouping should be sent to the indicated email address. The 'Group<br>
+    &nbsp;&nbsp; symbol' contains a value that associates the frame with this group<br>
+    &nbsp;&nbsp; throughout the whole tag, in the range $80-F0. All other values are<br>
+    &nbsp;&nbsp; reserved. The 'Group symbol' may optionally be followed by some
+    group<br>
+    &nbsp;&nbsp; specific data, e.g. a digital signature. There may be several
+    &quot;GRID&quot;<br>
+    &nbsp;&nbsp; frames in a tag but only one containing the same symbol and only
+    one<br>
+    &nbsp;&nbsp; containing the same owner identifier. The group symbol must be used<br>
+    &nbsp;&nbsp; somewhere in the tag. See the description of the frame grouping
+    flag<br>
+    &nbsp;&nbsp; in the ID3v2 structure document [ID3v2-strct] for more information.</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; &lt;Header for 'Group ID registration', ID:
+    &quot;GRID&quot;&gt;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Owner identifier&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;text
+    string&gt; $00<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Group
+    symbol&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $xx<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Group dependent data&nbsp; &lt;binary data&gt;<br>
+</p>
+<a name="PRIV"></a>
+
+<h3>4.27.&nbsp;&nbsp; Private frame</h3>
+
+<p>&nbsp;&nbsp; This frame is used to contain information from a software
+    producer<br>
+    &nbsp;&nbsp; that its program uses and does not fit into the other frames. The<br>
+    &nbsp;&nbsp; frame consists of an 'Owner identifier' string and the binary data.<br>
+    &nbsp;&nbsp; The 'Owner identifier' is a null-terminated string with a URL [URL]<br>
+    &nbsp;&nbsp; containing an email address, or a link to a location where an email<br>
+    &nbsp;&nbsp; address can be found, that belongs to the organisation responsible<br>
+    &nbsp;&nbsp; for the frame. Questions regarding the frame should be sent to the<br>
+    &nbsp;&nbsp; indicated email address. The tag may contain more than one &quot;PRIV&quot;<br>
+    &nbsp;&nbsp; frame but only with different contents.</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; &lt;Header for 'Private frame', ID: &quot;PRIV&quot;&gt;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Owner identifier&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;text
+    string&gt; $00<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; The private data&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &lt;binary data&gt;<br>
+</p>
+<a name="SIGN"></a>
+
+<h3>4.28.&nbsp;&nbsp; Signature frame</h3>
+
+<p>&nbsp;&nbsp; This frame enables a group of frames, grouped with the 'Group<br>
+    &nbsp;&nbsp; identification registration', to be signed. Although signatures can<br>
+    &nbsp;&nbsp; reside inside the registration frame, it might be desired to store<br>
+    &nbsp;&nbsp; the signature elsewhere, e.g. in watermarks. There may be more than<br>
+    &nbsp;&nbsp; one 'signature frame' in a tag, but no two may be identical.</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; &lt;Header for 'Signature frame', ID:
+    &quot;SIGN&quot;&gt;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Group symbol&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $xx<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    Signature&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;binary data&gt;<br>
+</p>
+<a name="SEEK"></a>
+
+<h3>4.29.&nbsp;&nbsp; Seek frame</h3>
+
+<p>&nbsp;&nbsp; This frame indicates where other tags in a file/stream can be
+    found.<br>
+    &nbsp;&nbsp; The 'minimum offset to next tag' is calculated from the end of this<br>
+    &nbsp;&nbsp; tag to the beginning of the next. There may only be one 'seek
+    frame'<br>
+    &nbsp;&nbsp; in a tag.</p>
+
+<p>&nbsp;&nbsp; &lt;Header for 'Seek frame', ID: &quot;SEEK&quot;&gt;<br>
+    &nbsp;&nbsp; Minimum offset to next tag&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $xx
+    xx xx xx<br>
+</p>
+<a name="ASPI"></a>
+
+<h3>4.30.&nbsp;&nbsp; Audio seek point index</h3>
+
+<p>&nbsp;&nbsp; Audio files with variable bit rates are intrinsically difficult
+    to<br>
+    &nbsp;&nbsp; deal with in the case of seeking within the file. The ASPI frame<br>
+    &nbsp;&nbsp; makes seeking easier by providing a list a seek points within the<br>
+    &nbsp;&nbsp; audio file. The seek points are a fractional offset within the
+    audio<br>
+    &nbsp;&nbsp; data, providing a starting point from which to find an appropriate<br>
+    &nbsp;&nbsp; point to start decoding. The presence of an ASPI frame requires the<br>
+    &nbsp;&nbsp; existence of a TLEN frame, indicating the duration of the file in<br>
+    &nbsp;&nbsp; milliseconds. There may only be one 'audio seek point index' frame
+    in<br>
+    &nbsp;&nbsp; a tag.</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; &lt;Header for 'Seek Point Index', ID: &quot;ASPI&quot;&gt;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Indexed data start
+    (S)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $xx xx xx xx<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Indexed data length
+    (L)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $xx xx xx xx<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Number of index points (N)&nbsp;&nbsp;&nbsp;&nbsp; $xx
+    xx<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Bits per index point
+    (b)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $xx</p>
+
+<p>&nbsp;&nbsp; Then for every index point the following data is included;</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; Fraction at index (Fi)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    $xx (xx)</p>
+
+<p>&nbsp;&nbsp; 'Indexed data start' is a byte offset from the beginning of the
+    file.<br>
+    &nbsp;&nbsp; 'Indexed data length' is the byte length of the audio data being<br>
+    &nbsp;&nbsp; indexed. 'Number of index points' is the number of index points, as<br>
+    &nbsp;&nbsp; the name implies. The recommended number is 100. 'Bits per index<br>
+    &nbsp;&nbsp; point' is 8 or 16, depending on the chosen precision. 8 bits works<br>
+    &nbsp;&nbsp; well for short files (less than 5 minutes of audio), while 16 bits
+    is<br>
+    &nbsp;&nbsp; advantageous for long files. 'Fraction at index' is the numerator
+    of<br>
+    &nbsp;&nbsp; the fraction representing a relative position in the data. The<br>
+    &nbsp;&nbsp; denominator is 2 to the power of b.</p>
+
+<p>&nbsp;&nbsp; Here are the algorithms to be used in the calculation. The known
+    data<br>
+    &nbsp;&nbsp; must be the offset of the start of the indexed data (S), the offset<br>
+    &nbsp;&nbsp; of the end of the indexed data (E), the number of index points (N),<br>
+    &nbsp;&nbsp; the offset at index i (Oi). We calculate the fraction at index i<br>
+    &nbsp;&nbsp; (Fi).</p>
+
+<p>&nbsp;&nbsp; Oi is the offset of the frame whose start is soonest after the
+    point<br>
+    &nbsp;&nbsp; for which the time offset is (i/N * duration).</p>
+
+<p>&nbsp;&nbsp; The frame data should be calculated as follows:</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; Fi = Oi/L * 2^b&nbsp;&nbsp;&nbsp; (rounded down to
+    the nearest integer)</p>
+
+<p>&nbsp;&nbsp; Offset calculation should be calculated as follows from data in
+    the<br>
+    &nbsp;&nbsp; frame:</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; Oi = (Fi/2^b)*L&nbsp;&nbsp;&nbsp; (rounded up to the
+    nearest integer)<br>
+</p>
+<a name="sec5"></a>
+
+<h3>5.&nbsp; Copyright</h3>
+
+<p>&nbsp;&nbsp; Copyright (C) Martin Nilsson 2000. All Rights Reserved.</p>
+
+<p>&nbsp;&nbsp; This document and translations of it may be copied and furnished
+    to<br>
+    &nbsp;&nbsp; others, and derivative works that comment on or otherwise explain
+    it<br>
+    &nbsp;&nbsp; or assist in its implementation may be prepared, copied, published<br>
+    &nbsp;&nbsp; and distributed, in whole or in part, without restriction of any<br>
+    &nbsp;&nbsp; kind, provided that a reference to this document is included on all<br>
+    &nbsp;&nbsp; such copies and derivative works. However, this document itself may<br>
+    &nbsp;&nbsp; not be modified in any way and reissued as the original document.</p>
+
+<p>&nbsp;&nbsp; The limited permissions granted above are perpetual and will not
+    be<br>
+    &nbsp;&nbsp; revoked.</p>
+
+<p>&nbsp;&nbsp; This document and the information contained herein is provided
+    on an<br>
+    &nbsp;&nbsp; &quot;AS IS&quot; basis and THE AUTHORS DISCLAIMS ALL WARRANTIES,
+    EXPRESS OR<br>
+    &nbsp;&nbsp; IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTY THAT THE USE OF<br>
+    &nbsp;&nbsp; THE INFORMATION HEREIN WILL NOT INFRINGE ANY RIGHTS OR ANY IMPLIED<br>
+    &nbsp;&nbsp; WARRANTIES OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.<br>
+</p>
+<a name="sec6"></a>
+
+<h3>6.&nbsp;&nbsp; References</h3>
+
+<p>&nbsp;&nbsp; [CDDB] Compact Disc Data Base</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;url:http://www.cddb.com&gt;</p>
+
+<p>&nbsp;&nbsp; [ID3v2.3.0] Martin Nilsson, &quot;ID3v2 informal standard&quot;.</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;url:http://www.id3.org/id3v2.3.0.txt&gt;</p>
+
+<p>&nbsp;&nbsp; [ID3v2-strct] Martin Nilsson,<br>
+    &nbsp;&nbsp; &quot;ID3 tag version 2.4.0 - Main Structure&quot;<br>
+    &nbsp;&nbsp; </p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;url:http//www.id3.org/id3v2.4.0-structure.txt&gt;</p>
+
+<p>&nbsp;&nbsp; [ISO-639-2] ISO/FDIS 639-2.<br>
+    &nbsp;&nbsp; Codes for the representation of names of languages, Part 2: Alpha-3<br>
+    &nbsp;&nbsp; code. Technical committee / subcommittee: TC 37 / SC 2</p>
+
+<p>&nbsp;&nbsp; [ISO-4217] ISO 4217:1995.<br>
+    &nbsp;&nbsp; Codes for the representation of currencies and funds.<br>
+    &nbsp;&nbsp; Technical committee / subcommittee: TC 68</p>
+
+<p>&nbsp;&nbsp; [ISO-8859-1] ISO/IEC DIS 8859-1.<br>
+    &nbsp;&nbsp; 8-bit single-byte coded graphic character sets, Part 1: Latin<br>
+    &nbsp;&nbsp; alphabet No. 1. Technical committee / subcommittee: JTC 1 / SC 2</p>
+
+<p>&nbsp;&nbsp; [ISRC] ISO 3901:1986<br>
+    &nbsp;&nbsp; International Standard Recording Code (ISRC).<br>
+    &nbsp;&nbsp; Technical committee / subcommittee: TC 46 / SC 9</p>
+
+<p>&nbsp;&nbsp; [JFIF] JPEG File Interchange Format, version 1.02</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;url:http://www.w3.org/Graphics/JPEG/jfif.txt&gt;</p>
+
+<p>&nbsp;&nbsp; [KEYWORDS] S. Bradner, 'Key words for use in RFCs to Indicate<br>
+    &nbsp;&nbsp; Requirement Levels', RFC 2119, March 1997.</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;url:ftp://ftp.isi.edu/in-notes/rfc2119.txt&gt;</p>
+
+<p>&nbsp;&nbsp; [MIME] Freed, N.&nbsp; and N. Borenstein,&nbsp;
+    &quot;Multipurpose Internet Mail<br>
+    &nbsp;&nbsp; Extensions (MIME) Part One: Format of Internet Message
+    Bodies&quot;,<br>
+    &nbsp;&nbsp; RFC 2045, November 1996.</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;url:ftp://ftp.isi.edu/in-notes/rfc2045.txt&gt;</p>
+
+<p>&nbsp;&nbsp; [MPEG] ISO/IEC 11172-3:1993.<br>
+    &nbsp;&nbsp; Coding of moving pictures and associated audio for digital storage<br>
+    &nbsp;&nbsp; media at up to about 1,5 Mbit/s, Part 3: Audio.<br>
+    &nbsp;&nbsp; Technical committee / subcommittee: JTC 1 / SC 29<br>
+    &nbsp;&nbsp;&nbsp; and<br>
+    &nbsp;&nbsp; ISO/IEC 13818-3:1995<br>
+    &nbsp;&nbsp; Generic coding of moving pictures and associated audio information,<br>
+    &nbsp;&nbsp; Part 3: Audio.<br>
+    &nbsp;&nbsp; Technical committee / subcommittee: JTC 1 / SC 29<br>
+    &nbsp;&nbsp;&nbsp; and<br>
+    &nbsp;&nbsp; ISO/IEC DIS 13818-3<br>
+    &nbsp;&nbsp; Generic coding of moving pictures and associated audio information,<br>
+    &nbsp;&nbsp; Part 3: Audio (Revision of ISO/IEC 13818-3:1995)<br>
+</p>
+
+<p>&nbsp;&nbsp; [PNG] Portable Network Graphics, version 1.0</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;url:http://www.w3.org/TR/REC-png-multi.html&gt;</p>
+
+<p>&nbsp;&nbsp; [URL] T. Berners-Lee, L. Masinter &amp; M. McCahill,
+    &quot;Uniform Resource<br>
+    &nbsp;&nbsp; Locators (URL).&quot;, RFC 1738, December 1994.</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;url:ftp://ftp.isi.edu/in-notes/rfc1738.txt&gt;</p>
+
+<p>&nbsp;&nbsp; [ZLIB] P. Deutsch, Aladdin Enterprises &amp; J-L. Gailly, &quot;ZLIB<br>
+    &nbsp;&nbsp; Compressed<br>
+    &nbsp;&nbsp; Data Format Specification version 3.3&quot;, RFC 1950, May 1996.</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;url:ftp://ftp.isi.edu/in-notes/rfc1950.txt&gt;<br>
+</p>
+<a name="sec7"></a>
+
+<h3>7.&nbsp;&nbsp; Appendix<br>
+</h3>
+
+<p>A.&nbsp;&nbsp; Appendix A - Genre List from ID3v1</p>
+
+<p>&nbsp;&nbsp; The following genres is defined in ID3v1</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0.Blues<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1.Classic Rock<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2.Country<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3.Dance<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4.Disco<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5.Funk<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 6.Grunge<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 7.Hip-Hop<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 8.Jazz<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 9.Metal<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 10.New Age<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 11.Oldies<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 12.Other<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 13.Pop<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 14.R&amp;B<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 15.Rap<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 16.Reggae<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 17.Rock<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 18.Techno<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 19.Industrial<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 20.Alternative<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 21.Ska<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 22.Death Metal<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 23.Pranks<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 24.Soundtrack<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 25.Euro-Techno<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 26.Ambient<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 27.Trip-Hop<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 28.Vocal<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 29.Jazz+Funk<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 30.Fusion<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 31.Trance<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 32.Classical<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 33.Instrumental<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 34.Acid<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 35.House<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 36.Game<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 37.Sound Clip<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 38.Gospel<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 39.Noise<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 40.AlternRock<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 41.Bass<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 42.Soul<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 43.Punk<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 44.Space<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 45.Meditative<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 46.Instrumental Pop<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 47.Instrumental Rock<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 48.Ethnic<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 49.Gothic<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 50.Darkwave<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 51.Techno-Industrial<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 52.Electronic<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 53.Pop-Folk<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 54.Eurodance<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 55.Dream<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 56.Southern Rock<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 57.Comedy<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 58.Cult<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 59.Gangsta<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 60.Top 40<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 61.Christian Rap<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 62.Pop/Funk<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 63.Jungle<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 64.Native American<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 65.Cabaret<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 66.New Wave<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 67.Psychadelic<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 68.Rave<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 69.Showtunes<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 70.Trailer<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 71.Lo-Fi<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 72.Tribal<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 73.Acid Punk<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 74.Acid Jazz<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 75.Polka<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 76.Retro<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 77.Musical<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 78.Rock &amp; Roll<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 79.Hard Rock<br>
+</p>
+<a name="sec8"></a>
+
+<h3>8.&nbsp;&nbsp; Author's Address</h3>
+
+<p>&nbsp;&nbsp; Written by</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; Martin Nilsson<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Rydsvägen 246 C. 30<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; SE-584 34 Linköping<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Sweden</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; Email: nilsson@id3.org<br>
+</p>
+
+</body>
+
+</html>

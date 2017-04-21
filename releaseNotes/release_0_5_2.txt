@@ -1,0 +1,6 @@
+jid3-lib
+
+Release 0.5.2 3/12/2006
+
+Fixed up javadocs
+Added convience accessor methods for common fields and frames.

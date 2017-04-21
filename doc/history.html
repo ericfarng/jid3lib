@@ -1,0 +1,101 @@
+<html><head>
+    <!-- base href="http://www.id3.org/history.html" --><title>The short history of tagging</title>
+
+    <style type="text/css">
+        td.h1 {
+            font: 43px Arial, Helvetica
+        }
+
+        td.h2 {
+            font: 27px Arial, Helvetica
+        }
+
+        div.h5 {
+            font: 14px Arial, Helvetica
+        }
+
+        td.t {
+            font: 14px Arial, Helvetica
+        }
+
+        a {
+            color: #DD6600;
+            text-decoration: none
+        }
+
+        b {
+            font-weight: bold
+        }
+    </style>
+    <meta name="description" content="The short history of tagging.">
+    <meta name="keywords" content="ID3v2, ID3, MP3"></head>
+
+<body bgcolor="white" text="black"><center>
+
+    <table border="0"><tbody><tr><td class="h1"> The short history of tagging </td></tr><tr><td bgcolor="#ff7700"><img
+            src="history_files/fillpx.gif" width="1" height="1" alt=""></td></tr></tbody></table>
+
+    <br> 
+
+    <table border="0" width="90%"><tbody><tr><td class="h2">The past</td></tr></tbody></table>
+
+    <table border="0" width="80%"><tbody><tr><td class="t">
+        <p>Once upon a time, there were some giant companies that, with the failure of the 4-channel battle fresh in
+            mind,
+            formed an expert group with the mission to invent tomorrow's technology in sound compression. Fortunately,
+            they did.
+            The format, named MPEG Layer 3 or for short <a href="http://www.mp3.com/">MP3</a>, took advantage of the
+            fact that
+            our ears are not nearly as good as we generally believe them to be, and thus omitting frequencies that we
+            wouldn't
+            hear anyway. They also made the format suitable for streaming by letting the sound be represented in small,
+            individually compressed blocks of audio data. Each block had a header containing some information relevant
+            to the
+            decoding process. As they ended up with a few bits to much, they used them for some additional information
+            such as
+            a 'copyright' bit and a 'private' bit.</p>
+
+        <p>Since the format had such an outstanding compression and still very good sound quality, it was soon adapted
+            as
+            the de facto standard for digital music. The lack of possibilities to include textual information in the
+            files was
+            however disturbingly present. Suddenly, someone (Eric Kemp alias NamkraD, I've been told) had a vision of a
+            fix-sized 128-byte tag that would reside at the end of the audio file. It would include title, artist,
+            album, year,
+            genre and a comment field. Someone, possibly the very same someone, implemented this and everyone was happy.
+            Soon
+            afterwards, Michael Mutschler, the author of <a href="http://odin.mutschler.de/mp3ext/">MP3ext</a>, extended
+            this
+            tag, called ID3, to also include which track on the CD the music originated from. He used the last two bytes
+            of the
+            comment field for this and named his variant ID3 v1.1.
+            (more information about ID3 and ID3v1.1 can be found <a href="http://www.id3.org/id3v1.html"><b>here</b></a>)
+        </p>
+    </td></tr></tbody></table>
+
+    <br> 
+
+    <table border="0" width="90%"><tbody><tr><td class="h2">The present</td></tr></tbody></table>
+
+    <table border="0" width="80%"><tbody><tr><td class="t">
+        <p>The ID3 v1.1 tag still had some obvious limitations and drawbacks, though. It supported only a few fields of
+            information, and those were limited to 30 characters, making it impossible to correctly describe "The
+            Hitchhiker's
+            Guide to the Galaxy from BBC Radio" as well as "P.I. Tchaikovsky's Nutcracker Suite Op. 71 a, Ouverture
+            miniature
+            danses caractéristiques by The New Philharmonic Orchestra, London, conducted by Laurence Siegel". Since the
+            position
+            of the ID3 v1.1 tag is at the end of the audio file it will also be the last thing to arrive when the file
+            is being
+            streamed. The fix size of 128 bytes also makes it impossible to extend further. That's why I (Martin
+            Nilsson) and
+            several along with me thought that a new ID3 tag would be appropriate.</p>
+
+        <p>The new ID3 tag is named ID3v2 and is currently in a state of 'informal standard'. That is, we decided, since
+            there were less and less improvements and additions made, to proclaim the draft as a standard (an informal
+            one since
+            no standardization body has approved this decision). You can find the informal standard <a
+                href="http://www.id3.org/develop.html"><b>here</b></a>.
+            ID3v2 is often followed by its revision number, i.e. the current informal standard is ID3v2.4.0.</p>
+    </td></tr></tbody></table>
+</center></body></html>

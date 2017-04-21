@@ -1,0 +1,31 @@
+jid3-lib
+
+Release 0.5 8/9/2003
+
+I've broken backwards compatibility. Frame Bodies no longer
+require the boolean value is6ByteHeader to tell it if it is
+apart of a ID3v2.2, ID3v2.3, or ID3v2.4 frame. I pull this out
+from the stack trace now.
+
+I've added a copy constructor to all objects.
+
+I've added tag conversion methods for all tag types. Before,
+I only had converion to ID3v2.4, ID3v1.1, and Lyrics3v2. Now
+you can convert to older versions of the tags.
+
+I've fixed the conversion methods to create new tag objects.
+Before, a converted tag would share some of the same object
+pointers as its original tag.
+
+The .zip and .tar.gz file now extract into a subdirectory.
+(Pointed out to me, thanks)
+
+I've changed the name of the .jar file to include the release
+number. This seems to match what people are doing on apache.org.
+
+I'm guessing there were numerous bug fixes, but I didn't keep
+track of them individually. And thanks to those that emailed me
+some fixes too.
+
+
+

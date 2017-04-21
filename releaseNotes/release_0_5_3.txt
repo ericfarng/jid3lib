@@ -1,0 +1,6 @@
+jid3-lib
+
+Release 0.5.3 3/13/2006
+
+Added alittle package level documentation
+Also removed any references to JDK 1.5. Can compile with JDK 1.4.2 again

@@ -1,0 +1,7 @@
+jid3-lib
+
+Release 0.5.4 3/14/2006
+
+Oops, the last release wasn't actually JDK 1.4.2 compatible
+Also fixed up the build script. Building from the zip file will create
+the same zip file.

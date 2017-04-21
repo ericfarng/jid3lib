@@ -1,0 +1,1014 @@
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+    <meta name="GENERATOR" content="Microsoft FrontPage 4.0">
+    <meta name="ProgId" content="FrontPage.Editor.Document">
+    <title>Informal standard Document</title>
+</head>
+
+<body>
+
+<table border="0" width="100%">
+    <tr>
+        <td>Informal standard<br>
+            Document: id3v2.4.0-structure.html</td>
+        <td align="right">M. Nilsson<br>
+            Latest change: 16 September 2001</td>
+    </tr>
+</table>
+<h1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    ID3 tag version 2.4.0 - Main Structure</h1>
+<a name="status"></a>
+
+<h3>Status of this document</h3>
+
+<p>&nbsp;&nbsp; This document is an informal standard and replaces the ID3v2.3.0<br>
+    &nbsp;&nbsp; standard [ID3v2]. A formal standard will use another revision
+    number<br>
+    &nbsp;&nbsp; even if the content is identical to document. The contents in this<br>
+    &nbsp;&nbsp; document may change for clarifications but never for added or
+    altered<br>
+    &nbsp;&nbsp; functionally.</p>
+
+<p>&nbsp;&nbsp; Distribution of this document is unlimited.<br>
+</p>
+<a name="abstract"></a>
+
+<h3>Abstract</h3>
+
+<p>&nbsp;&nbsp; This document describes the main structure of ID3v2.4.0, which
+    is a<br>
+    &nbsp;&nbsp; revised version of the ID3v2 informal standard [ID3v2] version<br>
+    &nbsp;&nbsp; 2.3.0. The ID3v2 offers a flexible way of storing audio meta<br>
+    &nbsp;&nbsp; information within the audio file itself. The information may be<br>
+    &nbsp;&nbsp; technical information, such as equalization curves, as well as<br>
+    &nbsp;&nbsp; title, performer, copyright etc.</p>
+
+<p>&nbsp;&nbsp; ID3v2.4.0 is meant to be as close as possible to ID3v2.3.0 in
+    order<br>
+    &nbsp;&nbsp; to allow for implementations to be revised as easily as possible.<br>
+</p>
+<a name="toc"></a>
+
+<h3>1.&nbsp;&nbsp; Table of contents</h3>
+
+<p><center>
+    <table border="0">
+        <tr>
+            <td>
+                <dl>
+
+                    <dt><a href="#status">Status of this document</a></dt>
+                    <dt><a href="#abstract">Abstract</a></dt>
+                    <dt>1. <a href="#toc">Table of contents</a></dt>
+                    <dt>2. <a href="#sec2">Conventions in this document</a></dt>
+                    <dt>3. <a href="#sec3">ID3v2 overview</a></dt>
+                    <dd>3.1. <a href="#sec3.1">ID3v2 header</a></dd>
+                    <dd>3.2. <a href="#sec3.2">ID3v2 extended header</a></dd>
+                    <dd>3.3. <a href="#sec3.3">Padding</a></dd>
+                    <dd>3.4. <a href="#sec3.4">ID3v2 footer</a></dd>
+                    <dt>4. <a href="#sec4">ID3v2 frames overview</a></dt>
+                    <dd>4.1. <a href="#sec4.1">Frame header flags</a></dd>
+                    <dd>4.1.1. <a href="#sec4.1.1">Frame status flags</a></dd>
+                    <dd>4.1.2. <a href="#sec4.1.2">Frame format flags</a></dd>
+                    <dt>5. <a href="#sec5">Tag location</a></dt>
+                    <dt>6. <a href="#sec6">Unsynchronisation</a></dt>
+                    <dd>6.1. <a href="#sec6.1">The unsynchronisation scheme</a></dd>
+                    <dd>6.2. <a href="#sec6.2">Synchsafe integers</a></dd>
+                    <dt>7. <a href="#sec7">Copyright</a></dt>
+                    <dt>8. <a href="#sec8">References</a></dt>
+                    <dt>9. <a href="#sec9">Author's Address</a></dt>
+                </dl>
+            </td>
+        </tr>
+    </table>
+
+</center>
+
+<a name="sec2"></a>
+
+<h3>2.&nbsp;&nbsp; Conventions in this document</h3>
+
+<p>&nbsp;&nbsp; Text within &quot;&quot; is a text string exactly as it appears
+    in a tag.<br>
+    &nbsp;&nbsp; Numbers preceded with $ are hexadecimal and numbers preceded with %<br>
+    &nbsp;&nbsp; are binary. $xx is used to indicate a byte with unknown content. %x<br>
+    &nbsp;&nbsp; is used to indicate a bit with unknown content. The most
+    significant<br>
+    &nbsp;&nbsp; bit (MSB) of a byte is called 'bit 7' and the least significant bit<br>
+    &nbsp;&nbsp; (LSB) is called 'bit 0'.</p>
+
+<p>&nbsp;&nbsp; A tag is the whole tag described in this document. A frame is a
+    block<br>
+    &nbsp;&nbsp; of information in the tag. The tag consists of a header, frames and<br>
+    &nbsp;&nbsp; optional padding. A field is a piece of information; one value, a<br>
+    &nbsp;&nbsp; string etc. A numeric string is a string that consists of the<br>
+    &nbsp;&nbsp; characters &quot;0123456789&quot; only.</p>
+
+<p>&nbsp;&nbsp; The key words &quot;MUST&quot;, &quot;MUST NOT&quot;,
+    &quot;REQUIRED&quot;, &quot;SHALL&quot;, &quot;SHALL NOT&quot;,<br>
+    &nbsp;&nbsp; &quot;SHOULD&quot;, &quot;SHOULD NOT&quot;,
+    &quot;RECOMMENDED&quot;,&nbsp; &quot;MAY&quot;, and &quot;OPTIONAL&quot; in this<br>
+    &nbsp;&nbsp; document are to be interpreted as described in RFC 2119 [KEYWORDS].<br>
+</p>
+<a name="sec3"></a>
+
+<h3>3.&nbsp;&nbsp; ID3v2 overview</h3>
+
+<p>&nbsp;&nbsp; ID3v2 is a general tagging format for audio, which makes it
+    possible<br>
+    &nbsp;&nbsp; to store meta data about the audio inside the audio file itself.
+    The<br>
+    &nbsp;&nbsp; ID3 tag described in this document is mainly targeted at files<br>
+    &nbsp;&nbsp; encoded with MPEG-1/2 layer I, MPEG-1/2 layer II, MPEG-1/2 layer
+    III<br>
+    &nbsp;&nbsp; and MPEG-2.5, but may work with other types of encoded audio or as
+    a<br>
+    &nbsp;&nbsp; stand alone format for audio meta data.</p>
+
+<p>&nbsp;&nbsp; ID3v2 is designed to be as flexible and expandable as possible
+    to<br>
+    &nbsp;&nbsp; meet new meta information needs that might arise. To achieve that<br>
+    &nbsp;&nbsp; ID3v2 is constructed as a container for several information blocks,<br>
+    &nbsp;&nbsp; called frames, whose format need not be known to the software that<br>
+    &nbsp;&nbsp; encounters them. At the start of every frame is an unique and<br>
+    &nbsp;&nbsp; predefined identifier, a size descriptor that allows software to
+    skip<br>
+    &nbsp;&nbsp; unknown frames and a flags field. The flags describes encoding<br>
+    &nbsp;&nbsp; details and if the frame should remain in the tag, should it be<br>
+    &nbsp;&nbsp; unknown to the software, if the file is altered.</p>
+
+<p>&nbsp;&nbsp; The bitorder in ID3v2 is most significant bit first (MSB). The<br>
+    &nbsp;&nbsp; byteorder in multibyte numbers is most significant byte first (e.g.<br>
+    &nbsp;&nbsp; $12345678 would be encoded $12 34 56 78), also known as big endian<br>
+    &nbsp;&nbsp; and network byte order.</p>
+
+<p>&nbsp;&nbsp; Overall tag structure:</p>
+<table border="1">
+    <tr>
+        <td width="100%" align="center">
+            <p align="center">Header (10 bytes)</p>
+        </td>
+    </tr>
+    <tr>
+        <td width="100%" align="center">Extended Header (variable length, OPTIONAL)</td>
+    </tr>
+    <tr>
+        <td width="100%" align="center">Frames (variable length)</td>
+    </tr>
+    <tr>
+        <td width="100%" align="center">Padding (variable length, OPTIONAL)</td>
+    </tr>
+    <tr>
+        <td width="100%" align="center">Footer (10 bytes, OPTIONAL)</td>
+    </tr>
+</table>
+<p>&nbsp;&nbsp; In general, padding and footer are mutually exclusive. See
+    details in<br>
+    &nbsp;&nbsp; sections 3.3, 3.4 and 5.<br>
+</p>
+<a name="sec3.1"></a>
+
+<h3>3.1.&nbsp;&nbsp; ID3v2 header</h3>
+
+<p>&nbsp;&nbsp; The first part of the ID3v2 tag is the 10 byte tag header, laid
+    out<br>
+    &nbsp;&nbsp; as follows:</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; ID3v2/file identifier&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &quot;ID3&quot;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; ID3v2
+    version&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    $04 00<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; ID3v2
+    flags&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    %abcd0000<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; ID3v2
+    size&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4 *
+    %0xxxxxxx</p>
+
+<p>&nbsp;&nbsp; The first three bytes of the tag are always &quot;ID3&quot;, to
+    indicate that<br>
+    &nbsp;&nbsp; this is an ID3v2 tag, directly followed by the two version bytes.
+    The<br>
+    &nbsp;&nbsp; first byte of ID3v2 version is its major version, while the second<br>
+    &nbsp;&nbsp; byte is its revision number. In this case this is ID3v2.4.0. All<br>
+    &nbsp;&nbsp; revisions are backwards compatible while major versions are not. If<br>
+    &nbsp;&nbsp; software with ID3v2.4.0 and below support should encounter version<br>
+    &nbsp;&nbsp; five or higher it should simply ignore the whole tag. Version or<br>
+    &nbsp;&nbsp; revision will never be $FF.</p>
+
+<p>&nbsp;&nbsp; The version is followed by the ID3v2 flags field, of which
+    currently<br>
+    &nbsp;&nbsp; four flags are used.<br>
+</p>
+
+<p>&nbsp;&nbsp; a - Unsynchronisation</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; Bit 7 in the 'ID3v2 flags' indicates whether or not<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; unsynchronisation is applied on all frames (see section
+    6.1 for<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; details); a set bit indicates usage.<br>
+</p>
+
+<p>&nbsp;&nbsp; b - Extended header</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; The second bit (bit 6) indicates whether or not the
+    header is<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; followed by an extended header. The extended header is
+    described in<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; section 3.2. A set bit indicates the presence of an
+    extended<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; header.<br>
+</p>
+
+<p>&nbsp;&nbsp; c - Experimental indicator</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; The third bit (bit 5) is used as an 'experimental
+    indicator'. This<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; flag SHALL always be set when the tag is in an
+    experimental stage.<br>
+</p>
+
+<p>&nbsp;&nbsp; d - Footer present</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; Bit 4 indicates that a footer (section 3.4) is
+    present at the very<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; end of the tag. A set bit indicates the presence of a
+    footer.<br>
+</p>
+
+<p>&nbsp;&nbsp; All the other flags MUST be cleared. If one of these undefined
+    flags<br>
+    &nbsp;&nbsp; are set, the tag might not be readable for a parser that does not<br>
+    &nbsp;&nbsp; know the flags function.</p>
+
+<p>&nbsp;&nbsp; The ID3v2 tag size is stored as a 32 bit synchsafe integer
+    (section<br>
+    &nbsp;&nbsp; 6.2), making a total of 28 effective bits (representing up to
+    256MB).</p>
+
+<p>&nbsp;&nbsp; The ID3v2 tag size is the sum of the byte length of the extended<br>
+    &nbsp;&nbsp; header, the padding and the frames after unsynchronisation. If a<br>
+    &nbsp;&nbsp; footer is present this equals to ('total size' - 20) bytes,
+    otherwise<br>
+    &nbsp;&nbsp; ('total size' - 10) bytes.</p>
+
+<p>&nbsp;&nbsp; An ID3v2 tag can be detected with the following pattern:<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; $49 44 33 yy yy xx zz zz zz zz<br>
+    &nbsp;&nbsp; Where yy is less than $FF, xx is the 'flags' byte and zz is less
+    than<br>
+    &nbsp;&nbsp; $80.<br>
+</p>
+<a name="sec3.2"></a>
+
+<h3>3.2. Extended header</h3>
+
+<p>&nbsp;&nbsp; The extended header contains information that can provide
+    further<br>
+    &nbsp;&nbsp; insight in the structure of the tag, but is not vital to the
+    correct<br>
+    &nbsp;&nbsp; parsing of the tag information; hence the extended header is<br>
+    &nbsp;&nbsp; optional.</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; Extended header size&nbsp;&nbsp; 4 * %0xxxxxxx<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Number of flag
+    bytes&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $01<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Extended
+    Flags&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $xx</p>
+
+<p>&nbsp;&nbsp; Where the 'Extended header size' is the size of the whole
+    extended<br>
+    &nbsp;&nbsp; header, stored as a 32 bit synchsafe integer. An extended header
+    can<br>
+    &nbsp;&nbsp; thus never have a size of fewer than six bytes.</p>
+
+<p>&nbsp;&nbsp; The extended flags field, with its size described by 'number of
+    flag<br>
+    &nbsp;&nbsp; bytes', is defined as:</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; %0bcd0000</p>
+
+<p>&nbsp;&nbsp; Each flag that is set in the extended header has data attached,
+    which<br>
+    &nbsp;&nbsp; comes in the order in which the flags are encountered (i.e. the
+    data<br>
+    &nbsp;&nbsp; for flag 'b' comes before the data for flag 'c'). Unset flags
+    cannot<br>
+    &nbsp;&nbsp; have any attached data. All unknown flags MUST be unset and their<br>
+    &nbsp;&nbsp; corresponding data removed when a tag is modified.</p>
+
+<p>&nbsp;&nbsp; Every set flag's data starts with a length byte, which contains
+    a<br>
+    &nbsp;&nbsp; value between 0 and 127 ($00 - $7f), followed by data that has the<br>
+    &nbsp;&nbsp; field length indicated by the length byte. If a flag has no
+    attached<br>
+    &nbsp;&nbsp; data, the value $00 is used as length byte.<br>
+</p>
+
+<p>&nbsp;&nbsp; b - Tag is an update</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; If this flag is set, the present tag is an update of
+    a tag found<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; earlier in the present file or stream. If frames
+    defined as unique<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; are found in the present tag, they are to override any<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; corresponding ones found in the earlier tag. This flag
+    has no<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; corresponding data.</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Flag data
+    length&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $00</p>
+
+<p>&nbsp;&nbsp; c - CRC data present</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; If this flag is set, a CRC-32 [ISO-3309] data is
+    included in the<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; extended header. The CRC is calculated on all the data
+    between the<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; header and footer as indicated by the header's tag
+    length field,<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; minus the extended header. Note that this includes the
+    padding (if<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; there is any), but excludes the footer. The CRC-32 is
+    stored as an<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 35 bit synchsafe integer, leaving the upper four bits
+    always<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; zeroed.</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Flag data
+    length&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $05<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Total frame CRC&nbsp;&nbsp;&nbsp; 5 *
+    %0xxxxxxx</p>
+
+<p>&nbsp;&nbsp; d - Tag restrictions</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; For some applications it might be desired to
+    restrict a tag in more<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; ways than imposed by the ID3v2 specification. Note that
+    the<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; presence of these restrictions does not affect how the
+    tag is<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; decoded, merely how it was restricted before encoding.
+    If this flag<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; is set the tag is restricted as follows:</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Flag data
+    length&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $01<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    Restrictions&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; %ppqrrstt</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; p - Tag size restrictions</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 00&nbsp;&nbsp; No more than 128 frames
+    and 1 MB total tag size.<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 01&nbsp;&nbsp; No more than 64 frames and
+    128 KB total tag size.<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 10&nbsp;&nbsp; No more than 32 frames and
+    40 KB total tag size.<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 11&nbsp;&nbsp; No more than 32 frames and 4
+    KB total tag size.</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; q - Text encoding restrictions</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0&nbsp;&nbsp;&nbsp; No restrictions<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1&nbsp;&nbsp;&nbsp; Strings are only
+    encoded with ISO-8859-1 [ISO-8859-1] or<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; UTF-8
+    [UTF-8].</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; r - Text fields size restrictions</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 00&nbsp;&nbsp; No restrictions<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 01&nbsp;&nbsp; No string is longer than
+    1024 characters.<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 10&nbsp;&nbsp; No string is longer than 128
+    characters.<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 11&nbsp;&nbsp; No string is longer than 30
+    characters.</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Note that nothing is said about how many
+    bytes is used to<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; represent those characters, since it is
+    encoding dependent. If a<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; text frame consists of more than one
+    string, the sum of the<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; strungs is restricted as stated.</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; s - Image encoding restrictions</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0&nbsp;&nbsp; No restrictions<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1&nbsp;&nbsp; Images are encoded only with
+    PNG [PNG] or JPEG [JFIF].</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; t - Image size restrictions</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 00&nbsp; No restrictions<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 01&nbsp; All images are 256x256 pixels or
+    smaller.<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 10&nbsp; All images are 64x64 pixels or
+    smaller.<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 11&nbsp; All images are exactly 64x64
+    pixels, unless required<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; otherwise.<br>
+</p>
+<a name="sec3.3"></a>
+
+<h3>3.3.&nbsp;&nbsp; Padding</h3>
+
+<p>&nbsp;&nbsp; It is OPTIONAL to include padding after the final frame (at the
+    end<br>
+    &nbsp;&nbsp; of the ID3 tag), making the size of all the frames together smaller<br>
+    &nbsp;&nbsp; than the size given in the tag header. A possible purpose of this<br>
+    &nbsp;&nbsp; padding is to allow for adding a few additional frames or enlarge<br>
+    &nbsp;&nbsp; existing frames within the tag without having to rewrite the entire<br>
+    &nbsp;&nbsp; file. The value of the padding bytes must be $00. A tag MUST NOT
+    have<br>
+    &nbsp;&nbsp; any padding between the frames or between the tag header and the<br>
+    &nbsp;&nbsp; frames. Furthermore it MUST NOT have any padding when a tag footer
+    is<br>
+    &nbsp;&nbsp; added to the tag.<br>
+</p>
+<a name="sec3.4"></a>
+
+<h3>3.4.&nbsp;&nbsp; ID3v2 footer</h3>
+
+<p>&nbsp;&nbsp; To speed up the process of locating an ID3v2 tag when searching
+    from<br>
+    &nbsp;&nbsp; the end of a file, a footer can be added to the tag. It is REQUIRED<br>
+    &nbsp;&nbsp; to add a footer to an appended tag, i.e. a tag located after all<br>
+    &nbsp;&nbsp; audio data. The footer is a copy of the header, but with a
+    different<br>
+    &nbsp;&nbsp; identifier.</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; ID3v2
+    identifier&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &quot;3DI&quot;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; ID3v2
+    version&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    $04 00<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; ID3v2
+    flags&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    %abcd0000<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; ID3v2
+    size&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4 *
+    %0xxxxxxx<br>
+</p>
+<a name="sec4"></a>
+
+<h3>4.&nbsp;&nbsp; ID3v2 frame overview</h3>
+
+<p>&nbsp;&nbsp; All ID3v2 frames consists of one frame header followed by one or
+    more<br>
+    &nbsp;&nbsp; fields containing the actual information. The header is always 10<br>
+    &nbsp;&nbsp; bytes and laid out as follows:</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; Frame ID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $xx xx xx xx&nbsp;
+    (four characters)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Size&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4 * %0xxxxxxx<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Flags&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $xx
+    xx</p>
+
+<p>&nbsp;&nbsp; The frame ID is made out of the characters capital A-Z and 0-9.<br>
+    &nbsp;&nbsp; Identifiers beginning with &quot;X&quot;, &quot;Y&quot; and
+    &quot;Z&quot; are for experimental<br>
+    &nbsp;&nbsp; frames and free for everyone to use, without the need to set the<br>
+    &nbsp;&nbsp; experimental bit in the tag header. Bear in mind that someone else<br>
+    &nbsp;&nbsp; might have used the same identifier as you. All other identifiers
+    are<br>
+    &nbsp;&nbsp; either used or reserved for future use.</p>
+
+<p>&nbsp;&nbsp; The frame ID is followed by a size descriptor containing the
+    size of<br>
+    &nbsp;&nbsp; the data in the final frame, after encryption, compression and<br>
+    &nbsp;&nbsp; unsynchronisation. The size is excluding the frame header ('total<br>
+    &nbsp;&nbsp; frame size' - 10 bytes) and stored as a 32 bit synchsafe integer.</p>
+
+<p>&nbsp;&nbsp; In the frame header the size descriptor is followed by two flag<br>
+    &nbsp;&nbsp; bytes. These flags are described in section 4.1.</p>
+
+<p>&nbsp;&nbsp; There is no fixed order of the frames' appearance in the tag,<br>
+    &nbsp;&nbsp; although it is desired that the frames are arranged in order of<br>
+    &nbsp;&nbsp; significance concerning the recognition of the file. An example of<br>
+    &nbsp;&nbsp; such order: UFID, TIT2, MCDI, TRCK ...</p>
+
+<p>&nbsp;&nbsp; A tag MUST contain at least one frame. A frame must be at least
+    1<br>
+    &nbsp;&nbsp; byte big, excluding the header.</p>
+
+<p>&nbsp;&nbsp; If nothing else is said, strings, including numeric strings and
+    URLs<br>
+    &nbsp;&nbsp; [URL], are represented as ISO-8859-1 [ISO-8859-1] characters in the<br>
+    &nbsp;&nbsp; range $20 - $FF. Such strings are represented in frame descriptions<br>
+    &nbsp;&nbsp; as &lt;text string&gt;, or &lt;full text string&gt; if newlines are
+    allowed. If<br>
+    &nbsp;&nbsp; nothing else is said newline character is forbidden. In ISO-8859-1
+    a<br>
+    &nbsp;&nbsp; newline is represented, when allowed, with $0A only.</p>
+
+<p>&nbsp;&nbsp; Frames that allow different types of text encoding contains a
+    text<br>
+    &nbsp;&nbsp; encoding description byte. Possible encodings:</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; $00&nbsp;&nbsp; ISO-8859-1 [ISO-8859-1]. Terminated
+    with $00.<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; $01&nbsp;&nbsp; UTF-16 [UTF-16] encoded Unicode
+    [UNICODE] with BOM. All<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; strings in the same
+    frame SHALL have the same byteorder.<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Terminated with $00
+    00.<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; $02&nbsp;&nbsp; UTF-16BE [UTF-16] encoded Unicode
+    [UNICODE] without BOM.<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Terminated with $00
+    00.<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; $03&nbsp;&nbsp; UTF-8 [UTF-8] encoded Unicode
+    [UNICODE]. Terminated with $00.</p>
+
+<p>&nbsp;&nbsp; Strings dependent on encoding are represented in frame
+    descriptions<br>
+    &nbsp;&nbsp; as &lt;text string according to encoding&gt;, or &lt;full text
+    string<br>
+    &nbsp;&nbsp; according to encoding&gt; if newlines are allowed. Any empty
+    strings of<br>
+    &nbsp;&nbsp; type $01 which are NULL-terminated may have the Unicode BOM
+    followed<br>
+    &nbsp;&nbsp; by a Unicode NULL ($FF FE 00 00 or $FE FF 00 00).</p>
+
+<p>&nbsp;&nbsp; The timestamp fields are based on a subset of ISO 8601. When
+    being as<br>
+    &nbsp;&nbsp; precise as possible the format of a time string is<br>
+    &nbsp;&nbsp; yyyy-MM-ddTHH:mm:ss (year, &quot;-&quot;, month, &quot;-&quot;,
+    day, &quot;T&quot;, hour (out of<br>
+    &nbsp;&nbsp; 24), &quot;:&quot;, minutes, &quot;:&quot;, seconds), but the
+    precision may be reduced by<br>
+    &nbsp;&nbsp; removing as many time indicators as wanted. Hence valid timestamps<br>
+    &nbsp;&nbsp; are<br>
+    &nbsp;&nbsp; yyyy, yyyy-MM, yyyy-MM-dd, yyyy-MM-ddTHH, yyyy-MM-ddTHH:mm and<br>
+    &nbsp;&nbsp; yyyy-MM-ddTHH:mm:ss. All time stamps are UTC. For durations, use<br>
+    &nbsp;&nbsp; the slash character as described in 8601, and for multiple non-<br>
+    &nbsp;&nbsp; contiguous dates, use multiple strings, if allowed by the frame<br>
+    &nbsp;&nbsp; definition.</p>
+
+<p>&nbsp;&nbsp; The three byte language field, present in several frames, is
+    used to<br>
+    &nbsp;&nbsp; describe the language of the frame's content, according to
+    ISO-639-2<br>
+    &nbsp;&nbsp; [ISO-639-2]. The language should be represented in lower case. If
+    the<br>
+    &nbsp;&nbsp; language is not known the string &quot;XXX&quot; should be used.</p>
+
+<p>&nbsp;&nbsp; All URLs [URL] MAY be relative, e.g. &quot;picture.png&quot;,
+    &quot;../doc.txt&quot;.</p>
+
+<p>&nbsp;&nbsp; If a frame is longer than it should be, e.g. having more fields
+    than<br>
+    &nbsp;&nbsp; specified in this document, that indicates that additions to the<br>
+    &nbsp;&nbsp; frame have been made in a later version of the ID3v2 standard. This<br>
+    &nbsp;&nbsp; is reflected by the revision number in the header of the tag.<br>
+</p>
+<a name="sec4.1"></a>
+
+<h3>4.1.&nbsp;&nbsp; Frame header flags</h3>
+
+<p>&nbsp;&nbsp; In the frame header the size descriptor is followed by two flag<br>
+    &nbsp;&nbsp; bytes. All unused flags MUST be cleared. The first byte is for<br>
+    &nbsp;&nbsp; 'status messages' and the second byte is a format description. If
+    an<br>
+    &nbsp;&nbsp; unknown flag is set in the first byte the frame MUST NOT be changed<br>
+    &nbsp;&nbsp; without that bit cleared. If an unknown flag is set in the second<br>
+    &nbsp;&nbsp; byte the frame is likely to not be readable. Some flags in the
+    second<br>
+    &nbsp;&nbsp; byte indicates that extra information is added to the header. These<br>
+    &nbsp;&nbsp; fields of extra information is ordered as the flags that indicates<br>
+    &nbsp;&nbsp; them. The flags field is defined as follows (l and o left out
+    because<br>
+    &nbsp;&nbsp; ther resemblence to one and zero):</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; %0abc0000 %0h00kmnp</p>
+
+<p>&nbsp;&nbsp; Some frame format flags indicate that additional information
+    fields<br>
+    &nbsp;&nbsp; are added to the frame. This information is added after the frame<br>
+    &nbsp;&nbsp; header and before the frame data in the same order as the flags
+    that<br>
+    &nbsp;&nbsp; indicates them. I.e. the four bytes of decompressed size will
+    precede<br>
+    &nbsp;&nbsp; the encryption method byte. These additions affects the 'frame
+    size'<br>
+    &nbsp;&nbsp; field, but are not subject to encryption or compression.<br>
+    &nbsp;&nbsp; </p>
+
+<p>&nbsp;&nbsp; The default status flags setting for a frame is, unless stated<br>
+    &nbsp;&nbsp; otherwise, 'preserved if tag is altered' and 'preserved if file is<br>
+    &nbsp;&nbsp; altered', i.e. %00000000.<br>
+</p>
+<a name="sec4.1.1"></a>
+
+<h3>4.1.1. Frame status flags</h3>
+
+<p>&nbsp;&nbsp; a - Tag alter preservation</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; This flag tells the tag parser what to do with this
+    frame if it is<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; unknown and the tag is altered in any way. This applies
+    to all<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; kinds of alterations, including adding more padding and
+    reordering<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; the frames.</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 0&nbsp;&nbsp;&nbsp;&nbsp; Frame should be preserved.<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 1&nbsp;&nbsp;&nbsp;&nbsp; Frame should be discarded.<br>
+</p>
+
+<p>&nbsp;&nbsp; b - File alter preservation</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; This flag tells the tag parser what to do with this
+    frame if it is<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; unknown and the file, excluding the tag, is altered.
+    This does not<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; apply when the audio is completely replaced with other
+    audio data.</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 0&nbsp;&nbsp;&nbsp;&nbsp; Frame should be preserved.<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 1&nbsp;&nbsp;&nbsp;&nbsp; Frame should be discarded.<br>
+</p>
+
+<p>&nbsp;&nbsp; c - Read only</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; This flag, if set, tells the software that the
+    contents of this<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; frame are intended to be read only. Changing the
+    contents might<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; break something, e.g. a signature. If the
+    contents are changed,<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; without knowledge of why the frame was flagged
+    read only and<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; without taking the proper means to compensate,
+    e.g. recalculating<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; the signature, the bit MUST be cleared.<br>
+</p>
+<a name="sec4.1.2"></a>
+
+<h3>4.1.2. Frame format flags</h3>
+
+<p>&nbsp;&nbsp; h - Grouping identity</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; This flag indicates whether or not this frame
+    belongs in a group<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; with other frames. If set, a group identifier
+    byte is added to the<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; frame. Every frame with the same group identifier
+    belongs to the<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; same group.</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0&nbsp;&nbsp;&nbsp;&nbsp; Frame does not
+    contain group information<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1&nbsp;&nbsp;&nbsp;&nbsp; Frame contains group
+    information<br>
+</p>
+
+<p>&nbsp;&nbsp; k - Compression</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; This flag indicates whether or not the frame
+    is compressed.<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A 'Data Length Indicator' byte MUST be included
+    in the frame.</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0&nbsp;&nbsp;&nbsp;&nbsp; Frame is not
+    compressed.<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1&nbsp;&nbsp;&nbsp;&nbsp; Frame is compressed
+    using zlib [zlib] deflate method.<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; If set, this
+    requires the 'Data Length Indicator' bit<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; to be set as
+    well.<br>
+</p>
+
+<p>&nbsp;&nbsp; m - Encryption<br>
+    &nbsp;&nbsp; </p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; This flag indicates whether or not the frame
+    is encrypted. If set,<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; one byte indicating with which method it was
+    encrypted will be<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; added to the frame. See description of the ENCR
+    frame for more<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; information about encryption method registration.
+    Encryption<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; should be done after compression. Whether or not
+    setting this flag<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; requires the presence of a 'Data Length
+    Indicator' depends on the<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; specific algorithm used.</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0&nbsp;&nbsp;&nbsp;&nbsp; Frame is not
+    encrypted.<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1&nbsp;&nbsp;&nbsp;&nbsp; Frame is encrypted.</p>
+
+<p>&nbsp;&nbsp; n - Unsynchronisation</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; This flag indicates whether or not
+    unsynchronisation was applied<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; to this frame. See section 6 for details on
+    unsynchronisation.<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; If this flag is set all data from the end of this
+    header to the<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; end of this frame has been unsynchronised.
+    Although desirable, the<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; presence of a 'Data Length Indicator' is not made
+    mandatory by<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; unsynchronisation.</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0&nbsp;&nbsp;&nbsp;&nbsp; Frame has not been
+    unsynchronised.<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1&nbsp;&nbsp;&nbsp;&nbsp; Frame has been
+    unsyrchronised.</p>
+
+<p>&nbsp;&nbsp; p - Data length indicator</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; This flag indicates that a data length
+    indicator has been added to<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; the frame. The data length indicator is the value
+    one would write<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; as the 'Frame length' if all of the frame format
+    flags were<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; zeroed, represented as a 32 bit synchsafe
+    integer.</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; There is no
+    Data Length Indicator.<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A data length
+    Indicator has been added to the frame.<br>
+</p>
+<a name="sec5"></a>
+
+<h3>5.&nbsp;&nbsp; Tag location</h3>
+
+<p>&nbsp;&nbsp; The default location of an ID3v2 tag is prepended to the audio
+    so<br>
+    &nbsp;&nbsp; that players can benefit from the information when the data is<br>
+    &nbsp;&nbsp; streamed. It is however possible to append the tag, or make a<br>
+    &nbsp;&nbsp; prepend/append combination. When deciding upon where an unembedded<br>
+    &nbsp;&nbsp; tag should be located, the following order of preference SHOULD be<br>
+    &nbsp;&nbsp; considered.<br>
+    &nbsp;&nbsp; </p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 1. Prepend the tag.</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 2. Prepend a tag with all vital information and add
+    a second tag at <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; the end of the file, before tags from
+    other tagging systems. The<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; first tag is required to have a SEEK
+    frame.<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 3. Add a tag at the end of the file, before tags
+    from other tagging<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; systems.<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+
+<p>&nbsp;&nbsp; In case 2 and 3 the tag can simply be appended if no other known
+    tags<br>
+    &nbsp;&nbsp; are present. The suggested method to find ID3v2 tags are:<br>
+    &nbsp;&nbsp; </p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 1. Look for a prepended tag using the pattern found
+    in section 3.1.</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 2. If a SEEK frame was found, use its values to
+    guide further<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; searching.</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 3. Look for a tag footer, scanning from the back of
+    the file.</p>
+
+<p>&nbsp;&nbsp; For every new tag that is found, the old tag should be discarded<br>
+    &nbsp;&nbsp; unless the update flag in the extended header (section 3.2) is set.<br>
+    &nbsp;&nbsp; <br>
+</p>
+<a name="sec6"></a>
+
+<h3>6.&nbsp;&nbsp; Unsynchronisation</h3>
+
+<p>&nbsp;&nbsp; The only purpose of unsynchronisation is to make the ID3v2 tag
+    as<br>
+    &nbsp;&nbsp; compatible as possible with existing software and hardware. There
+    is<br>
+    &nbsp;&nbsp; no use in 'unsynchronising' tags if the file is only to be
+    processed<br>
+    &nbsp;&nbsp; only by ID3v2 aware software and hardware. Unsynchronisation is
+    only<br>
+    &nbsp;&nbsp; useful with tags in MPEG 1/2 layer I, II and III, MPEG 2.5 and AAC<br>
+    &nbsp;&nbsp; files.<br>
+</p>
+<a name="sec6.1"></a>
+
+<h3>6.1.&nbsp;&nbsp; The unsynchronisation scheme</h3>
+
+<p>&nbsp;&nbsp; Whenever a false synchronisation is found within the tag, one
+    zeroed<br>
+    &nbsp;&nbsp; byte is inserted after the first false synchronisation byte. The<br>
+    &nbsp;&nbsp; format of synchronisations that should be altered by ID3 encoders
+    is<br>
+    &nbsp;&nbsp; as follows:</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; %11111111 111xxxxx</p>
+
+<p>&nbsp;&nbsp; and should be replaced with:</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; %11111111 00000000 111xxxxx</p>
+
+<p>&nbsp;&nbsp; This has the side effect that all $FF 00 combinations have to be<br>
+    &nbsp;&nbsp; altered, so they will not be affected by the decoding process.<br>
+    &nbsp;&nbsp; Therefore all the $FF 00 combinations have to be replaced with the<br>
+    &nbsp;&nbsp; $FF 00 00 combination during the unsynchronisation.</p>
+
+<p>&nbsp;&nbsp; To indicate usage of the unsynchronisation, the
+    unsynchronisation<br>
+    &nbsp;&nbsp; flag in the frame header should be set. This bit MUST be set if the<br>
+    &nbsp;&nbsp; frame was altered by the unsynchronisation and SHOULD NOT be set if<br>
+    &nbsp;&nbsp; unaltered. If all frames in the tag are unsynchronised the<br>
+    &nbsp;&nbsp; unsynchronisation flag in the tag header SHOULD be set. It MUST NOT<br>
+    &nbsp;&nbsp; be set if the tag has a frame which is not unsynchronised.</p>
+
+<p>&nbsp;&nbsp; Assume the first byte of the audio to be $FF. The special case
+    when<br>
+    &nbsp;&nbsp; the last byte of the last frame is $FF and no padding nor footer is<br>
+    &nbsp;&nbsp; used will then introduce a false synchronisation. This can be
+    solved<br>
+    &nbsp;&nbsp; by adding a footer, adding padding or unsynchronising the frame and<br>
+    &nbsp;&nbsp; add $00 to the end of the frame data, thus adding more byte to the<br>
+    &nbsp;&nbsp; frame size than a normal unsynchronisation would. Although not<br>
+    &nbsp;&nbsp; preferred, it is allowed to apply the last method on all frames<br>
+    &nbsp;&nbsp; ending with $FF.</p>
+
+<p>&nbsp;&nbsp; It is preferred that the tag is either completely unsynchronised
+    or<br>
+    &nbsp;&nbsp; not unsynchronised at all. A completely unsynchronised tag has no <br>
+    &nbsp;&nbsp; false synchonisations in it, as defined above, and does not end
+    with<br>
+    &nbsp;&nbsp; $FF. A completely non-unsynchronised tag contains no unsynchronised<br>
+    &nbsp;&nbsp; frames, and thus the unsynchronisation flag in the header is
+    cleared.</p>
+
+<p>&nbsp;&nbsp; Do bear in mind, that if compression or encryption is used, the<br>
+    &nbsp;&nbsp; unsynchronisation scheme MUST be applied afterwards. When decoding
+    an<br>
+    &nbsp;&nbsp; unsynchronised frame, the unsynchronisation scheme MUST be reversed<br>
+    &nbsp;&nbsp; first, encryption and decompression afterwards.<br>
+</p>
+<a name="sec6.2"></a>
+
+<h3>6.2.&nbsp;&nbsp; Synchsafe integers</h3>
+
+<p>&nbsp;&nbsp; In some parts of the tag it is inconvenient to use the<br>
+    &nbsp;&nbsp; unsychronisation scheme because the size of unsynchronised data is<br>
+    &nbsp;&nbsp; not known in advance, which is particularly problematic with size<br>
+    &nbsp;&nbsp; descriptors. The solution in ID3v2 is to use synchsafe integers, in<br>
+    &nbsp;&nbsp; which there can never be any false synchs. Synchsafe integers are<br>
+    &nbsp;&nbsp; integers that keep its highest bit (bit 7) zeroed, making seven
+    bits<br>
+    &nbsp;&nbsp; out of eight available. Thus a 32 bit synchsafe integer can store
+    28<br>
+    &nbsp;&nbsp; bits of information.<br>
+    &nbsp;&nbsp; </p>
+
+<p>&nbsp;&nbsp; Example:<br>
+    &nbsp;&nbsp; </p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 255 (%11111111) encoded as a 16 bit synchsafe
+    integer is 383<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; (%00000001 01111111).<br>
+</p>
+<a name="sec7"></a>
+
+<h3>7.&nbsp;&nbsp; Copyright</h3>
+
+<p>&nbsp;&nbsp; Copyright (C) Martin Nilsson 2000. All Rights Reserved.</p>
+
+<p>&nbsp;&nbsp; This document and translations of it may be copied and furnished
+    to<br>
+    &nbsp;&nbsp; others, and derivative works that comment on or otherwise explain
+    it<br>
+    &nbsp;&nbsp; or assist in its implementation may be prepared, copied, published<br>
+    &nbsp;&nbsp; and distributed, in whole or in part, without restriction of any<br>
+    &nbsp;&nbsp; kind, provided that a reference to this document is included on all<br>
+    &nbsp;&nbsp; such copies and derivative works. However, this document itself may<br>
+    &nbsp;&nbsp; not be modified in any way and reissued as the original document.</p>
+
+<p>&nbsp;&nbsp; The limited permissions granted above are perpetual and will not
+    be<br>
+    &nbsp;&nbsp; revoked.</p>
+
+<p>&nbsp;&nbsp; This document and the information contained herein is provided
+    on an<br>
+    &nbsp;&nbsp; 'AS IS' basis and THE AUTHORS DISCLAIMS ALL WARRANTIES, EXPRESS OR<br>
+    &nbsp;&nbsp; IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTY THAT THE USE OF<br>
+    &nbsp;&nbsp; THE INFORMATION HEREIN WILL NOT INFRINGE ANY RIGHTS OR ANY IMPLIED<br>
+    &nbsp;&nbsp; WARRANTIES OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.<br>
+</p>
+<a name="sec8"></a>
+
+<h3>8.&nbsp;&nbsp; References</h3>
+
+<p>&nbsp;&nbsp; [ID3v2] Martin Nilsson, 'ID3v2 informal standard'.</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;url:http://www.id3.org/id3v2.3.0.txt&gt;</p>
+
+<p>&nbsp;&nbsp; [ISO-639-2] ISO/FDIS 639-2.<br>
+    &nbsp;&nbsp; 'Codes for the representation of names of languages, Part 2:
+    Alpha-3<br>
+    &nbsp;&nbsp; code.' Technical committee / subcommittee: TC 37 / SC 2</p>
+
+<p>&nbsp;&nbsp; [ISO-3309] ISO 3309<br>
+    &nbsp;&nbsp; 'Information Processing Systems--Data Communication High-Level Data<br>
+    &nbsp;&nbsp; Link Control Procedure--Frame Structure', IS 3309, October 1984,
+    3rd<br>
+    &nbsp;&nbsp; Edition.</p>
+
+<p>&nbsp;&nbsp; [ISO-8859-1] ISO/IEC DIS 8859-1.<br>
+    &nbsp;&nbsp; '8-bit single-byte coded graphic character sets, Part 1: Latin<br>
+    &nbsp;&nbsp; alphabet No. 1.' Technical committee / subcommittee: JTC 1 / SC 2</p>
+
+<p>&nbsp;&nbsp; [JFIF] 'JPEG File Interchange Format, version 1.02'</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;url:http://www.w3.org/Graphics/JPEG/jfif.txt&gt;</p>
+
+<p>&nbsp;&nbsp; [KEYWORDS] S. Bradner, 'Key words for use in RFCs to Indicate<br>
+    &nbsp;&nbsp; Requirement Levels', RFC 2119, March 1997.</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;url:ftp://ftp.isi.edu/in-notes/rfc2119.txt&gt;</p>
+
+<p>&nbsp;&nbsp; [MPEG] ISO/IEC 11172-3:1993.<br>
+    &nbsp;&nbsp; 'Coding of moving pictures and associated audio for digital storage<br>
+    &nbsp;&nbsp; media at up to about 1,5 Mbit/s, Part 3: Audio.'<br>
+    &nbsp;&nbsp; Technical committee / subcommittee: JTC 1 / SC 29<br>
+    &nbsp;&nbsp;&nbsp; and<br>
+    &nbsp;&nbsp; ISO/IEC 13818-3:1995<br>
+    &nbsp;&nbsp; 'Generic coding of moving pictures and associated audio
+    information,<br>
+    &nbsp;&nbsp; Part 3: Audio.'<br>
+    &nbsp;&nbsp; Technical committee / subcommittee: JTC 1 / SC 29<br>
+    &nbsp;&nbsp;&nbsp; and<br>
+    &nbsp;&nbsp; ISO/IEC DIS 13818-3<br>
+    &nbsp;&nbsp; 'Generic coding of moving pictures and associated audio
+    information,<br>
+    &nbsp;&nbsp; Part 3: Audio (Revision of ISO/IEC 13818-3:1995)'</p>
+
+<p>&nbsp;&nbsp; [PNG] 'Portable Network Graphics, version 1.0'</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;url:http://www.w3.org/TR/REC-png-multi.html&gt;</p>
+
+<p>&nbsp;&nbsp; [UNICODE] The Unicode Consortium,<br>
+    &nbsp;&nbsp; 'The Unicode Standard Version 3.0', ISBN 0-201-61633-5.</p>
+
+<p>&nbsp;&nbsp; &lt;url:http://www.unicode.org/unicode/standard/versions/Unicode3.0.htm&gt;</p>
+
+<p>&nbsp;&nbsp; [URL] T. Berners-Lee, L. Masinter &amp; M. McCahill, 'Uniform
+    Resource<br>
+    &nbsp;&nbsp; Locators (URL)', RFC 1738, December 1994.</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;url:ftp://ftp.isi.edu/in-notes/rfc1738.txt&gt;</p>
+
+<p>&nbsp;&nbsp; [UTF-8] F. Yergeau, 'UTF-8, a transformation format of ISO
+    10646',<br>
+    &nbsp;&nbsp; RFC 2279, January 1998.<br>
+    &nbsp;&nbsp; </p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;url:ftp://ftp.isi.edu/in-notes/rfc2279.txt&gt;</p>
+
+<p>&nbsp;&nbsp; [UTF-16] F. Yergeau, 'UTF-16, an encoding of ISO 10646', RFC
+    2781,<br>
+    &nbsp;&nbsp; February 2000.<br>
+    &nbsp;&nbsp; </p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;url:ftp://ftp.isi.edu/in-notes/rfc2781.txt&gt;<br>
+    &nbsp;&nbsp; </p>
+
+<p>&nbsp;&nbsp; [ZLIB] P. Deutsch, Aladdin Enterprises &amp; J-L. Gailly, 'ZLIB<br>
+    &nbsp;&nbsp; Compressed Data Format Specification version 3.3', RFC 1950,<br>
+    &nbsp;&nbsp; May 1996.</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;url:ftp://ftp.isi.edu/in-notes/rfc1950.txt&gt;<br>
+</p>
+<a name="sec9"></a>
+
+<h3>9.&nbsp;&nbsp; Author's Address</h3>
+
+<p>&nbsp;&nbsp; Written by</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; Martin Nilsson<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Rydsvägen 246 C. 30<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; SE-584 34 Linköping<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; Sweden</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; Email: nilsson@id3.org<br>
+    <br>
+</p>
+
+</body>
+
+</html>

@@ -1,0 +1,7 @@
+jid3-lib
+
+Release 0.5.1 3/5/2006
+
+Misc Bug fixes
+Fixes to build process
+

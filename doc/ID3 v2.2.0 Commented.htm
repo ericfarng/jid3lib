@@ -1,0 +1,2529 @@
+<html><head><title>ID3v2 - Informal standard</title>
+    <style type="text/css">
+        body {
+            font: 16px times
+        }
+
+        h1 {
+            font: 34px times
+        }
+
+        h3 {
+            font: 20px times;
+            margin-left: 5%
+        }
+
+        i {
+            color: red
+        }
+
+        div.h5 {
+            font: 16px times;
+            font-weight: bold;
+            margin-left: 8%
+        }
+
+        div.t {
+            margin-left: 10%;
+            margin-right: 10%
+        }
+
+        p.t {
+            margin-left: 10%;
+            margin-right: 10%
+        }
+
+        p.ind {
+            margin-left: 15%;
+            margin-right: 15%
+        }
+
+        pre {
+            font: 16px times
+        }
+
+        pre {
+            margin-left: 40px
+        }
+
+        a {
+            font: 15px arial, helvetica;
+            color: #CC5500;
+            text-decoration: none
+        }
+    </style>
+    <META name="description" content="ID3v2 informal standard, commented.">
+    <META name="keywords" content="ID3v2">
+</head>
+
+<body bgcolor=white text=black>
+
+<br>&nbsp;
+<p>
+<table border=0 width=100%><tr><td>Informal standard<br>Document: id3v2-00.html</td><td align=right>
+    M. Nilsson<br>Latest change: 9th June 1998</td></tr></table>
+
+<center><h1>ID3 tag version 2</h1>
+    <i>Commented</i></center>
+
+
+<h3>Status of this document</h3>
+
+<p class=t>
+    This document is an Informal standard and is released so that implementors could have a set standard before the
+    formal standard is
+    set. The formal standard will use another version number if not identical to what is described in this document. The
+    contents in this document may change for clarifications but never for added or altered functionallity.
+</p>
+
+<p class=t>
+    The comments in this file is copyright &copy; 1998 Martin Nilsson. This document may not be freely distributed.
+</p>
+
+<h3>Abstract</h3>
+
+<p class=t>
+    The recent gain of popularity for MPEG layer III audio files on the internet forced a standardised way of storing
+    information about an
+    audio file within itself to determinate its origin and contents.
+</p>
+
+<p class=t>
+    Today the most accepted way to do this is with the so called ID3 tag, which is simple but very limited and in some
+    cases very unsuitable.
+    The ID3 tag has very limited space in every field, very limited numbers of fields, not expandable or upgradeable and
+    is placed at the
+    end of a the file, which is unsuitable for streaming audio. This draft is an attempt to answer these issues with a
+    new version of the ID3 tag.
+</p>
+
+
+<h3>1. Table of contents</h3>
+
+<p><center>
+    <table border=0><tr><td>
+        <dl>
+            <dt>2. <a href="#sec2">Conventions in this document</a></dt>
+            <dt>3. <a href="#sec3">ID3v2 overview</a>
+                <dd>3.1. <a href="#sec3.1">ID3v2 header</a></dd>
+                <dd>3.2. <a href="#sec3.2">ID3v2 frames overview</a></dd></dt>
+            <dt>4. <a href="#sec4">Declared ID3v2 frames</a>
+                <dd>4.1. <a href="#sec4.1">Unique file identifier</a></dd>
+                <dd>4.2. <a href="#sec4.2">Text information frames</a></dd>
+                <dl><dd>4.2.1. <a href="#sec4.2.1">Text information frames - details</a></dd>
+                    <dd>4.2.2. <a href="#sec4.2.2">User defined text information frame</a></dd></dl>
+                <dd>4.3. <a href="#sec4.3">URL link frames</a></dd>
+                <dl><dd>4.3.1. <a href="#sec4.3.1">URL link frames - details</a></dd>
+                    <dd>4.3.2. <a href="#sec4.3.2">User defined URL link frame</a></dd></dl>
+                <dd>4.4. <a href="#sec4.4">Involved people list</a></dd>
+                <dd>4.5. <a href="#sec4.5">Music CD Identifier</a></dd>
+                <dd>4.6. <a href="#sec4.6">Event timing codes</a></dd>
+                <dd>4.7. <a href="#sec4.7">MPEG location lookup table</a></dd>
+                <dd>4.8. <a href="#sec4.8">Synced tempo codes</a></dd>
+                <dd>4.9. <a href="#sec4.9">Unsychronised lyrics/text transcription</a></dd>
+                <dd>4.10. <a href="#sec4.10">Synchronised lyrics/text</a></dd>
+                <dd>4.11. <a href="#sec4.11">Comments</a></dd>
+                <dd>4.12. <a href="#sec4.12">Relative volume adjustment</a></dd>
+                <dd>4.13. <a href="#sec4.13">Equalisation</a></dd>
+                <dd>4.14. <a href="#sec4.14">Reverb</a></dd>
+                <dd>4.15. <a href="#sec4.15">Attached picture</a></dd>
+                <dd>4.16. <a href="#sec4.16">General encapsulated object</a></dd>
+                <dd>4.17. <a href="#sec4.17">Play counter</a></dd>
+                <dd>4.18. <a href="#sec4.18">Popularimeter</a></dd>
+                <dd>4.19. <a href="#sec4.19">Recommended buffer size</a></dd>
+                <dd>4.20. <a href="#sec4.20">Encrypted meta frame</a></dd>
+                <dd>4.21. <a href="#sec4.21">Audio encryption</a></dd>
+                <dd>4.22. <a href="#sec4.22">Linked information</a></dd></dt>
+            <dt>5. <a href="#sec5">The 'unsynchronisation scheme'</a></dt>
+            <dt>6. <a href="#sec6">Copyright</a></dt>
+            <dt>7. <a href="#sec7">References</a></dt>
+            <dt>8. <a href="#sec8">Appendix</a>
+                <dd>A. <a href="#seca">Appendix A - ID3-Tag Specification V1.1</a></dd>
+                <dl><dd>A.1. <a href="#seca.1">Overview</a></dd>
+                    <dd>A.2. <a href="#seca.2">ID3v1 Implementation</a></dd>
+                    <dd>A.3. <a href="#seca.3">Genre List</a></dd>
+                    <dd>A.4. <a href="#seca.4">Track addition - ID3v1.1</a></dd></dl></dt>
+            <dt>9. <a href="#sec9">Author's Address</a></dt>
+        </dl>
+    </td></tr></table>
+</center>
+
+<a name="sec2"> </a>
+
+<h3>2. Conventions in this document</h3>
+
+<p class=t>
+    In the examples, text within "" is a text string exactly as it appears in a file. Numbers preceded with $ are
+    hexadecimal and numbers
+    preceded with % are binary. $xx is used to indicate a byte with unknown content. %x is used to indicate a bit with
+    unknown content.
+    The most significant bit (MSB) of a byte is called 'bit 7' and the least significant bit (LSB) is called 'bit 0'.
+    <br>
+    <i>It does show that I have programmed the 68000, doesn't it?</i>
+</p>
+
+<p class=t>
+    A tag is the whole tag described in this document. A frame is a block of information in the tag. The tag consists of
+    a header, frames and
+    optional padding. A field is a piece of information; one value, a string etc. A numeric string is a string that
+    consists of the
+    characters 0-9 only.
+</p>
+
+<a name="sec3"> </a>
+
+<h3>3. ID3v2 overview</h3>
+
+<p class=t>
+    The two biggest design goals were to be able to implement ID3v2 without disturbing old software too much and that
+    ID3v2 should be expandable.
+</p>
+
+<p class=t>
+    The first criterion is met by the simple fact that the <a href="#mpeg">MPEG</a> decoding software uses a syncsignal,
+    embedded in the audiostream, to 'lock on
+    to' the audio. Since the ID3v2 tag doesn't contain a valid syncsignal, no software will attempt to play the tag. If,
+    for any reason,
+    coincidence make a syncsignal appear within the tag it will be taken care of by the 'unsynchronisation scheme'
+    described in section 5.
+</p>
+
+<p class=t>
+    The second criterion has made a more noticeable impact on the design of the ID3v2 tag. It is constructed as a
+    container for several
+    information blocks, called frames, whose format need not be known to the software that encounters them. At the start
+    of every frame there
+    is an identifier that explains the frames's format and content, and a size descriptor that allows software to skip
+    unknown frames.
+</p>
+
+<p class=t>
+    If a total revision of the ID3v2 tag should be needed, there is a version number and a size descriptor in the ID3v2
+    header.
+</p>
+
+<p class=t>
+    The ID3 tag described in this document is mainly targeted to files encoded with <a href="#mpeg">MPEG-2 layer I,
+    MPEG-2 layer II, MPEG-2 layer III</a> and MPEG-2.5, but may work with other types of encoded audio.
+</p>
+
+<p class=t>
+    The bitorder in ID3v2 is most significant bit first (MSB). The byteorder in multibyte numbers is most significant
+    byte first (e.g. $12345678 would be encoded $12 34 56 78).
+</p>
+
+<p class=t>
+    It is permitted to include padding after all the final frame (at the end of the ID3 tag), making the size of all the
+    frames together
+    smaller than the size given in the head of the tag. A possible purpose of this padding is to allow for adding a few
+    additional frames or
+    enlarge existing frames within the tag without having to rewrite the entire file. The value of the padding bytes
+    must be $00.<br>
+</p>
+
+<p class=t>
+    <i>Padding is good as it increases the write speed when there is already a tag present in a file. If the new tag is
+        one byte longer than the previous tag, than the extra byte can be taken from the padding, instead of having to
+        shift the entire file one byte.
+        Padding is of course bad in that it increases the size of the file, but if the amount of padding is wisely
+        chosen (with clustersize in mind), the impact on filesystems will be virtually none. As the contents is $00, it
+        is also easy for modems and other transmission
+        devices/protocols to compress the padding. Having a $00 filled padding also increases the ability to recover
+        erroneous tags.</i>
+</p>
+
+<a name="sec3.1"> </a>
+
+<h3>3.1. ID3v2 header</h3>
+
+<p class=t>
+    The ID3v2 tag header, which should be the first information in the file, is 10 bytes as follows:
+</p>
+
+<p><center>
+    <table border=0>
+        <tr><td nowrap>ID3/file identifier</td><td rowspan=3>&nbsp;</td><td width="100%">"ID3"</td></tr>
+        <tr><td>ID3 version</td><td>$02 00</td></tr>
+        <tr><td>ID3 flags</td><td>%xx000000</td></tr>
+        <tr><td>ID3 size</td><td>4 * </td><td>%0xxxxxxx</td></tr>
+    </table>
+</center>
+
+<p class=t>
+    The first three bytes of the tag are always "ID3" to indicate that this is an ID3 tag, directly followed by the two
+    version bytes. The
+    first byte of ID3 version is it's major version, while the second byte is its revision number. All revisions are
+    backwards compatible while
+    major versions are not. If software with ID3v2 and below support should encounter version three or higher it should
+    simply ignore the
+    whole tag. Version and revision will never be $FF.
+</p>
+
+<p class=t><i>
+    In the first draft of ID3v2 the identifier was "TAG", just as in ID3v1. It was later changed to "MP3" as I thought
+    of the ID3v2 as the fileheader MP3 had always been missing. When it became appearant than ID3v2 was going towards a
+    general purpose audio header the identifier was changed to "ID3".
+</i></p>
+
+<p class=t>
+    The first bit (bit 7) in the 'ID3 flags' is indicating whether or not <a href="#sec5">unsynchronisation</a> is used;
+    a set bit indicates usage.
+</p>
+
+<p class=t>
+    The second bit (bit 6) is indicating whether or not compression is used; a set bit indicates usage. Since no
+    compression scheme has been
+    decided yet, the ID3 decoder (for now) should just ignore the entire tag if the compression bit is set.
+</p>
+
+<p class=t><i>
+    Currently, zlib compression is being considered for the compression, in an effort to stay out of the all-too-common
+    marsh of patent trouble. Have a look at the additions draft for the latest developments.
+</i></p>
+
+<p class=t>
+    The ID3 tag size is encoded with four bytes where the first bit (bit 7) is set to zero in every byte, making a total
+    of 28 bits. The zeroed
+    bits are ignored, so a 257 bytes long tag is represented as $00 00 02 01.
+</p>
+
+<p class=t><i>
+    We really gave it a second thought several times before we introduced these awkward size descriptions. The reason is
+    that we thought it would be even worse to have a file header with no set size (as we wanted to unsynchronise the
+    header if there were any false synchronisations in it). An easy way of calculating the tag size is
+    A*2^21+B*2^14+C*2^7+D = A*2097152+B*16384+C*128+D, where A is the first byte, B the second, C the third and D the
+    fourth byte.
+</i></p>
+
+<p class=t>
+    The ID3 tag size is the size of the complete tag after unsychronisation, including padding, excluding the header
+    (total tag
+    size - 10). The reason to use 28 bits (representing up to 256MB) for size description is that we don't want to run
+    out of space here.
+</p>
+
+<p class=t>
+    An ID3v2 tag can be detected with the following pattern:<br> &nbsp;&nbsp;&nbsp;&nbsp;$49 44 33 yy yy xx zz zz zz zz
+    <br>
+    Where yy is less than $FF, xx is the 'flags' byte and zz is less than $80.
+</p>
+
+<a name="sec3.2"> </a>
+
+<h3>3.2. ID3v2 frames overview</h3>
+
+<p class=t>
+    The headers of the frames are similar in their construction. They consist of one three character identifier (capital
+    A-Z and 0-9) and
+    one three byte size field, making a total of six bytes. The header is excluded from the size. Identifiers beginning
+    with "X", "Y" and "Z"
+    are for experimental use and free for everyone to use. Have in mind that someone else might have used the same
+    identifier as you. All
+    other identifiers are either used or reserved for future use. <i>This gives us 46656 combinations of frame
+    identifiers.
+</i></p>
+
+<p class=t>
+    The three character frame identifier is followed by a three byte size descriptor, making a total header size of six
+    bytes in every frame.
+    The size is calculated as framesize excluding frame identifier and size descriptor (frame size - 6).
+</p>
+
+<p class=t><i>
+    The decision to have a 6 byte frame header was taken in an attempt to balance big frames against little overhead.
+    One might think that it's stupid to optimize away a few bytes when the entire MP3-file is soo huge.
+    On the other hand I thought it was really cool that most ID3v1 tags, when converted to ID3v2 was smaller than
+    before. Size does matter.
+</i></p>
+
+<p class=t>
+    There is no fixed order of the frames' appearance in the tag, although it is desired that the frames are arranged in
+    order of significance
+    concerning the recognition of the file. <i>The reason for this is to make it faster to search for a specific file by
+    scanning the ID3v2 tags; an intelligent parser wouldn't have to keep reading the entire tag after having found that
+    the file isn't the one being looked for.</i>
+    An example of such order: <a href="#ufi">UFI</a>, <a href="#mci">MCI</a>, <a href="#tt2">TT2</a> ...<br>
+</p>
+
+<p class=t>
+    A tag must contain at least one frame. A frame must be at least 1 byte big, excluding the 6-byte header.
+</p>
+
+<p class=t>
+    If nothing else is said, a string is represented as <a href="#iso8859">ISO-8859-1</a>
+    characters in the range $20 - $FF. All <a href="#unicode">unicode</a> strings
+    use 16-bit unicode 2.0 (ISO/IEC 10646-1:1993, UCS-2). All numeric strings are always encoded as <a href="#iso8859">ISO-8859-1</a>.
+    Terminated strings
+    are terminated with $00 if encoded with <a href="#iso8859">ISO-8859-1</a> and $00 00 if
+    encoded as unicode. If nothing else is said, newline characters are forbidden. In <a href="#iso8859">ISO-8859-1</a>,
+    a new line is represented, when allowed, with
+    $0A only. Frames that allow different types of text encoding have a text encoding description byte directly after
+    the frame size. If
+    <a href="#iso8859">ISO-8859-1</a> is used this byte should be $00, if <a href="#unicode">unicode</a> is used it
+    should be $01.
+</p>
+
+<p class=t>
+    The three byte language field is used to describe the language of the frame's content, according to <a
+        href="#iso639-2">ISO-639-2</a>.<br>
+    <i>ISO-639-1 is not used since its supported languages are just a subset of those in ISO-639-2.</i>
+</p>
+
+<p class=t>
+    All <a href="#url">URL</a>s may be relative, e.g. "picture.png", "../doc.txt".
+</p>
+
+<p class=t>
+    If a frame is longer than it should be, e.g. having more fields than specified in this document, that indicates that
+    additions to the
+    frame have been made in a later version of the ID3 standard. This is reflected by the revision number in the header
+    of the tag.<br>
+    <i>This allows us to fix our mistakes as well as introducing new features in the already existing frames.
+    </i></p>
+
+<a name="sec4"> </a>
+
+<h3>4. Declared ID3v2 frames</h3>
+
+<p class=t>
+    The following frames are declared in this draft.
+</p>
+
+<p><center>
+    <table border=0>
+        <tr valign=top><td>4.19</td><td>BUF<br>&nbsp;</td><td width="100%"><a href="#buf">Recommended buffer size</a>
+        </td></tr>
+
+        <tr><td>4.17</td><td>CNT</td><td><a href="#cnt">Play counter</a></td></tr>
+        <tr><td>4.11</td><td>COM</td><td><a href="#com">Comments</a></td></tr>
+        <tr><td>4.21</td><td>CRA</td><td><a href="#cra">Audio encryption</a></td></tr>
+        <tr><td>4.20</td><td>CRM</td><td><a href="#crm">Encrypted meta frame</a></td></tr>
+        <tr><td colspan=3><i>Wow! All encryption related frames begins with "CR"</i><br>&nbsp;</td></tr>
+
+        <tr><td>4.6</td><td>ETC</td><td><a href="#etc">Event timing codes</a></td></tr>
+        <tr valign=top><td>4.13</td><td>EQU<br>&nbsp;</td><td><a href="#equ">Equalization</a></td></tr>
+
+        <tr valign=top><td>4.16</td><td>GEO<br>&nbsp;</td><td><a href="#geo">General encapsulated object</a></td></tr>
+
+        <tr valign=top><td>4.4</td><td>IPL<br>&nbsp;</td><td><a href="#ipl">Involved people list</a></td></tr>
+
+        <tr valign=top><td>4.22</td><td>LNK<br>&nbsp;</td><td><a href="#lnk">Linked information</a></td></tr>
+
+        <tr><td>4.5</td><td>MCI</td><td><a href="#mci">Music CD Identifier</a></td></tr>
+        <tr valign=top><td>4.7</td><td>MLL<br>&nbsp;</td><td><a href="#mll">MPEG location lookup table</a></td></tr>
+
+        <tr><td>4.15</td><td>PIC</td><td><a href="#pic">Attached picture</a></td></tr>
+        <tr valign=top><td>4.18</td><td>POP<br>&nbsp;</td><td><a href="#pop">Popularimeter</a></td></tr>
+
+        <tr><td>4.14</td><td>REV</td><td><a href="#rev">Reverb</a></td></tr>
+        <tr valign=top><td>4.12</td><td>RVA<br>&nbsp;</td><td><a href="#rva">Relative volume adjustment</a></td></tr>
+
+        <tr><td>4.10</td><td>SLT</td><td><a href="#slt">Synchronized lyric/text</a></td></tr>
+        <tr valign=top><td>4.8</td><td>STC<br>&nbsp;</td><td><a href="#stc">Synced tempo codes</a></td></tr>
+
+        <tr><td>4.2.1</td><td>TAL</td><td><a href="#tal">Album/Movie/Show title</a></td></tr>
+        <tr><td>4.2.1</td><td>TBP</td><td><a href="#tbp">BPM (Beats Per Minute)</a></td></tr>
+        <tr><td>4.2.1</td><td>TCM</td><td><a href="#tcm">Composer</a></td></tr>
+        <tr><td>4.2.1</td><td>TCO</td><td><a href="#tco">Content type</a></td></tr>
+        <tr><td>4.2.1</td><td>TCR</td><td><a href="#tcr">Copyright message</a></td></tr>
+        <tr><td>4.2.1</td><td>TDA</td><td><a href="#tda">Date</a></td></tr>
+        <tr><td>4.2.1</td><td>TDY</td><td><a href="#tdy">Playlist delay</a></td></tr>
+        <tr><td>4.2.1</td><td>TEN</td><td><a href="#ten">Encoded by</a></td></tr>
+        <tr><td>4.2.1</td><td>TFT</td><td><a href="#tft">File type</a></td></tr>
+        <tr><td>4.2.1</td><td>TIM</td><td><a href="#tim">Time</a></td></tr>
+        <tr><td>4.2.1</td><td>TKE</td><td><a href="#tke">Initial key</a></td></tr>
+        <tr><td>4.2.1</td><td>TLA</td><td><a href="#tla">Language(s)</a></td></tr>
+        <tr><td>4.2.1</td><td>TLE</td><td><a href="#tle">Length</a></td></tr>
+        <tr><td>4.2.1</td><td>TMT</td><td><a href="#tmt">Media type</a></td></tr>
+        <tr><td>4.2.1</td><td>TOA</td><td><a href="#toa">Original artist(s)/performer(s)</a></td></tr>
+        <tr><td>4.2.1</td><td>TOF</td><td><a href="#tof">Original filename</a></td></tr>
+        <tr><td>4.2.1</td><td>TOL</td><td><a href="#tol">Original Lyricist(s)/text writer(s)</a></td></tr>
+        <tr><td>4.2.1</td><td>TOR</td><td><a href="#tor">Original release year</a></td></tr>
+        <tr><td>4.2.1</td><td>TOT</td><td><a href="#tot">Original album/Movie/Show title</a></td></tr>
+        <tr><td>4.2.1</td><td>TP1</td><td><a href="#tp1">Lead artist(s)/Lead performer(s)/Soloist(s)/Performing
+            group</a></td></tr>
+        <tr><td>4.2.1</td><td>TP2</td><td><a href="#tp2">Band/Orchestra/Accompaniment</a></td></tr>
+        <tr><td>4.2.1</td><td>TP3</td><td><a href="#tp3">Conductor/Performer refinement</a></td></tr>
+        <tr><td>4.2.1</td><td>TP4</td><td><a href="#tp4">Interpreted, remixed, or otherwise modified by</a></td></tr>
+        <tr><td>4.2.1</td><td>TPA</td><td><a href="#tpa">Part of a set</a></td></tr>
+        <tr><td>4.2.1</td><td>TPB</td><td><a href="#tpb">Publisher</a></td></tr>
+        <tr><td>4.2.1</td><td>TRC</td><td><a href="#trc">ISRC (International Standard Recording Code)</a></td></tr>
+        <tr><td>4.2.1</td><td>TRD</td><td><a href="#trd">Recording dates</a></td></tr>
+        <tr><td>4.2.1</td><td>TRK</td><td><a href="#trk">Track number/Position in set</a></td></tr>
+        <tr><td>4.2.1</td><td>TSI</td><td><a href="#tsi">Size</a></td></tr>
+        <tr><td>4.2.1</td><td>TSS</td><td><a href="#tss">Software/hardware and settings used for encoding</a></td></tr>
+        <tr><td>4.2.1</td><td>TT1</td><td><a href="#tt1">Content group description</a></td></tr>
+        <tr><td>4.2.1</td><td>TT2</td><td><a href="#tt2">Title/Songname/Content description</a></td></tr>
+        <tr><td>4.2.1</td><td>TT3</td><td><a href="#tt3">Subtitle/Description refinement</a></td></tr>
+        <tr><td>4.2.1</td><td>TXT</td><td><a href="#txt">Lyricist/text writer</a></td></tr>
+        <tr><td>4.2.2</td><td>TXX</td><td><a href="#txx">User defined text information frame</a></td></tr>
+        <tr valign=top><td>4.2.1</td><td>TYE<br>&nbsp;</td><td><a href="#tye">Year</a></td></tr>
+
+        <tr><td>4.1</td><td>UFI</td><td><a href="#ufi">Unique file identifier</a></td></tr>
+        <tr valign=top><td>4.9</td><td>ULT<br>&nbsp;</td><td><a href="#ult">Unsychronized lyric/text transcription</a>
+        </td></tr>
+
+        <tr><td>4.3.1</td><td>WAF</td><td><a href="#waf">Official audio file webpage</a></td></tr>
+        <tr><td>4.3.1</td><td>WAR</td><td><a href="#war">Official artist/performer webpage</a></td></tr>
+        <tr><td>4.3.1</td><td>WAS</td><td><a href="#was">Official audio source webpage</a></td></tr>
+        <tr><td>4.3.1</td><td>WCM</td><td><a href="#wcm">Commercial information</a></td></tr>
+        <tr><td>4.3.1</td><td>WCP</td><td><a href="#wcp">Copyright/Legal information</a></td></tr>
+        <tr><td>4.3.1</td><td>WPB</td><td><a href="#wpb">Publishers official webpage</a></td></tr>
+        <tr><td>4.3.2</td><td>WXX</td><td><a href="#wxx">User defined URL link frame</a></td></tr>
+    </table>
+</center>
+
+
+<a name="sec4.1"> </a><a name="ufi"> </a>
+
+<h3>4.1. Unique file identifier</h3>
+
+<p class=t>
+    This frame's purpose is to be able to identify the audio file in a database that may contain more information
+    relevant to the content.
+    Since standardisation of such a database is beyond this document, all frames begin with a null-terminated string
+    with a <a href="#url">URL</a> containing an
+    email address, or a link to a location where an email address can be found, that belongs to the organisation
+    responsible for this specific
+    database implementation. Questions regarding the database should be sent to the indicated email address. The <a
+        href="#url">URL</a> should not be used for
+    the actual database queries. If a $00 is found directly after the 'Frame size' the whole frame should be ignored,
+    and preferably be
+    removed. The 'Owner identifier' is then followed by the actual identifier, which may be up to 64 bytes. <i>As it is
+    desired to identify a file as quickly as possible, it is therefore in our interest to limit the size of frames
+    without information value for everyone. Besides, with 64 bytes you can have 1.34E154 combinations. That's many
+    combinations.</i> There may be more than one
+    "UFI" frame in a tag, but only one with the same 'Owner identifier'.
+</p>
+
+<p><center>
+    <table border=0>
+        <tr><td nowrap>Unique file identifier</td><td rowspan=4>&nbsp;</td><td width=100%>"UFI"</td></tr>
+        <tr><td>Frame size</td><td>$xx xx xx</td></tr>
+        <tr><td>Owner identifier</td><td>&lt;textstring&gt; $00</td></tr>
+        <tr><td>Identifier</td><td>&lt;up to 64 bytes binary data&gt;</td></tr>
+    </table>
+</center>
+
+<a name="sec4.2"> </a>
+
+<h3>4.2. Text information frames</h3>
+
+<p class=t>
+    The text information frames are the most important frames, containing information like artist, album and more. There
+    may only be one text
+    information frame of its kind in an tag. If the textstring is followed by a termination ($00 (00)) all the following
+    information should be
+    ignored and not be displayed. <i>This could be used to implement new features in the future.</i> All the text
+    information frames have the following format:
+</p>
+
+<p><center>
+    <table border=0>
+        <tr><td nowrap>Text information identifier</td><td rowspan=4>&nbsp;</td><td width="100%">"T00" - "TZZ" ,
+            excluding "<a href="#txx">TXX</a>".</td></tr>
+        <tr><td>Frame size</td><td>$xx xx xx</td></tr>
+        <tr><td>Text encoding</td><td>$xx</td></tr>
+        <tr><td>Information</td><td>&lt;textstring&gt;</td></tr>
+    </table>
+</center>
+
+<p class=t><i>Initially there was only one text information frame called "TID" (Text Information Data or somthing
+    equally boring). It begun with three bytes of flags, indicating which strings were present and which weren't. Then
+    all the indicated present strings would follow as null terminated string in the same order as the flags.</i></p>
+
+
+<a name="sec4.2.1"> </a>
+
+<h3>4.2.1. Text information frames - details</h3>
+
+<p>
+    <a name="tt1"> </a>
+
+<div class=h5>TT1</div>
+
+<div class=t>
+    The 'Content group description' frame is used if the sound belongs to a larger category of sounds/music. For
+    example, classical music is often sorted in different musical sections (e.g. "Piano Concerto", "Weather -
+    Hurricane").
+</div>
+
+<p>
+    <a name="tt2"> </a>
+
+<div class=h5>TT2</div>
+
+<div class=t>
+    The 'Title/Songname/Content description' frame is the actual name of the piece (e.g. "Adagio", "Hurricane Donna").
+</div>
+
+<p>
+    <a name="tt3"> </a>
+
+<div class=h5>TT3</div>
+
+<div class=t>
+    The 'Subtitle/Description refinement' frame is used for information directly related to the contents title (e.g.
+    "Op. 16" or "Performed live at wembley").
+</div>
+
+<p>
+    <a name="tp1"> </a>
+
+<div class=h5>TP1</div>
+
+<div class=t>
+    The 'Lead artist(s)/Lead performer(s)/Soloist(s)/Performing group' is used for the main artist(s). They are
+    seperated with the "/" character.
+</div>
+
+<p>
+    <a name="tp2"> </a>
+
+<div class=h5>TP2</div>
+
+<div class=t>
+    The 'Band/Orchestra/Accompaniment' frame is used for additional information about the performers in the recording.
+</div>
+
+<p>
+    <a name="tp3"> </a>
+
+<div class=h5>TP3</div>
+
+<div class=t>
+    The 'Conductor' frame is used for the name of the conductor.
+</div>
+
+<p>
+    <a name="tp4"> </a>
+
+<div class=h5>TP4</div>
+
+<div class=t>
+    The 'Interpreted, remixed, or otherwise modified by' frame contains more information about the people behind a remix
+    and similar
+    interpretations of another existing piece.
+</div>
+
+<p>
+    <a name="tcm"> </a>
+
+<div class=h5>TCM</div>
+
+<div class=t>
+    The 'Composer(s)' frame is intended for the name of the composer(s). They are seperated with the "/" character.
+</div>
+
+<p>
+    <a name="txt"> </a>
+
+<div class=h5>TXT</div>
+
+<div class=t>
+    The 'Lyricist(s)/text writer(s)' frame is intended for the writer(s) of the text or lyrics in the recording. They
+    are seperated with the "/" character.
+</div>
+
+<p>
+    <a name="tla"> </a>
+
+<div class=h5>TLA</div>
+
+<div class=t>
+    The 'Language(s)' frame should contain the languages of the text or lyrics in the audio file. The language is
+    represented with three
+    characters according to <a href="#iso639-2">ISO-639-2</a>. If more than one language is used in the text their
+    language codes should follow according to their usage.
+</div>
+
+<p>
+    <a name="tco"> </a>
+
+<div class=h5>TCO</div>
+
+<div class=t>
+    The content type, which previously (in <a href="#seca">ID3v1.1</a>) was
+    stored as a one byte numeric value only, is now a numeric string. You
+    may use one or several of the types as ID3v1.1 did or, since the
+    category list would be impossible to maintain with accurate and up to
+    date categories, define your own.<br>
+    References to the ID3v1 genres can be made by, as first byte, enter
+    "(" followed by a number from the <a href="#seca.3">genres list</a> and
+    ended with a ")" character. This is optionally followed by a
+    refinement, e.g. "(21)" or "(4)Eurodisco". Several references can be
+    made in the same frame, e.g. "(51)(39)". If the refinement should
+    begin with a "(" character it should be replaced with "((", e.g. "((I
+    can figure out any genre)" or "(55)((I think...)". The following new
+    content types is defined in ID3v2 and is implemented in the same way
+    as the numerig content types, e.g. "(RX)".
+</div>
+
+<p><center>
+    <table border=0>
+        <tr><td>RX</td><td rowspan=2>&nbsp;</td><td width="100%">Remix</td></tr>
+        <tr><td>CR</td><td>Cover</td></tr>
+    </table>
+</center>
+
+<p class=t><i>This does not however mean that there always is numbers or RX or CR in the paranthesis. It might very well
+    be a new format for genres in the future, e.g. "(/rock/hard)"</i></p>
+
+<p>
+    <a name="tal"> </a>
+
+<div class=h5>TAL</div>
+
+<div class=t>
+    The 'Album/Movie/Show title' frame is intended for the title of the recording(/source of sound) which the audio in
+    the file is taken from. <i>My personal opinion is that this frame should be used for the name of the first album
+    that song was released on, since it's not so interesting to know on which compilation the song is also present
+    on.</i>
+</div>
+
+<p>
+    <a name="tpa"> </a>
+
+<div class=h5>TPA</div>
+
+<div class=t>
+    The 'Part of a set' frame is a numeric string that describes which
+    part of a set the audio came from. This frame is used if the source
+    described in the "<a href="#tal">TAL</a>" frame is divided into several mediums, e.g. a
+    double CD. The value may be extended with a "/" character and a
+    numeric string containing the total number of parts in the set. E.g.
+    "1/2".
+</div>
+
+<p>
+    <a name="trk"> </a>
+
+<div class=h5>TRK</div>
+
+<div class=t>
+    The 'Track number/Position in set' frame is a numeric string
+    containing the order number of the audio-file on its original
+    recording. This may be extended with a "/" character and a numeric
+    string containing the total numer of tracks/elements on the original
+    recording. E.g. "4/9".
+</div>
+
+<p class=t><i>Combinations like "5/3" is of course not allowed. This goes for both "TRK" and "TPA" frames.</i></p>
+
+<p>
+    <a name="trc"> </a>
+
+<div class=h5>TRC</div>
+
+<div class=t>
+    The 'ISRC' frame should contian the <a href="#isrc">International Standard Recording Code</a>.
+</div>
+
+<p>
+    <a name="tye"> </a>
+
+<div class=h5>TYE</div>
+
+<div class=t>
+    The 'Year' frame is a numeric string with a year of the recording. This frames is always four characters long (until
+    the year 10000).
+</div>
+
+<p>
+    <a name="tda"> </a>
+
+<div class=h5>TDA</div>
+
+<div class=t>
+    The 'Date' frame is a numeric string in the DDMM format containing the date for the recording. This field is always
+    four characters long.
+</div>
+
+<p>
+    <a name="tim"> </a>
+
+<div class=h5>TIM</div>
+
+<div class=t>
+    The 'Time' frame is a numeric string in the HHMM format containing the time for the recording. This field is always
+    four characters long.
+</div>
+
+<p>
+    <a name="trd"> </a>
+
+<div class=h5>TRD</div>
+
+<div class=t>
+    The 'Recording dates' frame is a intended to be used as complement to
+    the "<a href="#tye">TYE</a>", "<a href="#tda">TDA</a>" and "<a href="#tim">TIM</a>" frames. E.g. "4th-7th June, 12th
+    June" in
+    combination with the "<a href="#tye">TYE</a>" frame.
+</div>
+
+<p>
+    <a name="tmt"> </a>
+
+<div class=h5>TMT</div>
+
+<div class=t>
+    The 'Media type' frame describes from which media the sound
+    originated. This may be a textstring or a reference to the predefined
+    media types found in the list below. References are made within "("
+    and ")" and are optionally followed by a text refinement, e.g. "(MC)
+    with four channels". If a text refinement should begin with a "("
+    character it should be replaced with "((" in the same way as in the
+    "TCO" frame. Predefined refinements is appended after the media type,
+    e.g. "(CD/S)" or "(VID/PAL/VHS)".
+</div>
+
+<p><center>
+    <table border=0>
+        <tr><td>DIG</td><td rowspan=67>&nbsp;</td><td width="100%">Other digital media</td></tr>
+        <tr valign=top><td align=right>/A<br>&nbsp;</td><td>Analog transfer from media</td></tr>
+
+        <tr><td>ANA</td><td>Other analog media</td></tr>
+        <tr><td align=right>/WAC</td><td>Wax cylinder</td></tr>
+        <tr valign=top><td align=right>/8CA<br>&nbsp;</td><td>8-track tape cassette <i>These have been spotted in the
+            US.</i></td></tr>
+
+        <tr><td>CD</td><td>CD</td></tr>
+        <tr><td align=right>/A</td><td>Analog transfer from media</td></tr>
+        <tr><td align=right>/DD</td><td>DDD</td></tr>
+        <tr><td align=right>/AD</td><td>ADD</td></tr>
+        <tr valign=top><td align=right>/AA<br>&nbsp;</td><td>AAD</td></tr>
+
+        <tr><td>LD</td><td>Laserdisc</td></tr>
+        <tr valign=top><td align=right>/A<br>&nbsp;</td><td>Analog transfer from media</td></tr>
+
+        <tr><td>TT</td><td>Turntable records</td></tr>
+        <tr><td align=right>/33</td><td>33.33 rpm</td></tr>
+        <tr><td align=right>/45</td><td>45 rpm</td></tr>
+        <tr><td align=right>/71</td><td>71.29 rpm</td></tr>
+        <tr><td align=right>/76</td><td>76.59 rpm</td></tr>
+        <tr><td align=right>/78</td><td>78.26 rpm</td></tr>
+        <tr valign=top><td align=right>/80<br>&nbsp;</td><td>80 rpm</td></tr>
+
+        <tr><td>MD</td><td>MiniDisc</td></tr>
+        <tr valign=top><td align=right>/A<br>&nbsp;</td><td>Analog transfer from media</td></tr>
+
+        <tr><td>DAT</td><td>DAT</td></tr>
+        <tr><td align=right>/A</td><td>Analog transfer from media</td></tr>
+        <tr><td align=right>/1</td><td>standard, 48 kHz/16 bits, linear</td></tr>
+        <tr><td align=right>/2</td><td>mode 2, 32 kHz/16 bits, linear</td></tr>
+        <tr><td align=right>/3</td><td>mode 3, 32 kHz/12 bits, nonlinear, low speed</td></tr>
+        <tr><td align=right>/4</td><td>mode 4, 32 kHz/12 bits, 4 channels</td></tr>
+        <tr><td align=right>/5</td><td>mode 5, 44.1 kHz/16 bits, linear</td></tr>
+        <tr valign=top><td align=right>/6<br>&nbsp;</td><td>mode 6, 44.1 kHz/16 bits, 'wide track' play</td></tr>
+
+        <tr><td>DCC</td><td>DCC</td></tr>
+        <tr valign=top><td align=right>/A<br>&nbsp;</td><td>Analog transfer from media</td></tr>
+
+        <tr><td>DVD</td><td>DVD</td></tr>
+        <tr valign=top><td align=right>/A<br>&nbsp;</td><td>Analog transfer from media</td></tr>
+
+        <tr><td>TV</td><td>Television</td></tr>
+        <tr><td align=right>/PAL</td><td>PAL</td></tr>
+        <tr><td align=right>/NTSC</td><td>NTSC</td></tr>
+        <tr valign=top><td align=right>&nbsp;/SECAM<br>&nbsp;</td><td>SECAM</td></tr>
+
+        <tr><td>VID</td><td>Video</td></tr>
+        <tr><td align=right>/PAL</td><td>PAL</td></tr>
+        <tr><td align=right>/NTSC</td><td>NTSC</td></tr>
+        <tr><td align=right>/SECAM</td><td>SECAM</td></tr>
+        <tr><td align=right>/VHS</td><td>VHS</td></tr>
+        <tr><td align=right>/SVHS</td><td>S-VHS</td></tr>
+        <tr valign=top><td align=right>/BETA<br>&nbsp;</td><td>BETAMAX</td></tr>
+
+        <tr><td>RAD</td><td>Radio</td></tr>
+        <tr><td align=right>/FM</td><td>FM</td></tr>
+        <tr><td align=right>/AM</td><td>AM</td></tr>
+        <tr><td align=right>/LW</td><td>LW</td></tr>
+        <tr valign=top><td align=right>/MW<br>&nbsp;</td><td>MW</td></tr>
+
+        <tr><td>TEL</td><td>Telephone</td></tr>
+        <tr valign=top><td align=right>/I<br>&nbsp;</td><td>ISDN</td></tr>
+
+        <tr><td>MC</td><td>MC (normal cassette)</td></tr>
+        <tr><td align=right>/4</td><td>4.75 cm/s (normal speed for a two sided cassette)</td></tr>
+        <tr><td align=right>/9</td><td>9.5 cm/s</td></tr>
+        <tr><td align=right>/I</td><td>Type I cassette (ferric/normal)</td></tr>
+        <tr><td align=right>/II</td><td>Type II cassette (chrome)</td></tr>
+        <tr><td align=right>/III</td><td>Type III cassette (ferric chrome)</td></tr>
+        <tr valign=top><td align=right>/IV<br>&nbsp;</td><td>Type IV cassette (metal)</td></tr>
+
+        <tr><td>REE</td><td>Reel</td></tr>
+        <tr><td align=right>/9</td><td>9.5 cm/s</td></tr>
+        <tr><td align=right>/19</td><td>19 cm/s</td></tr>
+        <tr><td align=right>/38</td><td>38 cm/s</td></tr>
+        <tr><td align=right>/76</td><td>76 cm/s</td></tr>
+        <tr><td align=right>/I</td><td>Type I cassette (ferric/normal)</td></tr>
+        <tr><td align=right>/II</td><td>Type II cassette (chrome)</td></tr>
+        <tr><td align=right>/III</td><td>Type III cassette (ferric chrome)</td></tr>
+        <tr><td align=right>/IV<br>&nbsp;</td><td>Type IV cassette (metal)</td></tr>
+    </table>
+</center>
+
+<p>
+    <a name="tft"> </a>
+
+<div class=h5>TFT</div>
+
+<div class=t>
+    The 'File type' frame indicates which type of audio this tag defines.
+    The following type and refinements are defined:
+</div>
+
+<center>
+    <table border=0>
+        <tr><td>MPG</td><td rowspan=6>&nbsp;</td><td width="100%">MPEG Audio</td></tr>
+        <tr><td align=right>/1</td><td>MPEG 2 layer I</td></tr>
+        <tr><td align=right>/2</td><td>MPEG 2 layer II</td></tr>
+        <tr><td align=right>/3</td><td>MPEG 2 layer III</td></tr>
+        <tr><td align=right>/2.5</td><td>MPEG 2.5</td></tr>
+        <tr><td align=right>&nbsp;/AAC</td><td>Advanced audio compression</td></tr>
+    </table>
+</center>
+
+<p>
+
+<div class=t>
+    but other types may be used, not for these types though. This is used
+    in a similar way to the predefined types in the "<a href="#tmt">TMT</a>" frame, but
+    without parenthesis. If this frame is not present audio type is
+    assumed to be "MPG".
+</div>
+
+<p>
+    <a name="tbp"> </a>
+
+<div class=h5>TBP</div>
+
+<div class=t>
+    BPM is short for beats per minute, and is easily computed by
+    dividing the number of beats in a musical piece with its length. To
+    get a more accurate result, do the BPM calculation on the main-part
+    only. To acquire best result measure the time between each beat and
+    calculate individual BPM for each beat and use the median value as
+    result. BPM is an integer and represented as a numerical string.
+</div>
+
+<p>
+    <a name="tcr"> </a>
+
+<div class=h5>TCR</div>
+
+<div class=t>
+    The 'Copyright message' frame, which must begin with a year and a
+    space character (making five characters), is intended for the
+    copyright holder of the original sound, not the audio file itself. The
+    absence of this frame means only that the copyright information is
+    unavailable or has been removed, and must not be interpreted to mean
+    that the sound is public domain. Every time this field is displayed
+    the field must be preceded with "Copyright &copy; ".
+</div>
+
+<p>
+    <a name="tpb"> </a>
+
+<div class=h5>TPB</div>
+
+<div class=t>
+    The 'Publisher' frame simply contains the name of the label or publisher.
+</div>
+
+<p>
+    <a name="ten"> </a>
+
+<div class=h5>TEN</div>
+
+<div class=t>
+    The 'Encoded by' frame contains the name of the person or organisation that encoded the audio file. This field may
+    contain a
+    copyright message, if the audio file also is copyrighted by the encoder.
+</div>
+
+<p>
+    <a name="tss"> </a>
+
+<div class=h5>TSS</div>
+
+<div class=t>
+    The 'Software/hardware and settings used for encoding' frame
+    includes the used audio encoder and its settings when the file was
+    encoded. Hardware refers to hardware encoders, not the computer on
+    which a program was run.
+</div>
+
+<p>
+    <a name="tof"> </a>
+
+<div class=h5>TOF</div>
+
+<div class=t>
+    The 'Original filename' frame contains the preferred filename for the file, since some media doesn't allow the
+    desired length of the
+    filename. The filename is case sensitive and includes its suffix.
+</div>
+
+<p>
+    <a name="tle"> </a>
+
+<div class=h5>TLE</div>
+
+<div class=t>
+    The 'Length' frame contains the length of the audiofile in milliseconds, represented as a numeric string.
+</div>
+
+<p>
+    <a name="tsi"> </a>
+
+<div class=h5>TSI</div>
+
+<div class=t>
+    The 'Size' frame contains the size of the audiofile in bytes excluding the tag, represented as a numeric string.
+</div>
+
+<p>
+    <a name="tdy"> </a>
+
+<div class=h5>TDY</div>
+
+<div class=t>
+    The 'Playlist delay' defines the numbers of milliseconds of silence between every song in a playlist. The player
+    should use the "<a href="#etc">ETC</a>"
+    frame, if present, to skip initial silence and silence at the end of the audio to match the 'Playlist delay' time.
+    The time is represented
+    as a numeric string.
+</div>
+
+<p>
+    <a name="tke"> </a>
+
+<div class=h5>TKE</div>
+
+<div class=t>
+    The 'Initial key' frame contains the musical key in which the sound
+    starts. It is represented as a string with a maximum length of three
+    characters. The ground keys are represented with "A","B","C","D","E",
+    "F" and "G" and halfkeys represented with "b" and "#". Minor is
+    represented as "m". Example "Cbm". Off key is represented with an "o" only.
+</div>
+
+<p>
+    <a name="tot"> </a>
+
+<div class=h5>TOT</div>
+
+<div class=t>
+    The 'Original album/Movie/Show title' frame is intended for the title
+    of the original recording(/source of sound), if for example the music
+    in the file should be a cover of a previously released song.
+</div>
+
+<p>
+    <a name="toa"> </a>
+
+<div class=h5>TOA</div>
+
+<div class=t>
+    The 'Original artist(s)/performer(s)' frame is intended for the
+    performer(s) of the original recording, if for example the music in
+    the file should be a cover of a previously released song. The
+    performers are seperated with the "/" character.
+</div>
+
+<p>
+    <a name="tol"> </a>
+
+<div class=h5>TOL</div>
+
+<div class=t>
+    The 'Original Lyricist(s)/text writer(s)' frame is intended for the
+    text writer(s) of the original recording, if for example the music in
+    the file should be a cover of a previously released song. The text
+    writers are seperated with the "/" character.
+</div>
+
+<p>
+    <a name="tor"> </a>
+
+<div class=h5>TOR</div>
+
+<div class=t>
+    The 'Original release year' frame is intended for the year when the
+    original recording, if for example the music in the file should be a
+    cover of a previously released song, was released. The field is formatted as in the "<a href="#tdy">TDY</a>" frame.
+</div>
+
+<a name="txx"> </a>
+<a name="sec4.2.2"> </a>
+
+<h3>4.2.2. User defined text information frame</h3>
+
+<p class=t>
+    This frame is intended for one-string text information concerning the
+    audiofile in a similar way to the other "T"xx frames. The frame body
+    consists of a description of the string, represented as a terminated
+    string, followed by the actual string. There may be more than one
+    "TXX" frame in each tag, but only one with the same description.
+</p>
+
+<p><center>
+    <table border=0>
+        <tr><td nowrap>User defined text information</td><td rowspan=5>&nbsp;</td><td width="100%">"TXX"</td></tr>
+        <tr><td>Frame size</td><td>$xx xx xx</td></tr>
+        <tr><td>Text encoding</td><td>$xx</td></tr>
+        <tr><td>Description</td><td>&lt;textstring&gt; $00 (00)</td></tr>
+        <tr><td>Value</td><td>&lt;textstring&gt;</td></tr>
+    </table>
+</center>
+
+<a name="sec4.3"> </a>
+
+<h3>4.3. URL link frames</h3>
+
+<p class=t>
+    With these frames dynamic data such as webpages with touring
+    information, price information or plain ordinary news can be added to
+    the tag. There may only be one <a href="#url">URL</a> link frame of its kind in an
+    tag, except when stated otherwise in the frame description. If the
+    textstring is followed by a termination ($00 (00)) all the following
+    information should be ignored and not be displayed. All <a href="#url">URL</a> link
+    frames have the following format:
+</p>
+
+<p><center>
+    <table border=0>
+        <tr><td nowrap>URL link frame</td><td rowspan=3>&nbsp;</td><td width="100%">"W00" - "WZZ" , excluding "<a
+                href="#wxx">WXX</a>".</td></tr>
+        <tr><td>Frame size</td><td>$xx xx xx</td></tr>
+        <tr><td>URL</td><td>&lt;textstring&gt;</td></tr>
+    </table>
+</center>
+
+<a name="sec4.3.1"> </a>
+
+<h3>4.3.1. URL link frames - details</h3>
+
+<p>
+    <a name="waf"> </a>
+
+<div class=h5>WAF</div>
+
+<div class=t>
+    The 'Official audio file webpage' frame is a <a href="#url">URL</a> pointing at a file specific webpage.
+</div>
+
+<p>
+    <a name="war"> </a>
+
+<div class=h5>WAR</div>
+
+<div class=t>
+    The 'Official artist/performer webpage' frame is a <a href="#url">URL</a> pointing at
+    the artists official webpage. There may be more than one "WAR" frame in a tag if the audio contains more than one
+    performer.
+</div>
+
+<p>
+    <a name="was"> </a>
+
+<div class=h5>WAS</div>
+
+<div class=t>
+    The 'Official audio source webpage' frame is a <a href="#url">URL</a> pointing at the official webpage for the
+    source of the audio file, e.g. a movie.
+</div>
+
+<p>
+    <a name="wcm"> </a>
+
+<div class=h5>WCM</div>
+
+<div class=t>
+    The 'Commercial information' frame is a <a href="#url">URL</a> pointing at a webpage
+    with information such as where the album can be bought. There may be more than one "WCM" frame in a tag.
+</div>
+
+<p>
+    <a name="wcp"> </a>
+
+<div class=h5>WCP</div>
+
+<div class=t>
+    The 'Copyright/Legal information' frame is a <a href="#url">URL</a> pointing at a webpage where the terms of use and
+    ownership of the file is described.
+</div>
+
+<p>
+    <a name="wpb"> </a>
+
+<div class=h5>WPB</div>
+
+<div class=t>
+    The 'Publishers official webpage' frame is a <a href="#url">URL</a> pointing at the official wepage for the
+    publisher.
+</div>
+
+<a name="sec4.3.2"> </a>
+
+<h3>4.3.2. User defined URL link frame</h3>
+
+<p class=t>
+    This frame is intended for <a href="#url">URL</a> links concerning the audiofile in a
+    similar way to the other "W"xx frames. The frame body consists of a
+    description of the string, represented as a terminated string,
+    followed by the actual <a href="#url">URL</a>. The <a href="#url">URL</a> is always encoded with <a href="#iso8859">ISO-8859-1</a>.
+    There may be more than one "WXX" frame in each tag, but only one with
+    the same description.
+</p>
+
+<p><center>
+    <table border=0>
+        <tr><td nowrap>User defined URL link</td><td rowspan=5></td><td width="100%">"WXX"</td></tr>
+        <tr><td>Frame size</td><td>$xx xx xx</td></tr>
+        <tr><td>Text encoding</td><td>$xx</td></tr>
+        <tr><td>Description</td><td>&lt;textstring&gt; $00 (00)</td></tr>
+        <tr><td>URL</td><td>&lt;textstring&gt;</td></tr>
+    </table>
+</center>
+
+<a name="ipl"> </a>
+<a name="sec4.4"> </a>
+
+<h3>4.4. Involved people list</h3>
+
+<p class=t>
+    Since there might be a lot of people contributing to an audio file in
+    various ways, such as musicians and technicians, the 'Text
+    information frames' are often insufficient to list everyone involved
+    in a project. The 'Involved people list' is a frame containing the
+    names of those involved, and how they were involved. The body simply
+    contains a terminated string with the involvement directly followed by
+    a terminated string with the involvee followed by a new involvement
+    and so on. There may only be one "IPL" frame in each tag.
+</p>
+
+<p><center>
+    <table border=0>
+        <tr><td nowrap>Involved people list</td><td rowspan=4>&nbsp;</td><td width="100%">"IPL"</td></tr>
+        <tr><td>Frame size</td><td>$xx xx xx</td></tr>
+        <tr><td>Text encoding</td><td>$xx</td></tr>
+        <tr><td>People list strings</td><td>&lt;textstrings&gt;</td></tr>
+    </table>
+</center>
+
+<a name="mci"> </a>
+<a name="sec4.5"> </a>
+
+<h3>4.5. Music CD Identifier</h3>
+
+<p class=t>
+    This frame is intended for music that comes from a CD, so that the CD
+    can be identified in databases such as the <a href="#cddb">CDDB</a>. The frame
+    consists of a binary dump of the Table Of Contents, TOC, from the CD,
+    which is a header of 4 bytes and then 8 bytes/track on the CD making a
+    maximum of 804 bytes. This frame requires a present and valid "<a href="#trk">TRK</a>"
+    frame. There may only be one "MCI" frame in each tag.
+</p>
+
+<p><center>
+    <table border=0>
+        <tr><td nowrap>Music CD identifier</td><td rowspan=3>&nbsp;</td><td width="100%">"MCI"</td></tr>
+        <tr><td>Frame size</td><td>$xx xx xx</td></tr>
+        <tr><td>CD TOC</td><td>&lt;binary data&gt;</td></tr>
+    </table>
+</center>
+
+<a name="etc"> </a>
+<a name="sec4.6"> </a>
+
+<h3>4.6. Event timing codes</h3>
+
+<p class=t>
+    This frame allows synchronisation with key events in a song or sound.
+    The head is:
+</p>
+
+<p><center>
+    <table border=0>
+        <tr><td nowrap>Event timing codes</td><td rowspan=3>&nbsp;</td><td width="100%">"ETC"</td></tr>
+        <tr><td>Frame size</td><td>$xx xx xx</td></tr>
+        <tr><td>Time stamp format</td><td>$xx</td></tr>
+    </table>
+</center>
+
+<p class=t>
+    Where time stamp format is:
+</p>
+
+<p><center>
+    <table border=0><tr><td>
+        $01 &nbsp; Absolute time, 32 bit sized, using <a href="#mpeg">MPEG</a> frames as unit<br>
+        $02 &nbsp; Absolute time, 32 bit sized, using milliseconds as unit
+    </td></tr></table>
+</center>
+
+<p class=t>
+    Abolute time means that every stamp contains the time from the
+    beginning of the file.
+</p>
+
+<p class=t>
+    Followed by a list of key events in the following format:
+</p>
+
+<p><center>
+    <table border=0>
+        <tr><td nowrap>Type of event</td><td rowspan=2>&nbsp;</td><td width="100%">$xx</td></tr>
+        <tr><td>Time stamp</td><td>$xx (xx ...)</td></tr>
+    </table>
+</center>
+
+<p class=t>
+    The 'Time stamp' is set to zero if directly at the beginning of the
+    sound or after the previous event. All events should be sorted in
+    chronological order. The type of event is as follows:
+</p>
+
+<p><center>
+    <table border=0>
+        <tr><td>$00</td><td rowspan=20></td><td>padding (has no meaning)</td></tr>
+        <tr><td>$01</td><td>end of initial silence</td></tr>
+        <tr><td>$02</td><td>intro start</td></tr>
+        <tr><td>$03</td><td>mainpart start</td></tr>
+        <tr><td>$04</td><td>outro start</td></tr>
+        <tr><td>$05</td><td>outro end</td></tr>
+        <tr><td>$06</td><td>verse begins</td></tr>
+        <tr><td>$07</td><td>refrain begins</td></tr>
+        <tr><td>$08</td><td>interlude</td></tr>
+        <tr><td>$09</td><td>theme start</td></tr>
+        <tr><td>$0A</td><td>variation</td></tr>
+        <tr><td>$0B</td><td>key change</td></tr>
+        <tr><td>$0C</td><td>time change</td></tr>
+        <tr valign=top><td>$0D<br>&nbsp;</td><td>unwanted noise (Snap, Crackle &amp; Pop)</td></tr>
+
+        <tr valign=top><td>$0E-$DF<br>&nbsp;</td><td>reserved for future use</td></tr>
+
+        <tr valign=top><td>$E0-$EF<br>&nbsp;</td><td>not predefined sync 0-F</td></tr>
+
+        <tr valign=top><td>$F0-$FC<br>&nbsp;</td><td>reserved for future use</td></tr>
+
+        <tr><td>$FD</td><td>audio end (start of silence)</td></tr>
+        <tr><td>$FE</td><td>audio file ends</td></tr>
+        <tr><td>$FF</td><td>one more byte of events follows (all the following bytes with the value $FF have the same
+            function)</td></tr>
+    </table>
+</center>
+
+<p class=t>
+    The 'Not predefined sync's ($E0-EF) are for user events. You might
+    want to synchronise your music to something, like setting of an
+    explosion on-stage, turning on your screensaver etc.
+</p>
+
+<p class=t>
+    There may only be one "ETC" frame in each tag.
+</p>
+
+<a name="mll"> </a>
+<a name="sec4.7"> </a>
+
+<h3>4.7. MPEG location lookup table</h3>
+
+<p class=t><i>The author of NAD once planned to make a mp3 encoder of his own, ARCAM. He would at the same time
+    introduce a new file format were all the major problems with MP3 was built away, eg. the lack of ability to jump
+    precisely within the audio. Thanks for the idea.</i></p>
+
+<p class=t>
+    To increase performance and accuracy of jumps within a <a href="#mpeg">MPEG</a> audio
+    file, frames with timecodes in different locations in the file might
+    be useful. The ID3 frame includes references that the software can use
+    to calculate positions in the file. After the frame header is a
+    descriptor of how much the 'frame counter' should increase for every
+    reference. If this value is two then the first reference points out
+    the second frame, the 2nd reference the 4th frame, the 3rd reference
+    the 6th frame etc. In a similar way the 'bytes between reference' and
+    'milliseconds between reference' points out bytes and milliseconds
+    respectively.
+</p>
+
+<p class=t>
+    Each reference consists of two parts; a certain number of bits, as
+    defined in 'bits for bytes deviation', that describes the difference
+    between what is said in 'bytes between reference' and the reality and
+    a certain number of bits, as defined in 'bits for milliseconds
+    deviation', that describes the difference between what is said in
+    'milliseconds between reference' and the reality. The number of bits
+    in every reference, i.e. 'bits for bytes deviation'+'bits for
+    milliseconds deviation', must be a multiple of four. There may only be
+    one "MLL" frame in each tag.
+</p>
+
+<p><center>
+    <table border=0>
+        <tr><td>Location lookup table</td><td rowspan=7>&nbsp;</td><td width="100%">"MLL"</td></tr>
+        <tr><td>ID3 frame size</td><td>$xx xx xx</td></tr>
+        <tr><td nowrap>MPEG frames between reference</td><td>$xx xx</td></tr>
+        <tr><td>Bytes between reference</td><td>$xx xx xx</td></tr>
+        <tr><td>Milliseconds between reference</td><td>$xx xx xx</td></tr>
+        <tr><td>Bits for bytes deviation</td><td>$xx</td></tr>
+        <tr><td>Bits for milliseconds deviation</td><td>$xx</td></tr>
+    </table>
+</center>
+
+<p class=t>
+    Then for every reference the following data is included;
+</p>
+
+<p><center>
+    <table border=0>
+        <tr><td>Deviation in bytes</td><td rowspan=2>&nbsp;</td><td width="100%">%xxx....</td></tr>
+        <tr><td nowrap>Deviation in milliseconds</td><td>%xxx....</td></tr>
+    </table>
+</center>
+
+<a name="stc"> </a>
+<a name="sec4.8"> </a>
+
+<h3>4.8. Synced tempo codes</h3>
+
+<p class=t>
+    For a more accurate description of the tempo of a musical piece this
+    frame might be used. After the header follows one byte describing which time stamp format should be used. Then
+    follows one or more tempo codes. Each tempo code consists of one tempo part and one time part. The tempo is in BPM
+    described with one or two bytes. If the first byte has the value $FF, one more byte follows, which is added to the
+    first giving a range from 2 - 510 BPM, since $00 and $01 is reserved. $00 is used to describe a beat-free time
+    period, which is not the same as a music-free time period. $01 is used to indicate one single beat-stroke followed
+    by a beat-free period.
+</p>
+
+<p class=t>
+    The tempo descriptor is followed by a time stamp. Every time the tempo in the music changes, a tempo descriptor may
+    indicate this for the player. All tempo descriptors should be sorted in chronological order. The first beat-stroke
+    in a time-period is at the same time as the beat description occurs. There may only be one "STC" frame in each tag.
+</p>
+
+<p><center>
+    <table border=0>
+        <tr><td nowrap>Synced tempo codes</td><td rowspan=4>&nbsp;</td><td width="100%">"STC"</td></tr>
+        <tr><td>Frame size</td><td>$xx xx xx</td></tr>
+        <tr><td>Time stamp format</td><td>$xx</td></tr>
+        <tr><td>Tempo data</td><td>&lt;binary data&gt;</td></tr>
+    </table>
+</center>
+
+<p class=t>
+    Where time stamp format is:
+</p>
+
+<p><center>
+    <table border=0>
+        <tr><td>$01 &nbsp; Absolute time, 32 bit sized, using <a href="#mpeg">MPEG</a> frames as unit</td></tr>
+        <tr><td>$02 &nbsp; Absolute time, 32 bit sized, using milliseconds as unit</td></tr>
+    </table>
+</center>
+
+<p class=t>
+    Abolute time means that every stamp contains the time from the
+    beginning of the file.
+</p>
+
+<a name="ult"> </a>
+<a name="sec4.9"> </a>
+
+<h3>4.9. Unsychronised lyrics/text transcription</h3>
+
+<p class=t>
+    This frame contains the lyrics of the song or a text transcription of
+    other vocal activities. The head includes an encoding descriptor and
+    a content descriptor. The body consists of the actual text. The
+    'Content descriptor' is a terminated string. If no descriptor is
+    entered, 'Content descriptor' is $00 (00) only. Newline characters
+    are allowed in the text. Maximum length for the descriptor is 64
+    bytes. There may be more than one lyrics/text frame in each tag, but
+    only one with the same language and content descriptor.
+</p>
+
+<p><center>
+    <table border=0>
+        <tr><td nowrap>Unsynced lyrics/text</td><td rowspan=6>&nbsp;</td><td width="100%">"ULT"</td></tr>
+        <tr><td>Frame size</td><td>$xx xx xx</td></tr>
+        <tr><td>Text encoding</td><td>$xx</td></tr>
+        <tr><td>Language</td><td>$xx xx xx</td></tr>
+        <tr><td>Content descriptor</td><td>&lt;textstring&gt; $00 (00)</td></tr>
+        <tr><td>Lyrics/text</td><td>&lt;textstring&gt;</td></tr>
+    </table>
+</center>
+
+<a name="slt"> </a>
+<a name="sec4.10"> </a>
+
+<h3>4.10. Synchronised lyrics/text</h3>
+
+<p class=t>
+    This is another way of incorporating the words, said or sung lyrics,
+    in the audio file as text, this time, however, in sync with the audio.
+    It might also be used to describing events e.g. occurring on a stage
+    or on the screen in sync with the audio. The header includes a content
+    descriptor, represented with as terminated textstring. If no
+    descriptor is entered, 'Content descriptor' is $00 (00) only.
+</p>
+
+<p><center>
+    <table border=0>
+        <tr><td nowrap>Synced lyrics/text</td><td rowspan=7>&nbsp;</td><td width="100%">"SLT"</td></tr>
+        <tr><td>Frame size</td><td>$xx xx xx</td></tr>
+        <tr><td>Text encoding</td><td>$xx</td></tr>
+        <tr><td>Language</td><td>$xx xx xx</td></tr>
+        <tr><td>Time stamp format</td><td>$xx</td></tr>
+        <tr><td>Content type</td><td>$xx</td></tr>
+        <tr><td>Content descriptor</td><td>&lt;textstring&gt; $00 (00)</td></tr>
+    </table>
+</center>
+
+<p><center>
+    <table border=0>
+        <tr valign=top><td rowspan=2>Encoding:</td><td rowspan=2>&nbsp;</td><td>$00</td><td rowspan=2>&nbsp;</td><td
+                width="100%">ISO-8859-1 character set is used =&gt; $00 is sync identifier.</td></tr>
+        <tr><td>$01</td><td>Unicode character set is used =&gt; $00 00 is sync identifier.</td></tr>
+    </table>
+</center>
+
+<p><center>
+    <table border=0>
+        <tr valign=top><td rowspan=6 nowrap>Content type:</td><td rowspan=6>&nbsp;</td><td width="100%">$00 is
+            other</td></tr>
+        <tr><td>$01 is lyrics</td></tr>
+        <tr><td>$02 is text transcription</td></tr>
+        <tr><td>$03 is movement/part name (e.g. "Adagio")</td></tr>
+        <tr><td>$04 is events (e.g. "Don Quijote enters the stage")</td></tr>
+        <tr><td>$05 is chord (e.g. "Bb F Fsus")</td></tr>
+    </table>
+</center>
+
+<p class=t>Time stamp format is:</p>
+
+<p class=ind>
+    $01 &nbsp; Absolute time, 32 bit sized, using <a href="#mpeg">MPEG</a> frames as unit<br>
+    $02 &nbsp; Absolute time, 32 bit sized, using milliseconds as unit
+</p>
+
+<p class=t><i>Different time stamp formats were introduced very late in the ID3v2 draft. Initially the time stamp was
+    relative, containing the number of MPEG frames from the previous stamp. This was changed for two different reasons.
+    One was that some developers didn't want the "SLT" frame to store its timestamps in a chronological order, making
+    relative time stamps unsuitable.
+    After some discussion it was agreed that the order should remain chronological, but that the timestamps should be
+    absolute. Agree is perhaps not the best word since Alon Gingold made his own lyrics format (as a successor to
+    lyrics3). I wanted the possibility to increase the amount of bits used for the absolute time stamp (in case one
+    should encounter an MP3 file longer than 1500 days) so I added a byte telling that.
+    By now Dave Walton begun to push his idea that the ID3v2 should be more of a multi purpose audio format so a new non
+    MP3 based timestamp was introduced (increasing accuracy to 1/1000 second, but limiting the maximal length of an MP3
+    file to 49 days). The 'used bit' field was redesigned to become a time stamp indicator field. All timestamps in the
+    draft were then replaced with this general-purpose solution.</i></p>
+
+
+<p class=t>Abolute time means that every stamp contains the time from the beginning of the file.</p>
+
+<p class=t>
+    The text that follows the frame header differs from that of the
+    unsynchronised lyrics/text transcription in one major way. Each
+    syllable (or whatever size of text is considered to be convenient by
+    the encoder) is a null terminated string followed by a time stamp
+    denoting where in the sound file it belongs. Each sync thus has the
+    following structure:
+</p>
+
+<p><center>
+    <table border=0>
+        <tr><td nowrap>Terminated text to be synced (typically a syllable)</td><td rowspan=3>&nbsp;</td></tr>
+        <tr><td>Sync identifier (terminator to above string)</td><td width="100%">$00 (00)</td></tr>
+        <tr><td>Time stamp</td><td>$xx (xx ...)</td></tr>
+    </table>
+</center>
+
+<p class=t>
+    The 'time stamp' is set to zero or the whole sync is omitted if
+    located directly at the beginning of the sound. All time stamps should
+    be sorted in chronological order. The sync can be considered as a
+    validator of the subsequent string.
+</p>
+
+<p class=t>
+    Newline characters are allowed in all "SLT" frames and should be used
+    after every entry (name, event etc.) in a frame with the content type
+    $03 - $04.
+</p>
+
+<p class=t>
+    A few considerations regarding whitespace characters: Whitespace
+    separating words should mark the beginning of a new word, thus
+    occurring in front of the first syllable of a new word. This is also
+    valid for new line characters. A syllable followed by a comma should
+    not be broken apart with a sync (both the syllable and the comma
+    should be before the sync).
+</p>
+
+<p class=t>An example: The "<a href="#ult">ULT</a>" passage</p>
+
+<p class=ind>"Strangers in the night" $0A "Exchanging glances"</p>
+
+<p class=t>
+    would be "SLT" encoded as:
+</p>
+
+<p class=ind>
+    "Strang" $00 xx xx "ers" $00 xx xx " in" $00 xx xx " the" $00 xx xx
+    " night" $00 xx xx 0A "Ex" $00 xx xx "chang" $00 xx xx "ing" $00 xx
+    xx "glan" $00 xx xx "ces" $00 xx xx
+</p>
+
+<p class=t>
+    There may be more than one "SLT" frame in each tag, but only one with
+    the same language and content descriptor.
+</p>
+
+<a name="com"> </a>
+<a name="sec4.11"> </a>
+
+<h3>4.11. Comments</h3>
+
+<p class=t>
+    This frame replaces the old 30-character comment field in ID3v1. It
+    consists of a frame head followed by encoding, language and content
+    descriptors and is ended with the actual comment as a text string.
+    Newline characters are allowed in the comment text string. There may
+    be more than one comment frame in each tag, but only one with the same
+    language and content descriptor.
+</p>
+
+<p><center>
+    <table border=0>
+        <tr><td>Comment</td><td rowspan=6>&nbsp;</td><td width="100%">"COM"</td></tr>
+        <tr><td>Frame size</td><td>$xx xx xx</td></tr>
+        <tr><td>Text encoding</td><td>$xx</td></tr>
+        <tr><td>Language</td><td>$xx xx xx</td></tr>
+        <tr><td nowrap>Short content description</td><td>&lt;textstring&gt; $00 (00)</td></tr>
+        <tr><td>The actual text</td><td>&lt;textstring&gt;</td></tr>
+    </table>
+</center>
+
+<p class=t><i>I'm a bit annoyed that this frame turned out almost identical to the "ULT" frame, but I guess that this is
+    the best solution after all. Feel free to use the fact that the "COM" and "ULT" frames have the same structure when
+    optimizing your code.<br>
+    This frame is often the right answear to all the mails I get asking "Where should I put information xxxxx?"
+    questions. No, there will not be a biography frame. It's too hard to keep it up to date.</i></p>
+
+<a name="rva"> </a>
+<a name="sec4.12"> </a>
+
+<h3>4.12. Relative volume adjustment</h3>
+
+<p class=t>
+    This is a more subjective function than the previous ones. It allows
+    the user to say how much he wants to increase/decrease the volume on
+    each channel while the file is played. The purpose is to be able to
+    align all files to a reference volume, so that you don't have to
+    change the volume constantly. This frame may also be used to balance
+    adjust the audio. If the volume peak levels are known then this could
+    be described with the 'Peak volume right' and 'Peak volume left'
+    field. If Peakvolume is not known these fields could be left zeroed
+    or completely omitted. There may only be one "RVA" frame in each
+    tag.
+</p>
+
+<p><center>
+    <table border=0>
+        <tr><td>Relative volume adjustment</td><td rowspan=8>&nbsp;</td><td width="100%">"RVA"</td></tr>
+        <tr><td>Frame size</td><td>$xx xx xx</td></tr>
+        <tr><td>Increment/decrement</td><td>%000000xx</td></tr>
+        <tr><td nowrap>Bits used for volume description</td><td>$xx</td></tr>
+        <tr><td>Relative volume change, right</td><td>$xx xx (xx ...)</td></tr>
+        <tr><td>Relative volume change, left</td><td>$xx xx (xx ...)</td></tr>
+        <tr><td>Peak volume right</td><td>$xx xx (xx ...)</td></tr>
+        <tr><td>Peak volume left</td><td>$xx xx (xx ...)</td></tr>
+    </table>
+</center>
+
+<p class=t>
+    In the increment/decrement field bit 0 is used to indicate the right
+    channel and bit 1 is used to indicate the left channel. 1 is
+    increment and 0 is decrement.
+</p>
+
+<p class=t>
+    The 'bits used for volume description' field is normally $10 (16 bits)
+    for <a href="#mpeg">MPEG 2 layer I, II and III</a> and MPEG 2.5. This value may not be
+    $00. The volume is always represented with whole bytes, padded in the
+    beginning (highest bits) when 'bits used for volume description' is
+    not a multiple of eight.
+</p>
+
+<a name="equ"> </a>
+<a name="sec4.13"> </a>
+
+<h3>4.13. Equalisation</h3>
+
+<p class=t>
+    This is another subjective, alignment frame. It allows the user to
+    predefine an equalisation curve within the audio file. There may only
+    be one "EQU" frame in each tag.
+</p>
+
+<p><center>
+    <table border=0>
+        <tr><td>Equalisation</td><td rowspan=3>&nbsp;</td><td width="100%">"EQU"</td></tr>
+        <tr><td>Frame size</td><td>$xx xx xx</td></tr>
+        <tr><td nowrap>Adjustment bits</td><td>$xx</td></tr>
+    </table>
+</center>
+
+<p class=t>
+    The 'adjustment bits' field defines the number of bits used for
+    representation of the adjustment. This is normally $10 (16 bits) for
+    <a href="#mpeg">MPEG 2 layer I, II and III</a> and MPEG 2.5. This value may not be $00.
+</p>
+
+<p class=t>
+    This is followed by 2 bytes + ('adjustment bits' rounded up to the
+    nearest byte) for every equalisation band in the following format,
+    giving a frequency range of 0 - 32767Hz. <i>Brian Stucker is the mind behind this data format. It's way better then
+    the fix frequencies that the first draft had.</i>
+</p>
+
+<p><center>
+    <table border=0>
+        <tr><td>Increment/decrement</td><td rowspan=3>&nbsp;</td><td width="100%">%x (MSB of the Frequency)</td></tr>
+        <tr><td>Frequency</td><td>(lower 15 bits)</td></tr>
+        <tr><td>Adjustment</td><td>$xx (xx ...)</td></tr>
+    </table>
+</center>
+
+<p class=t>
+    The increment/decrement bit is 1 for increment and 0 for decrement.
+    The equalisation bands should be ordered increasingly with reference
+    to frequency. All frequencies don't have to be declared. Adjustments
+    with the value $00 should be omitted. A frequency should only be
+    described once in the frame.
+</p>
+
+<a name="rev"> </a>
+<a name="sec4.14"> </a>
+
+<h3>4.14. Reverb</h3>
+
+<p class=t>
+    Yet another subjective one. You may here adjust echoes of different
+    kinds. Reverb left/right is the delay between every bounce in ms.
+    Reverb bounces left/right is the number of bounces that should be
+    made. $FF equals an infinite number of bounces. Feedback is the amount
+    of volume that should be returned to the next echo bounce. $00 is 0%,
+    $FF is 100%. If this value were $7F, there would be 50% volume
+    reduction on the first bounce, yet 50% on the second and so on. Left
+    to left means the sound from the left bounce to be played in the left
+    speaker, while left to right means sound from the left bounce to be
+    played in the right speaker.
+</p>
+
+<p class=t>
+    'Premix left to right' is the amount of left sound to be mixed in the
+    right before any reverb is applied, where $00 id 0% and $FF is 100%.
+    'Premix right to left' does the same thing, but right to left. Setting
+    both premix to $FF would result in a mono output (if the reverb is
+    applied symmetric). There may only be one "REV" frame in each tag.
+</p>
+
+<p><center>
+    <table border=0>
+        <tr><td>Reverb settings</td><td rowspan=12>&nbsp;</td><td width="100%">"REV"</td></tr>
+        <tr><td>Frame size</td><td>$00 00 0C</td></tr>
+        <tr><td>Reverb left (ms)</td><td>$xx xx</td></tr>
+        <tr><td>Reverb right (ms)</td><td>$xx xx</td></tr>
+        <tr><td>Reverb bounces, left</td><td>$xx</td></tr>
+        <tr><td>Reverb bounces, right</td><td>$xx</td></tr>
+        <tr><td>Reverb feedback, left to left</td><td>$xx</td></tr>
+        <tr><td>Reverb feedback, left to right</td><td>$xx</td></tr>
+        <tr><td nowrap>Reverb feedback, right to right</td><td>$xx</td></tr>
+        <tr><td>Reverb feedback, right to left</td><td>$xx</td></tr>
+        <tr><td>Premix left to right</td><td>$xx</td></tr>
+        <tr><td>Premix right to left</td><td>$xx</td></tr>
+    </table>
+</center>
+
+<p class=t><i>While it says here that the "REV" frame is $00000C big, it might be bigger when encountered. If this frame
+    is updated in a later version of ID3v2, that information will be put at the end of the frame and the length
+    updated.</i></p>
+
+<a name="pic"> </a>
+<a name="sec4.15"> </a>
+
+<h3>4.15. Attached picture</h3>
+
+<p class=t>
+    This frame contains a picture directly related to the audio file.
+    Image format is preferably "<a href="#png">PNG</a>" or "<a href="#jfif">JPG</a>". <i>Since JPG has the best lossy
+    compression and PNG the best lossless compression and both are free I don't see much room for other formats. I
+    didn't want to forbid other formats though, since there might pop up better ones in the future. Some people will
+    probably think it is neat with ICO pictures as well.</i> Description
+    is a short description of the picture, represented as a terminated
+    textstring. The description has a maximum length of 64 characters,
+    but may be empty. There may be several pictures attached to one file,
+    each in their individual "PIC" frame, but only one with the same
+    content descriptor. There may only be one picture with the picture
+    type declared as picture type $01 and $02 respectively. There is a
+    possibility to put only a link to the image file by using the 'image
+    format' "--&gt;" and having a complete URL instead of picture data. The
+    use of linked files should however be used restrictively since there
+    is the risk of separation of files.
+</p>
+
+<p><center>
+    <table border=0>
+        <tr><td nowrap>Attached picture</td><td rowspan=7>&nbsp;</td><td width="100%">"PIC"</td></tr>
+        <tr><td>Frame size</td><td>$xx xx xx</td></tr>
+        <tr><td>Text encoding</td><td>$xx</td></tr>
+        <tr><td>Image format</td><td>$xx xx xx</td></tr>
+        <tr><td>Picture type</td><td>$xx</td></tr>
+        <tr><td>Description</td><td>&lt;textstring&gt; $00 (00)</td></tr>
+        <tr><td>Picture data</td><td>&lt;binary data&gt;</td></tr>
+    </table>
+</center>
+
+<p><center>
+    <table border=0>
+        <tr valign=top><td rowspan=21 nowrap>Picture type:&nbsp;</td><td width="100%">$00 &nbsp; Other</td></tr>
+        <tr><td>$01 &nbsp; 32x32 pixels 'file icon' (<a href="#png">PNG</a> only)</td></tr>
+        <tr><td>$02 &nbsp; Other file icon</td></tr>
+        <tr><td>$03 &nbsp; Cover (front)</td></tr>
+        <tr><td>$04 &nbsp; Cover (back)</td></tr>
+        <tr><td>$05 &nbsp; Leaflet page</td></tr>
+        <tr><td>$06 &nbsp; Media (e.g. lable side of CD)</td></tr>
+        <tr><td>$07 &nbsp; Lead artist/lead performer/soloist</td></tr>
+        <tr><td>$08 &nbsp; Artist/performer</td></tr>
+        <tr><td>$09 &nbsp; Conductor</td></tr>
+        <tr><td>$0A &nbsp; Band/Orchestra</td></tr>
+        <tr><td>$0B &nbsp; Composer</td></tr>
+        <tr><td>$0C &nbsp; Lyricist/text writer</td></tr>
+        <tr><td>$0D &nbsp; Recording Location</td></tr>
+        <tr><td>$0E &nbsp; During recording</td></tr>
+        <tr><td>$0F &nbsp; During performance</td></tr>
+        <tr><td>$10 &nbsp; Movie/video screen capture</td></tr>
+        <tr><td>$11 &nbsp; A bright coloured fish</td></tr>
+        <tr><td>$12 &nbsp; Illustration</td></tr>
+        <tr><td>$13 &nbsp; Band/artist logotype</td></tr>
+        <tr><td>$14 &nbsp; Publisher/Studio logotype</td></tr>
+    </table>
+</center>
+
+<a name="geo"> </a>
+<a name="sec4.16"> </a>
+
+<h3>4.16. General encapsulated object</h3>
+
+<p class=t>
+    In this frame any type of file can be encapsulated. After the header,
+    'Frame size' and 'Encoding' follows '<a href="#mime">MIME type</a>' and 'Filename' for
+    the encapsulated object, both represented as terminated strings
+    encoded with <a href="#iso8859">ISO 8859-1</a>. The filename is case sensitive. Then follows
+    a content description as terminated string, encoded as 'Encoding'. The
+    last thing in the frame is the actual object. The first two strings
+    may be omitted, leaving only their terminations. MIME type is always
+    an <a href="#iso8859">ISO-8859-1</a> text string. There may be more than one "GEO" frame in
+    each tag, but only one with the same content descriptor.
+</p>
+
+<p><center>
+    <table border=0>
+        <tr><td nowrap>General encapsulated object</td><td rowspan=7>&nbsp;</td><td width="100%">"GEO"</td></tr>
+        <tr><td>Frame size</td><td>$xx xx xx</td></tr>
+        <tr><td>Text encoding</td><td>$xx</td></tr>
+        <tr><td>MIME type</td><td>&lt;textstring&gt; $00</td></tr>
+        <tr><td>Filename</td><td>&lt;textstring&gt; $00 (00)</td></tr>
+        <tr><td>Content description</td><td>&lt;textstring&gt; $00 (00)</td></tr>
+        <tr><td>Encapsulated object</td><td>&lt;binary data&gt;</td></tr>
+    </table>
+</center>
+
+<a name="cnt"> </a>
+<a name="sec4.17"> </a>
+
+<h3>4.17. Play counter</h3>
+
+<p class=t>
+    This is simply a counter of the number of times a file has been
+    played. The value is increased by one every time the file begins to
+    play. There may only be one "CNT" frame in each tag. When the counter
+    reaches all one's, one byte is inserted in front of the counter thus
+    making the counter eight bits bigger. The counter must be at least
+    32-bits long to begin with. <i>Dirk Mahoney and I once had a debate whether or not the counter should be virtually
+    infinite. He said that a simple 32 bit word was big enough and easy enough to implement while I said it wasn't cool
+    enough. He's now using the same bat against me when I say that there is no need for two bytes to describe how many
+    channels a PCM sample has.</i>
+</p>
+
+<p><center>
+    <table border=0>
+        <tr><td nowrap>Play counter</td><td rowspan=3>&nbsp;</td><td width="100%">"CNT"</td></tr>
+        <tr><td>Frame size</td><td>$xx xx xx</td></tr>
+        <tr><td>Counter</td><td>$xx xx xx xx (xx ...)</td></tr>
+    </table>
+</center>
+
+<a name="pop"> </a>
+<a name="sec4.18"> </a>
+
+<h3>4.18. Popularimeter</h3>
+
+<p class=t>
+    The purpose of this frame is to specify how good an audio file is.
+    Many interesting applications could be found to this frame such as a
+    playlist that features better audiofiles more often than others or it
+    could be used to profile a persons taste and find other 'good' files
+    by comparing people's profiles. The frame is very simple. It contains
+    the email address to the user, one rating byte and a four byte play
+    counter, intended to be increased with one for every time the file is
+    played. The email is a terminated string. The rating is 1-255 where
+    1 is worst and 255 is best. 0 is unknown. If no personal counter is
+    wanted it may be omitted. When the counter reaches all one's, one
+    byte is inserted in front of the counter thus making the counter
+    eight bits bigger in the same away as the <a href="#cnt">play counter</a>.
+    There may be more than one "POP" frame in each tag, but only one with
+    the same email address.
+</p>
+
+<p class=t><i>This is defenitly my personal favorite frame. Support it a lot.</i></p>
+
+<p><center>
+    <table border=0>
+        <tr><td>Popularimeter</td><td rowspan=5>&nbsp;</td><td width="100%">"POP"</td></tr>
+        <tr><td>Frame size</td><td>$xx xx xx</td></tr>
+        <tr><td nowrap>Email to user</td><td>&lt;textstring&gt; $00</td></tr>
+        <tr><td>Rating</td><td>$xx</td></tr>
+        <tr><td>Counter</td><td>$xx xx xx xx (xx ...)</td></tr>
+    </table>
+</center>
+
+<a name="buf"> </a>
+<a name="sec4.19"> </a>
+
+<h3>4.19. Recommended buffer size</h3>
+
+<p class=t>
+    Sometimes the server from which a audio file is streamed is aware of
+    transmission or coding problems resulting in interruptions in the
+    audio stream. In these cases, the size of the buffer can be
+    recommended by the server using this frame. If the 'embedded info
+    flag' is true (1) then this indicates that an ID3 tag with the
+    maximum size described in 'Buffer size' may occur in the audiostream.
+    In such case the tag should reside between two <a href="#mpeg">MPEG frames</a>, if the audio is <a
+        href="#mpeg">MPEG</a> encoded. If the
+    position of the next tag is known, 'offset to next tag' may be used.
+    The offset is calculated from the end of tag in which this frame
+    resides to the first byte of the header in the next. This field may be
+    omitted. Embedded tags is currently not recommended since this could render
+    unpredictable behaviour from present software/hardware. The 'Buffer
+    size' should be kept to a minimum. There may only be one "BUF" frame
+    in each tag.
+</p>
+
+<p class=t><i>This frame was really designed to make it possible to include ID3v2 tags in the audio stream. In order to
+    get the player to play without interruptions when the tag is coming instead of audio data there must be a way to
+    tell the maximum size of the tag. A good practice might be to set the recommended buffer size to at least the size
+    of the largest tag occurring in the rest of the mpeg stream.</i></p>
+
+<p><center>
+    <table border=0>
+        <tr><td nowrap>Recommended buffer size</td><td rowspan=5>&nbsp;</td><td width="100%">"BUF"</td></tr>
+        <tr><td>Frame size</td><td>$xx xx xx</td></tr>
+        <tr><td>Buffer size</td><td>$xx xx xx</td></tr>
+        <tr><td>Embedded info flag</td><td>%0000000x</td></tr>
+        <tr><td>Offset to next tag</td><td>$xx xx xx xx</td></tr>
+    </table>
+</center>
+
+<a name="crm"> </a>
+<a name="sec4.20"> </a>
+
+<h3>4.20. Encrypted meta frame</h3>
+
+<p class=t>
+    This frame contains one or more encrypted frames. This enables
+    protection of copyrighted information such as pictures and text, that
+    people might want to pay extra for. Since standardisation of such an
+    encryption scheme is beyond this document, all "CRM" frames begin with
+    a terminated string with a <a href="#url">URL</a> containing an email address, or a link
+    to a location where an email adress can be found, that belongs to the
+    organisation responsible for this specific encrypted meta frame.
+</p>
+
+<p class=t>
+    Questions regarding the encrypted frame should be sent to the
+    indicated email address. If a $00 is found directly after the 'Frame
+    size', the whole frame should be ignored, and preferably be removed.
+    The 'Owner identifier' is then followed by a short content description
+    and explanation as to why it's encrypted. After the
+    'content/explanation' description, the actual encrypted block follows.
+</p>
+
+<p class=t>
+    When an ID3v2 decoder encounters a "CRM" frame, it should send the
+    datablock to the 'plugin' with the corresponding 'owner identifier'
+    and expect to receive either a datablock with one or several ID3v2
+    frames after each other or an error. There may be more than one "CRM"
+    frames in a tag, but only one with the same 'owner identifier'.
+</p>
+
+<p><center>
+    <table border=0>
+        <tr><td nowrap>Encrypted meta frame</td><td rowspan=5>&nbsp;</td><td width="100%">"CRM"</td></tr>
+        <tr><td>Frame size</td><td>$xx xx xx</td></tr>
+        <tr><td>Owner identifier</td><td>&lt;textstring&gt; $00 (00)</td></tr>
+        <tr><td>Content/explanation</td><td>&lt;textstring&gt; $00 (00)</td></tr>
+        <tr><td>Encrypted datablock</td><td>&lt;binary data&gt;</td></tr>
+    </table>
+</center>
+
+<a name="cra"> </a>
+<a name="sec4.21"> </a>
+
+<h3>4.21. Audio encryption</h3>
+
+<p class=t>
+    This frame indicates if the actual audio stream is encrypted, and by
+    whom. Since standardisation of such encrypion scheme is beyond this
+    document, all "CRA" frames begin with a terminated string with a
+    URL containing an email address, or a link to a location where an
+    email address can be found, that belongs to the organisation
+    responsible for this specific encrypted audio file. Questions
+    regarding the encrypted audio should be sent to the email address
+    specified. If a $00 is found directly after the 'Frame size' and the
+    audiofile indeed is encrypted, the whole file may be considered
+    useless.
+</p>
+
+<p class=t>
+    After the 'Owner identifier', a pointer to an unencrypted part of the
+    audio can be specified. The 'Preview start' and 'Preview length' is
+    described in frames. If no part is unencrypted, these fields should be
+    left zeroed. After the 'preview length' field follows optionally a
+    datablock required for decryption of the audio. There may be more than
+    one "CRA" frames in a tag, but only one with the same 'Owner
+    identifier'.
+</p>
+
+<p class=t><i>This frame is my response to the MMP protocol from Fraunhofer, which I think is cra... not so good.</i>
+</p>
+
+<p><center>
+    <table border=0>
+        <tr><td nowrap>Audio encryption</td><td rowspan=6>&nbsp;</td><td width="100%">"CRA"</td></tr>
+        <tr><td>Frame size</td><td>$xx xx xx</td></tr>
+        <tr><td>Owner identifier</td><td>&lt;textstring&gt; $00 (00)</td></tr>
+        <tr><td>Preview start</td><td>$xx xx</td></tr>
+        <tr><td>Preview length</td><td>$xx xx</td></tr>
+        <tr><td>Encryption info</td><td>&lt;binary data&gt;</td></tr>
+    </table>
+</center>
+
+<a name="lnk"> </a>
+<a name="sec4.22"> </a>
+
+<h3>4.22. Linked information</h3>
+
+<p class=t>
+    To keep space waste as low as possible this frame may be used to link information from another ID3v2 tag that might
+    reside in another audio
+    file or alone in a binary file. It is recommended that this method is only used when the files are stored on a
+    CD-ROM or other circumstances
+    when the risk of file seperation is low. The frame contains a frame identifier, which is the frame that should be
+    linked into this tag, a
+    URL [URL] field, where a reference to the file where the frame is given, and additional ID data, if needed. Data
+    should be retrieved
+    from the first tag found in the file to which this link points. There may be more than one "LNK" frame in a tag, but
+    only one with the same
+    contents. A linked frame is to be considered as part of the tag and has the same restrictions as if it was a
+    physical part of the tag
+    (i.e. only one "<a href="#rev">REV</a>" frame allowed, whether it's linked or not).
+</p>
+
+<p class=t><i>This is a very nice frame when dealing with tag streaming since it allows the reciever to decide if he/she
+    wants to download the frame or not. Since the file is being streamed, it is most likely that the user will be able
+    to get the resource, should he/she want to.</i></p>
+
+<p><center>
+    <table border=0>
+        <tr><td nowrap>Linked information</td><td rowspan=5>&nbsp;</td><td width="100%">"LNK"</td></tr>
+        <tr><td>Frame size</td><td>$xx xx xx</td></tr>
+        <tr><td>Frame identifier</td><td>$xx xx xx</td></tr>
+        <tr><td>File/URL</td><td>&lt;textstring&gt; $00 (00)</td></tr>
+        <tr><td>Additional ID data</td><td>&lt;textstring(s)&gt;</td></tr>
+    </table>
+</center>
+
+<p class=t>
+    Frames that may be linked and need no additional data are "<a href="#ipl">IPL</a>",
+    "<a href="#mci">MCI</a>", "<a href="#etc">ETC</a>", "<a href="#llt">LLT</a>", "<a href="#stc">STC</a>", "<a
+        href="#rva">RVA</a>",
+    "<a href="#equ">EQU</a>", "<a href="#rev">REV</a>", "<a href="#buf">BUF</a>", the text information frames and the
+    URL link frames.
+</p>
+
+<p class=t>
+    The "<a href="#txx">TXX</a>", "<a href="#pic">PIC</a>", "<a href="#geo">GEO</a>", "<a href="#crm">CRM</a>" and "<a
+        href="#cra">CRA</a>" frames may be linked with the content descriptor as additional ID data.
+</p>
+
+<p class=t>
+    The "<a href="#com">COM</a>", "<a href="#slt">SLT</a>" and "<a href="#ult">ULT</a>" frames may be linked with three
+    bytes of language descriptor directly followed by a content descriptor as
+    additional ID data.
+</p>
+
+<a name="sec5"> </a>
+
+<h3>5. The 'unsynchronisation scheme'</h3>
+
+<p class=t><i>The unsynchronisation scheme was initially very, very complex (and had another name, since it didn't
+    unsynchronise) and was done very late compared to the other key components of ID3v2. The idea was that all data
+    falsely recognized as an MPEG frame (i e the ID3v2 tag) that a player found should have an incorrect CRC and thus be
+    skipped. At first, this sounded simple to implement since the CRC would most likely not be correct anyhow. The
+    problem was that the correct bit must be cleared so that the player really believed that there should be a CRC.
+    If, when unsynchronising, it turns out that the CRC was valid after all, the data had to be manipulated to render
+    the CRC erroneous again. The real trick was to reverse the process so that a tag with several MPEG frames with
+    unvalid CRC:s should become a normal tag again. By now I made a simple test and found out that most players don't
+    care about whether the CRC is correct or not; they play the data anyway.</i></p>
+
+<p class=t>
+    The only purpose of the 'unsychronisation scheme' is to make the ID3v2 tag as compatible as possible with existing
+    software. There is no use
+    in 'unsynchronising' tags if the file is only to be processed by new software. Unsynchronisation may only be made
+    with <a href="#mpeg">MPEG 2 layer I, II and III</a> and MPEG 2.5 files.
+</p>
+
+<p class=t>
+    Whenever a false synchronisation is found within the tag, one zeroed byte is inserted after the first false
+    synchronisation byte. The
+    format of a correct sync that should be altered by ID3 encoders is as follows:
+</p>
+
+<p class=ind>
+    %11111111 111xxxxx
+</p>
+
+<p class=t>
+    And should be replaced with:
+</p>
+
+<p class=ind>
+    %11111111 00000000 111xxxxx
+</p>
+
+<p class=t>
+    This has the side effect that all $FF 00 combinations have to be altered, so they won't be affected by the decoding
+    process. Therefore
+    all the $FF 00 combinations have to be replaced with the $FF 00 00 combination during the unsynchonisation.
+</p>
+
+<p class=t>
+    To indicate usage of the unsynchronisation, the first bit in 'ID3 flags' should be set. This bit should only be set
+    if the tag
+    contained a, now corrected, false synchronisation. The bit should only be clear if the tag does not contain any
+    false synchronisations.
+</p>
+
+<p class=t>
+    Do bear in mind, that if a compression scheme is used by the encoder, the unsyncronisation scheme should be applied
+    <b>afterwards</b>. When
+    decoding a compressed, 'unsyncronised' file, the 'unsyncronisation scheme' should be parsed first, compression
+    afterwards.
+</p>
+
+<a name="sec6"> </a>
+
+<h3>6. Copyright</h3>
+
+<p class=t>
+    Copyright (C) Martin Nilsson 1998. All Rights Reserved.
+</p>
+
+<p class=t>
+    This document and the information contained herein is provided on an "AS IS" basis and THE AUTHORS DISCLAIMS ALL
+    WARRANTIES, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTY THAT THE USE OF THE INFORMATION HEREIN WILL NOT INFRINGE ANY
+    RIGHTS OR ANY IMPLIED
+    WARRANTIES OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.
+</p>
+
+<p class=t>
+    The comments on this page, enclosed within &lt;i&gt;, is intended for your information and entertainment and may
+    only be used for your personal use.
+    You may not redistribute this information in any way on any media. If the comments are removed the following applies
+    to this document:
+</p>
+
+<p class=t>
+    This document and translations of it may be copied and furnished to others, and derivative works that comment on or
+    otherwise explain it
+    or assist in its implementation may be prepared, copied, published and distributed, in whole or in part, without
+    restriction of any
+    kind, provided that a reference to this document is included on all such copies and derivative works. However, this
+    document itself may
+    not be modified in any way and reissued as the original document.
+</p>
+
+<p class=t>
+    The limited permissions granted above are perpetual and will not be revoked.
+</p>
+
+<a name="sec7"> </a>
+
+<h3>7. References</h3>
+
+<a name="cddb"> </a>
+
+<p class=t>
+    [CDDB] Compact Disc Data Base</p>
+
+<p class=ind>
+    &lt;url:<a href="http://www.cddb.com">http://www.cddb.com</a>&gt;
+</p>
+
+<a name="iso639-2"> </a>
+
+<p class=t>
+    [ISO-639-2] ISO/FDIS 639-2. Codes for the representation of names of languages, Part 2: Alpha-3 code. Technical
+    committee / subcommittee: TC 37 / SC 2
+</p>
+
+<a name="iso8859"> </a>
+
+<p class=t>
+    [ISO-8859-1] ISO/IEC DIS 8859-1. 8-bit single-byte coded graphic character sets, Part 1: Latin alphabet No. 1.
+    Technical committee / subcommittee: JTC 1 / SC 2
+</p>
+
+<a name="isrc"> </a>
+
+<p class=t>
+    [ISRC] ISO 3901:1986 International Standard Recording Code (ISRC). Technical committee / subcommittee: TC 46 / SC 9
+</p>
+
+<a name="jfif"> </a>
+
+<p class=t>
+    [JFIF] JPEG File Interchange Format, version 1.02
+</p>
+
+<p class=ind>
+    &lt;url:<a href="http://www.w3.org/Graphics/JPEG/jfif.txt">http://www.w3.org/Graphics/JPEG/jfif.txt</a>&gt;
+</p>
+
+<a name="mime"> </a>
+
+<p class=t>
+    [MIME] Freed, N. and N. Borenstein, "Multipurpose Internet Mail Extensions (MIME) Part One: Format of Internet
+    Message Bodies", RFC 2045, November 1996.
+</p>
+
+<p class=ind>
+    &lt;url:<a href="ftp://ftp.isi.edu/in-notes/rfc2045.txt">ftp://ftp.isi.edu/in-notes/rfc2045.txt</a>&gt;
+</p>
+
+<a name="mpeg"> </a>
+
+<p class=t>
+    [MPEG] ISO/IEC 11172-3:1993.
+    Coding of moving pictures and associated audio for digital storage media at up to about 1,5 Mbit/s, Part 3: Audio.
+    Technical committee / subcommittee: JTC 1 / SC 29<br>
+    and<br>
+    ISO/IEC 13818-3:1995
+    Generic coding of moving pictures and associated audio information, Part 3: Audio.
+    Technical committee / subcommittee: JTC 1 / SC 29<br>
+    and<br>
+    ISO/IEC DIS 13818-3
+    Generic coding of moving pictures and associated audio information, Part 3: Audio (Revision of ISO/IEC 13818-3:1995)
+</p>
+
+<a name="png"> </a>
+
+<p class=t>
+    [PNG] Portable Network Graphics, version 1.0
+</p>
+
+<p class=ind>
+    &lt;url:<a href="http://www.w3.org/TR/REC-png-multi.html">http://www.w3.org/TR/REC-png-multi.html</a>&gt;
+</p>
+
+<a name="unicode"> </a>
+
+<p class=t>
+    [UNICODE] ISO/IEC 10646-1:1993. Universal Multiple-Octet Coded Character Set (UCS), Part 1: Architecture and Basic
+    Multilingual Plane. Technical committee / subcommittee: JTC 1 / SC 2
+</p>
+
+<p class=ind>
+    &lt;url:<a href="http://www.unicode.org">http://www.unicode.org</a>&gt;
+</p>
+
+<a name="url"> </a>
+
+<p class=t>
+    [URL] T. Berners-Lee, L. Masinter &amp; M. McCahill, "Uniform Resource Locators (URL).", RFC 1738, December 1994.
+</p>
+
+<p class=ind>
+    &lt;url:<a href="ftp://ftp.isi.edu/in-notes/rfc1738.txt">ftp://ftp.isi.edu/in-notes/rfc1738.txt</a>&gt;
+</p>
+
+<a name="sec8"> </a>
+
+<h3>8. Appendix</h3>
+
+<a name="seca"> </a>
+
+<h3>A. Appendix A - ID3-Tag Specification V1.1</h3>
+
+<p class=t>
+    ID3-Tag Specification V1.1 (12 dec 1997) by <a href="mailto:amiga2@info2.rus.uni-stuttgart.de">Michael Mutschler</a>,
+    edited for space and clarity reasons.
+</p>
+
+<p class=t><i>
+    This section is of little or no concern to ID3v2 implementions, it is here mainly for historical reference. The
+    genre section (A.3.) is used bye the "TCO" frame though.
+</i></p>
+
+<a name="seca.1"> </a>
+
+<h3>A.1. Overview</h3>
+
+<p class=t>
+    The ID3-Tag is an information field for MPEG Layer 3 audio files. Since a standalone MP3 doesn't provide a method of
+    storing other
+    information than those directly needed for replay reasons, the ID3-tag was invented by Eric Kemp in 1996.
+</p>
+
+<p class=t>
+    A revision from ID3v1 to ID3v1.1 was made by <a href="mailto:amiga2@info2.rus.uni-stuttgart.de">Michael
+    Mutschler</a> to support <a href="#seca.4">track number information</a>.
+</p>
+
+<a name="seca.2"> </a>
+
+<h3>A.2. ID3v1 Implementation</h3>
+
+<p class=t>
+    The Information is stored in the last 128 bytes of an MP3. The Tag has got the following fields, and the offsets
+    given here, are from 0-127.
+</p>
+
+<p><center>
+    <table border=0>
+        <tr><td>Field</td><td rowspan=8></td><td>Length</td><td rowspan=8></td><td align=center>Offsets</td><td
+                width="100%">&nbsp;</td></tr>
+        <tr><td>Tag</td><td>3</td><td align=center>0-2</td></tr>
+        <tr><td>Songname</td><td>30</td><td align=center>3-32</td></tr>
+        <tr><td>Artist</td><td>30</td><td align=center>33-62</td></tr>
+        <tr><td>Album</td><td>30</td><td align=center>63-92</td></tr>
+        <tr><td>Year</td><td>4</td><td align=center>93-96</td></tr>
+        <tr><td>Comment</td><td>30</td><td align=center>97-126</td></tr>
+        <tr><td>Genre</td><td>1</td><td align=center>127</td></tr>
+    </table>
+</center>
+
+<p class=t>The string-fields contain ASCII-data, coded in ISO-Latin 1 codepage. Strings which are smaller than the field
+    length are padded with zero-bytes.</p>
+
+<p><center>
+    <table border=0>
+        <tr valign=top><td>Tag:</td><td rowspan=7>&nbsp;</td><td>the tag is valid if this field contains the string
+            "TAG". This has to be uppercase!</td></tr>
+        <tr valign=top><td>Songname:</td><td>This field contains the title of the MP3 (string as above).</td></tr>
+        <tr valign=top><td>Artist:</td><td>This field contains the artist of the MP3 (string as above).</td></tr>
+        <tr valign=top><td>Album:</td><td>This field contains the album where the MP3 comes from (string as above).</td>
+        </tr>
+        <tr valign=top><td>Year:</td><td>This field contains the year when this song has originally been released
+            (string as above).</td></tr>
+        <tr valign=top><td>Comment:</td><td>This field contains a comment for the MP3 (string as above). Revision to
+            this field has been made in <a href="#seca.4">ID3v1.1</a>.</td></tr>
+        <tr valign=top><td>Genre:</td><td>This byte contains the offset of a genre in a <a href="#seca.3">predefined
+            list</a> the byte is treated as an unsigned byte. The offset is starting from 0.</td></tr>
+    </table>
+</center>
+
+<a name="seca.3"> </a>
+
+<h3>A.3. Genre List</h3>
+<center>
+<table border=0><tr valign=top><td>
+    The following genres is defined in ID3v1
+    <pre>
+        0.Blues
+        1.Classic Rock
+        2.Country
+        3.Dance
+        4.Disco
+        5.Funk
+        6.Grunge
+        7.Hip-Hop
+        8.Jazz
+        9.Metal
+        10.New Age
+        11.Oldies
+        12.Other
+        13.Pop
+        14.R&amp;B
+        15.Rap
+        16.Reggae
+        17.Rock
+        18.Techno
+        19.Industrial
+        20.Alternative
+        21.Ska
+        22.Death Metal
+        23.Pranks
+        24.Soundtrack
+        25.Euro-Techno
+        26.Ambient
+        27.Trip-Hop
+        28.Vocal
+        29.Jazz+Funk
+        30.Fusion
+        31.Trance
+        32.Classical
+        33.Instrumental
+        34.Acid
+        35.House
+        36.Game
+        37.Sound Clip
+        38.Gospel
+        39.Noise
+        40.AlternRock
+        41.Bass
+        42.Soul
+        43.Punk
+        44.Space
+        45.Meditative
+        46.Instrumental Pop
+        47.Instrumental Rock
+        48.Ethnic
+        49.Gothic
+        50.Darkwave
+        51.Techno-Industrial
+        52.Electronic
+        53.Pop-Folk
+        54.Eurodance
+        55.Dream
+        56.Southern Rock
+        57.Comedy
+        58.Cult
+        59.Gangsta
+        60.Top 40
+        61.Christian Rap
+        62.Pop/Funk
+        63.Jungle
+        64.Native American
+        65.Cabaret
+        66.New Wave
+        67.Psychadelic
+        68.Rave
+        69.Showtunes
+        70.Trailer
+        71.Lo-Fi
+        72.Tribal
+        73.Acid Punk
+        74.Acid Jazz
+        75.Polka
+        76.Retro
+        77.Musical
+        78.Rock &amp; Roll
+        79.Hard Rock
+    </pre>
+</td><td>
+    The following genres are Winamp extensions
+    <pre>
+        80.Folk
+        81.Folk-Rock
+        82.National Folk
+        83.Swing
+        84.Fast Fusion
+        85.Bebob
+        86.Latin
+        87.Revival
+        88.Celtic
+        89.Bluegrass
+        90.Avantgarde
+        91.Gothic Rock
+        92.Progressive Rock
+        93.Psychedelic Rock
+        94.Symphonic Rock
+        95.Slow Rock
+        96.Big Band
+        97.Chorus
+        98.Easy Listening
+        99.Acoustic
+        100.Humour
+        101.Speech
+        102.Chanson
+        103.Opera
+        104.Chamber Music
+        105.Sonata
+        106.Symphony
+        107.Booty Bass
+        108.Primus
+        109.Porn Groove
+        110.Satire
+        111.Slow Jam
+        112.Club
+        113.Tango
+        114.Samba
+        115.Folklore
+        116.Ballad
+        117.Power Ballad
+        118.Rhythmic Soul
+        119.Freestyle
+        120.Duet
+        121.Punk Rock
+        122.Drum Solo
+        123.A capella
+        124.Euro-House
+        125.Dance Hall
+    </pre>
+    <i>These are not all new genres introduced by Winamp, but we thought that the quality was steadily going down and
+        the names of the genres being more and more questionable. We will not add any more of the Winamp genres to this
+        list. We will not introduce any own genres below number 256 either.</i>
+</td></tr></table>
+</center>
+
+<a name="seca.4"> </a>
+
+<h3>A.4. Track addition - ID3v1.1</h3>
+
+<p class=t>
+    In ID3v1.1, <a href="mailto:amiga2@info2.rus.uni-stuttgart.de">Michael Mutschler</a> revised the specification of
+    the
+    comment field in order to implement the track number. The new format of the comment field is a 28 character string
+    followed by a mandatory
+    null ($00) character and the original album tracknumber stored as an unsigned byte-size integer. In such cases where
+    the 29th byte is not
+    the null character or when the 30th is a null character, the tracknumber is to be considered undefined.
+</p>
+
+<a name="sec9"> </a>
+
+<h3>9. Author's Address</h3>
+
+<p class=t>
+    Martin Nilsson<br>
+    Rydsvägen 246 C. 30<br>
+    S-584 34 Linköping<br>
+    Sweden<br></p>
+
+<p class=t>Email: <a href="mailto:nilsson@id3.org">nilsson@id3.org</a></p>
+
+<p class=t>Co-author:</p>
+
+<p class=t>Johan Sundström Email: <a href="mailto:johan@id3.org">johan@id3.org</a></p>
+
+</body></html>
