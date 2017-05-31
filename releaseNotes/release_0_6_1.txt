@@ -1,0 +1,6 @@
+jid3-lib
+
+Release 0.6.1 5/31/2017	
+
+Fixed names of get() method to set()
+
