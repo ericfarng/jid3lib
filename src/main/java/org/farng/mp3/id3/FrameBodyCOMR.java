@@ -130,7 +130,7 @@ public class FrameBodyCOMR extends AbstractID3v2FrameBody {
         return (String) getObject("Owner");
     }
 
-    public void getOwner(final String description) {
+    public void setOwner(final String description) {
         setObject("Owner", description);
     }
 

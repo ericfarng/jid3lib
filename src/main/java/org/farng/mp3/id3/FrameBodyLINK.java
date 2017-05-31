@@ -95,7 +95,7 @@ public class FrameBodyLINK extends AbstractID3v2FrameBody {
         return (String) getObject("ID and Additional Data");
     }
 
-    public void getAdditionalData(final String additionalData) {
+    public void setAdditionalData(final String additionalData) {
         setObject("ID and Additional Data", additionalData);
     }
 
@@ -103,7 +103,7 @@ public class FrameBodyLINK extends AbstractID3v2FrameBody {
         return (String) getObject("Frame Identifier");
     }
 
-    public void getFrameIdentifier(final String frameIdentifier) {
+    public void setFrameIdentifier(final String frameIdentifier) {
         setObject("Frame Identifier", frameIdentifier);
     }
 
