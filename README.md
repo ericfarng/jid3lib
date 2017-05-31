@@ -6,16 +6,22 @@ This library reads song information, such as song title, artist, and album, from
 Compiled jar can be found at 
   * https://sourceforge.net/projects/javamusictag/
 
+This library has been forked a few times
+  * http://www.jthink.net/jaudiotagger/examples_id3.jsp
+  * https://github.com/mpatric/mp3agic
+
 Someone else has uploaded an older version of this library into the standard Maven Repo. I hope to get
 this version there soon.
   * https://mvnrepository.com/artifact/net.sf.javamusictag/jid3lib
   * https://mvnrepository.com/artifact/net.sf/jid3lib/0.5
-
-This library has been forked a few times
-  * http://www.jthink.net/jaudiotagger/examples_id3.jsp
-  * https://github.com/mpatric/mp3agic
   
-To find more uses, a search on some of the unique class names (e.g. AbstractMP3Tag, AbstractMP3Fragment) will lead to more results.
+From what I can tell, this library is used in these applications
+  * http://docs.alfresco.com/community5.0/concepts/dev-repository-intro.html
+  * http://webcache.googleusercontent.com/search?q=cache:KgyJzCI5PkYJ:www.adobe.com/products/eula/third_party/livecycle/readme_v1g_10_nov09_final.pdf+&cd=50&hl=en&ct=clnk&gl=us
+  * http://www.lifl.fr/~casiez/IHM/TP/TP9jTunes/
+  * http://en.cze.cz/Radical-Chat-Installation
+  
+To find more uses, try searching on "jid3lib" or some of the unique class names (e.g. AbstractMP3Tag, AbstractMP3Fragment)
 
 
 
