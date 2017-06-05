@@ -226,7 +226,7 @@ public class ObjectLyrics3ImageTest extends TestCase {
         string = "filename||||";
         object.readString(string);
         assertEquals("filename", object.getFilename());
-        assertEquals("", object.getDescription());
+        assertEquals(null, object.getDescription());
         assertEquals(null, object.getTimeStamp());
         object = new ObjectLyrics3Image("");
         string = "||description||";
@@ -238,7 +238,7 @@ public class ObjectLyrics3ImageTest extends TestCase {
         string = "||||[02:13]";
         object.readString(string);
         assertEquals("", object.getFilename());
-        assertEquals("", object.getDescription());
+        assertEquals(null, object.getDescription());
         assertEquals(time, object.getTimeStamp());
         object = new ObjectLyrics3Image("");
         string = "||description||[02:13]";
@@ -250,7 +250,7 @@ public class ObjectLyrics3ImageTest extends TestCase {
         string = "filename||||[02:13]";
         object.readString(string);
         assertEquals("filename", object.getFilename());
-        assertEquals("", object.getDescription());
+        assertEquals(null, object.getDescription());
         assertEquals(time, object.getTimeStamp());
         object = new ObjectLyrics3Image("");
         string = "filename||description||";

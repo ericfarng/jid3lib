@@ -202,21 +202,23 @@ public class Lyrics3Test extends TestCase {
 
     private void saveLyrics3v2Test(MP3File mp3File, File newFilename) throws IOException,
                                                                              TagException {
+        // test saving to new file and re-reading back tag and checking java objects
         mp3File.save(newFilename);
-
         MP3File newMp3File = new MP3File(newFilename);
-
         Assert.assertEquals(mp3File.getLyrics3Tag(), newMp3File.getLyrics3Tag());
 
+        // use re-reading tag and saving to to third file and checking file bytes
         String filename = mp3File.getMp3file().getName();
         File lastFilename = new File(this.testMusicDirectory, "exactCopy2_" + filename);
         TagUtility.copyFile(newFilename, lastFilename);
         newMp3File.save(lastFilename);
         Assert.assertTrue(TagUtility.compareTwoFiles(newFilename, lastFilename));
 
+        // save to second file and checking file bytes with third file
         newMp3File.save();
         Assert.assertTrue(TagUtility.compareTwoFiles(newFilename, lastFilename));
 
+        // remove tag, save and check bytes with original file wit no tag.
         newMp3File.setLyrics3Tag(null);
         newMp3File.save(TagConstant.MP3_FILE_SAVE_OVERWRITE);
         Assert.assertTrue(TagUtility.compareTwoFiles(mp3File.getMp3file(), newFilename));
@@ -258,14 +260,14 @@ public class Lyrics3Test extends TestCase {
      *
      */
     protected void tearDown() {
-        FileFilter fileFilter = new FileOnlyFileFilter();
-        File[] testFileArray = this.testMusicDirectory.listFiles(fileFilter);
-        if (testFileArray != null) {
-            for (int i = 0; i < testFileArray.length; i++) {
-                testFileArray[i].delete();
-            }
-        }
-        this.testMusicDirectory.delete();
+//        FileFilter fileFilter = new FileOnlyFileFilter();
+//        File[] testFileArray = this.testMusicDirectory.listFiles(fileFilter);
+//        if (testFileArray != null) {
+//            for (int i = 0; i < testFileArray.length; i++) {
+//                testFileArray[i].delete();
+//            }
+//        }
+//        this.testMusicDirectory.delete();
     }
 
 }

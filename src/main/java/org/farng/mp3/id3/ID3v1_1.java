@@ -212,7 +212,7 @@ public class ID3v1_1 extends ID3v1 {
         // if this value is zero, then check the next value
         // to see if it's the track number. ID3v1.1
         file.read(buffer, 0, 2);
-        if (buffer[0] == 0) {
+        if (buffer[0] == 0 && buffer[1] != 0) {
             this.track = buffer[1];
         } else {
             throw new TagNotFoundException("ID3v1.1 Tag Not found");

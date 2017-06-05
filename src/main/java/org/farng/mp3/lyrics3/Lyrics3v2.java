@@ -135,6 +135,7 @@ public class Lyrics3v2 extends AbstractLyrics3 {
                     }
                 }
             }
+            updateField("IND");
         }
     }
 
