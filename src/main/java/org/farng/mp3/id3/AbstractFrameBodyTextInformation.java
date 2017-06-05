@@ -34,7 +34,7 @@ public abstract class AbstractFrameBodyTextInformation extends AbstractID3v2Fram
      */
     protected AbstractFrameBodyTextInformation(final byte textEncoding, final String text) {
         super();
-        setObject("Text Encoding", new Byte(textEncoding));
+        setObject(ObjectNumberHashMap.TEXT_ENCODING, new Byte(textEncoding));
         setObject("Text", text);
     }
 
@@ -59,15 +59,15 @@ public abstract class AbstractFrameBodyTextInformation extends AbstractID3v2Fram
     }
 
     public void setTextEncoding(final byte textEncoding) {
-        setObject("Text Encoding", new Byte(textEncoding));
+        setObject(ObjectNumberHashMap.TEXT_ENCODING, new Byte(textEncoding));
     }
 
     public byte getTextEncoding() {
-        return ((Byte) getObject("Text Encoding")).byteValue();
+        return (byte) (long) (Long) getObject(ObjectNumberHashMap.TEXT_ENCODING);
     }
 
     protected void setupObjectList() {
-        appendToObjectList(new ObjectNumberHashMap("Text Encoding", 1));
+        appendToObjectList(new ObjectNumberHashMap(ObjectNumberHashMap.TEXT_ENCODING, 1));
         appendToObjectList(new ObjectStringSizeTerminated("Text"));
     }
 }

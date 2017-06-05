@@ -79,6 +79,9 @@ public class FrameBodyUFID extends AbstractID3v2FrameBody {
         return (String) getObject("Owner");
     }
 
+    public byte[] getUniqueFileIdentifier() { return (byte[]) getObject("Identifier"); }
+    public void setUniqueFileIdentifier(final byte[] uniqueFileIdentifier) { setObject("Identifier", uniqueFileIdentifier); }
+
     protected void setupObjectList() {
         appendToObjectList(new ObjectStringNullTerminated("Owner"));
         appendToObjectList(new ObjectByteArraySizeTerminated("Identifier"));

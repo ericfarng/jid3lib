@@ -197,17 +197,6 @@ public abstract class AbstractID3v2 extends AbstractID3 {
         }
     }
 
-    public boolean equals(final Object obj) {
-        if (!(obj instanceof AbstractID3v2)) {
-            return false;
-        }
-        final AbstractID3v2 abstractID3v2 = (AbstractID3v2) obj;
-        if (!frameMap.equals(abstractID3v2.frameMap)) {
-            return false;
-        }
-        return super.equals(obj);
-    }
-
     public void overwrite(final AbstractMP3Tag abstractMP3Tag) {
         final AbstractID3v2 oldTag = this;
         final AbstractID3v2 newTag;
@@ -363,5 +352,61 @@ public abstract class AbstractID3v2 extends AbstractID3 {
 
     public int getPaddingSize() {
         return padding;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+
+        AbstractID3v2 that = (AbstractID3v2) o;
+
+        if (majorVersion != that.majorVersion) {
+            return false;
+        }
+        if (revision != that.revision) {
+            return false;
+        }
+        if (duplicateBytes != that.duplicateBytes) {
+            return false;
+        }
+        if (emptyFrameBytes != that.emptyFrameBytes) {
+            return false;
+        }
+        if (fileReadSize != that.fileReadSize) {
+            return false;
+        }
+        if (invalidFrameBytes != that.invalidFrameBytes) {
+            return false;
+        }
+        if (padding != that.padding) {
+            return false;
+        }
+        if (frameMap != null ? !frameMap.equals(that.frameMap) : that.frameMap != null) {
+            return false;
+        }
+        return duplicateFrameId != null ? duplicateFrameId.equals(that.duplicateFrameId)
+                                        : that.duplicateFrameId == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = frameMap != null ? frameMap.hashCode() : 0;
+        result = 31 * result + (duplicateFrameId != null ? duplicateFrameId.hashCode() : 0);
+        result = 31 * result + (int) majorVersion;
+        result = 31 * result + (int) revision;
+        result = 31 * result + duplicateBytes;
+        result = 31 * result + emptyFrameBytes;
+        result = 31 * result + fileReadSize;
+        result = 31 * result + invalidFrameBytes;
+        result = 31 * result + padding;
+        return result;
     }
 }

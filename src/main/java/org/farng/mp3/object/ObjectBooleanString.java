@@ -27,13 +27,6 @@ public class ObjectBooleanString extends AbstractMP3Object {
         return 1;
     }
 
-    public boolean equals(final Object obj) {
-        if (obj instanceof ObjectBooleanString == false) {
-            return false;
-        }
-        return super.equals(obj);
-    }
-
     public void readString(final String str, final int offset) {
         if (str == null) {
             throw new NullPointerException("String is null");
@@ -59,4 +52,5 @@ public class ObjectBooleanString extends AbstractMP3Object {
         }
         return ((Boolean) this.value).booleanValue() ? "1" : "0";
     }
+
 }

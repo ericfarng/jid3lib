@@ -229,32 +229,6 @@ public class ID3v1 extends AbstractID3v1 {
         }
     }
 
-    public boolean equals(final Object obj) {
-        if ((obj instanceof ID3v1) == false) {
-            return false;
-        }
-        final ID3v1 id3v1 = (ID3v1) obj;
-        if (this.album.equals(id3v1.album) == false) {
-            return false;
-        }
-        if (this.artist.equals(id3v1.artist) == false) {
-            return false;
-        }
-        if (this.comment.equals(id3v1.comment) == false) {
-            return false;
-        }
-        if (this.genre != id3v1.genre) {
-            return false;
-        }
-        if (this.title.equals(id3v1.title) == false) {
-            return false;
-        }
-        if (this.year.equals(id3v1.year) == false) {
-            return false;
-        }
-        return super.equals(obj);
-    }
-
     public Iterator iterator() {
         return new ID3v1Iterator(this);
     }
@@ -465,5 +439,48 @@ public class ID3v1 extends AbstractID3v1 {
 
     public void setAuthorComposer(String authorComposer) {
         throw new UnsupportedOperationException("This tag does not contain that information");
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+
+        ID3v1 id3v1 = (ID3v1) o;
+
+        if (genre != id3v1.genre) {
+            return false;
+        }
+        if (album != null ? !album.equals(id3v1.album) : id3v1.album != null) {
+            return false;
+        }
+        if (artist != null ? !artist.equals(id3v1.artist) : id3v1.artist != null) {
+            return false;
+        }
+        if (comment != null ? !comment.equals(id3v1.comment) : id3v1.comment != null) {
+            return false;
+        }
+        if (title != null ? !title.equals(id3v1.title) : id3v1.title != null) {
+            return false;
+        }
+        return year != null ? year.equals(id3v1.year) : id3v1.year == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = album != null ? album.hashCode() : 0;
+        result = 31 * result + (artist != null ? artist.hashCode() : 0);
+        result = 31 * result + (comment != null ? comment.hashCode() : 0);
+        result = 31 * result + (title != null ? title.hashCode() : 0);
+        result = 31 * result + (year != null ? year.hashCode() : 0);
+        result = 31 * result + (int) genre;
+        return result;
     }
 }

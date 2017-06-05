@@ -139,32 +139,6 @@ public class ID3v2_3Frame extends ID3v2_2Frame {
         return this.getBody().getSize() + 4 + 2 + 4;
     }
 
-    public boolean equals(final Object obj) {
-        if ((obj instanceof ID3v2_3Frame) == false) {
-            return false;
-        }
-        final ID3v2_3Frame id3v2_3Frame = (ID3v2_3Frame) obj;
-        if (this.compression != id3v2_3Frame.compression) {
-            return false;
-        }
-        if (this.encryption != id3v2_3Frame.encryption) {
-            return false;
-        }
-        if (this.fileAlterPreservation != id3v2_3Frame.fileAlterPreservation) {
-            return false;
-        }
-        if (this.groupingIdentity != id3v2_3Frame.groupingIdentity) {
-            return false;
-        }
-        if (this.readOnly != id3v2_3Frame.readOnly) {
-            return false;
-        }
-        if (this.tagAlterPreservation != id3v2_3Frame.tagAlterPreservation) {
-            return false;
-        }
-        return super.equals(obj);
-    }
-
     public void read(final RandomAccessFile file) throws IOException, InvalidTagException {
         byte b;
         long filePointer;
@@ -269,5 +243,49 @@ public class ID3v2_3Frame extends ID3v2_2Frame {
             this.tagAlterPreservation = false;
             this.fileAlterPreservation = true;
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+
+        ID3v2_3Frame that = (ID3v2_3Frame) o;
+
+        if (compression != that.compression) {
+            return false;
+        }
+        if (encryption != that.encryption) {
+            return false;
+        }
+        if (fileAlterPreservation != that.fileAlterPreservation) {
+            return false;
+        }
+        if (groupingIdentity != that.groupingIdentity) {
+            return false;
+        }
+        if (readOnly != that.readOnly) {
+            return false;
+        }
+        return tagAlterPreservation == that.tagAlterPreservation;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (compression ? 1 : 0);
+        result = 31 * result + (encryption ? 1 : 0);
+        result = 31 * result + (fileAlterPreservation ? 1 : 0);
+        result = 31 * result + (groupingIdentity ? 1 : 0);
+        result = 31 * result + (readOnly ? 1 : 0);
+        result = 31 * result + (tagAlterPreservation ? 1 : 0);
+        return result;
     }
 }

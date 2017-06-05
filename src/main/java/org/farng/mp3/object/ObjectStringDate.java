@@ -37,11 +37,4 @@ public class ObjectStringDate extends ObjectStringFixedLength {
         }
         return null;
     }
-
-    public boolean equals(final Object obj) {
-        if (obj instanceof ObjectStringDate == false) {
-            return false;
-        }
-        return super.equals(obj);
-    }
 }

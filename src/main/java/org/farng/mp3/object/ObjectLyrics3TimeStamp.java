@@ -68,20 +68,6 @@ public class ObjectLyrics3TimeStamp extends AbstractMP3Object {
         this.timeStampFormat = timeStampFormat;
     }
 
-    public boolean equals(final Object obj) {
-        if ((obj instanceof ObjectLyrics3TimeStamp) == false) {
-            return false;
-        }
-        final ObjectLyrics3TimeStamp objectLyrics3TimeStamp = (ObjectLyrics3TimeStamp) obj;
-        if (this.minute != objectLyrics3TimeStamp.minute) {
-            return false;
-        }
-        if (this.second != objectLyrics3TimeStamp.second) {
-            return false;
-        }
-        return super.equals(obj);
-    }
-
     public void readString(String timeStamp, final int offset) {
         if (timeStamp == null) {
             throw new NullPointerException("Image is null");
@@ -128,5 +114,37 @@ public class ObjectLyrics3TimeStamp extends AbstractMP3Object {
         }
         str += ']';
         return str;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+
+        ObjectLyrics3TimeStamp that = (ObjectLyrics3TimeStamp) o;
+
+        if (minute != that.minute) {
+            return false;
+        }
+        if (second != that.second) {
+            return false;
+        }
+        return timeStampFormat == that.timeStampFormat;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (int) (minute ^ (minute >>> 32));
+        result = 31 * result + (int) (second ^ (second >>> 32));
+        result = 31 * result + (int) timeStampFormat;
+        return result;
     }
 }

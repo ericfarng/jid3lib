@@ -77,6 +77,12 @@ public class FrameBodyPOPM extends AbstractID3v2FrameBody {
         return (String) getObject("Email to User");
     }
 
+    public byte getRating() { return (byte) (long) (Long) getObject("Rating"); }
+    public void setRating(final byte rating) { setObject("Rating", rating); }
+
+    public long getCounter() { return (Long) getObject("Counter"); }
+    public void setCounter(final long counter) { setObject("Counter", counter); }
+
     public String getIdentifier() {
         return "POPM" + ((char) 0) + getEmailToUser();
     }

@@ -31,13 +31,6 @@ public class ObjectStringSizeTerminated extends AbstractMP3Object {
         return 0;
     }
 
-    public boolean equals(final Object obj) {
-        if (obj instanceof ObjectStringSizeTerminated == false) {
-            return false;
-        }
-        return super.equals(obj);
-    }
-
     public void readString(final String str, final int offset) {
         if (str == null) {
             throw new NullPointerException("String is null");

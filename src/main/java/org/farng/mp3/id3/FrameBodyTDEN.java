@@ -50,6 +50,9 @@ public class FrameBodyTDEN extends AbstractFrameBodyTextInformation {
         return "TDEN";
     }
 
+    public void setTextEncoding(final byte textEncoding) { setObject(ObjectNumberHashMap.TEXT_ENCODING, new Byte(textEncoding)); }
+    public byte getTextEncoding() { return (byte) (long) (Long) getObject(ObjectNumberHashMap.TEXT_ENCODING); }
+
     public void setText(final String text) {
         setObject("Date Time", text);
     }

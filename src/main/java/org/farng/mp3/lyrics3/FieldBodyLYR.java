@@ -1,5 +1,6 @@
 package org.farng.mp3.lyrics3;
 
+import java.util.List;
 import org.farng.mp3.InvalidTagException;
 import org.farng.mp3.TagConstant;
 import org.farng.mp3.TagOptionSingleton;
@@ -24,7 +25,7 @@ import java.util.Iterator;
  */
 public class FieldBodyLYR extends AbstractLyrics3v2FieldBody {
 
-    private ArrayList lines = new ArrayList();
+    private ArrayList<ObjectLyrics3Line> lines = new ArrayList<ObjectLyrics3Line>();
 
     /**
      * Creates a new FieldBodyLYR object.
@@ -41,7 +42,7 @@ public class FieldBodyLYR extends AbstractLyrics3v2FieldBody {
         ObjectLyrics3Line oldObject;
         for (int i = 0; i < copyObject.lines.size(); i++) {
             oldObject = (ObjectLyrics3Line) copyObject.lines.get(i);
-            AbstractMP3Object newObject = new ObjectLyrics3Line(oldObject);
+            ObjectLyrics3Line newObject = new ObjectLyrics3Line(oldObject);
             this.lines.add(newObject);
 //            appendToObjectList(newObject);
         }
@@ -71,6 +72,13 @@ public class FieldBodyLYR extends AbstractLyrics3v2FieldBody {
     /**
      * Creates a new FieldBodyLYR object.
      */
+    public FieldBodyLYR(final ObjectLyrics3Line line) {
+        addLyric(line);
+    }
+
+    /**
+     * Creates a new FieldBodyLYR object.
+     */
     public FieldBodyLYR(final RandomAccessFile file) throws InvalidTagException, java.io.IOException {
         this.read(file);
     }
@@ -92,7 +100,8 @@ public class FieldBodyLYR extends AbstractLyrics3v2FieldBody {
         ObjectLyrics3Line line;
         for (int i = 0; i < this.lines.size(); i++) {
             line = (ObjectLyrics3Line) this.lines.get(i);
-            size += (line.getSize() + 2);
+            size += line.getSize();
+            if (i < this.lines.size() - 1) size += TagConstant.SEPERATOR_LINE.length();
         }
         return size;
     }
@@ -137,6 +146,10 @@ public class FieldBodyLYR extends AbstractLyrics3v2FieldBody {
             }
         }
     }
+    public void addLyric(final ObjectLyrics3Line line) {
+        this.lines.add(line);
+        appendToObjectList(line);
+    }
 
     public void addLyric(final FrameBodyUSLT unsync) {
         // USLT frames are just long text string;
@@ -144,20 +157,6 @@ public class FieldBodyLYR extends AbstractLyrics3v2FieldBody {
         line.setLyric(new String(unsync.getLyric()));
         this.lines.add(line);
         appendToObjectList(line);
-    }
-
-    public boolean equals(final Object obj) {
-        if ((obj instanceof FieldBodyLYR) == false) {
-            return false;
-        }
-        final FieldBodyLYR fieldBodyLYR = (FieldBodyLYR) obj;
-        if (this.lines.equals(fieldBodyLYR.lines) == false) {
-            return false;
-        }
-//        return true;
-        // we dont' want to call super here. super looks for equal object list
-        // we don't care about object lists for LYR field
-        return super.equals(obj);
     }
 
     public boolean hasTimeStamp() {
@@ -241,7 +240,7 @@ public class FieldBodyLYR extends AbstractLyrics3v2FieldBody {
         while (delim >= 0) {
             token = lineString.substring(offset, delim);
             line = new ObjectLyrics3Line("Lyric Line");
-            line.setLyric(token);
+            line.readString(token);
             this.lines.add(line);
             appendToObjectList(line);
             offset = delim + TagConstant.SEPERATOR_LINE.length();
@@ -250,7 +249,7 @@ public class FieldBodyLYR extends AbstractLyrics3v2FieldBody {
         if (offset < lineString.length()) {
             token = lineString.substring(offset);
             line = new ObjectLyrics3Line("Lyric Line");
-            line.setLyric(token);
+            line.readString(token);
             this.lines.add(line);
             appendToObjectList(line);
         }
@@ -261,8 +260,37 @@ public class FieldBodyLYR extends AbstractLyrics3v2FieldBody {
         String str = "";
         for (int i = 0; i < this.lines.size(); i++) {
             line = (ObjectLyrics3Line) this.lines.get(i);
-            str += (line.writeString() + TagConstant.SEPERATOR_LINE);
+            str += line.writeString();
+            if (i < this.lines.size() - 1) str += TagConstant.SEPERATOR_LINE;
         }
         return str;
+    }
+
+    public List<ObjectLyrics3Line> getLyricList() {
+        return this.lines;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+
+        FieldBodyLYR that = (FieldBodyLYR) o;
+
+        return lines != null ? lines.equals(that.lines) : that.lines == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (lines != null ? lines.hashCode() : 0);
+        return result;
     }
 }

@@ -50,7 +50,7 @@ public class FrameBodyWXXX extends AbstractID3v2FrameBody {
      * Creates a new FrameBodyWXXX object.
      */
     public FrameBodyWXXX(final byte textEncoding, final String description, final String urlLink) {
-        setObject("Text Encoding", new Byte(textEncoding));
+        setObject(ObjectNumberHashMap.TEXT_ENCODING, new Byte(textEncoding));
         setObject("Description", description);
         setObject("URL", urlLink);
     }
@@ -67,7 +67,7 @@ public class FrameBodyWXXX extends AbstractID3v2FrameBody {
     }
 
     public String getIdentifier() {
-        return "WXXX" + ((char) 0) + this.description;
+        return "WXXX" + ((char) 0) + this.urlLink;
     }
 
     public void setUrlLink(final String urlLink) {
@@ -76,6 +76,14 @@ public class FrameBodyWXXX extends AbstractID3v2FrameBody {
 
     public String getUrlLink() {
         return (String) getObject("URL");
+    }
+
+    public void setDescription(final String description) {
+        setObject("Description", description);
+    }
+
+    public String getDescription() {
+        return (String) getObject("Description");
     }
 
     public boolean equals(final Object obj) {
@@ -96,7 +104,7 @@ public class FrameBodyWXXX extends AbstractID3v2FrameBody {
     }
 
     protected void setupObjectList() {
-        appendToObjectList(new ObjectNumberHashMap("Text Encoding", 1));
+        appendToObjectList(new ObjectNumberHashMap(ObjectNumberHashMap.TEXT_ENCODING, 1));
         appendToObjectList(new ObjectStringNullTerminated("Description"));
         appendToObjectList(new ObjectStringSizeTerminated("URL"));
     }

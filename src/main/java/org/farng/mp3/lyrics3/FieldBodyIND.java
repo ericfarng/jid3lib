@@ -44,12 +44,18 @@ public class FieldBodyIND extends AbstractLyrics3v2FieldBody {
         this.read(file);
     }
 
-    public void setAuthor(final String author) {
-        setObject("Author", author);
+    public void setLyricsPresent(final boolean lyricsPresent) {
+        setObject("Lyrics Present", lyricsPresent);
+    }
+    public boolean getLyricsPresent() {
+        return (Boolean) getObject("Lyrics Present");
     }
 
-    public String getAuthor() {
-        return (String) getObject("Author");
+    public void setTimestampPresent(final String timeStampPresent) {
+        setObject("Timestamp Present", timeStampPresent);
+    }
+    public String getTimestampPresent() {
+        return (String) getObject("Timestamp Present");
     }
 
     public String getIdentifier() {

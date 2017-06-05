@@ -56,7 +56,7 @@ public class FrameBodyUSLT extends AbstractID3v2FrameBody {
      * Creates a new FrameBodyUSLT object.
      */
     public FrameBodyUSLT(final byte textEncoding, final String language, final String description, final String text) {
-        setObject("Text Encoding", new Byte(textEncoding));
+        setObject(ObjectNumberHashMap.TEXT_ENCODING, new Byte(textEncoding));
         setObject("Language", language);
         setObject("Description", description);
         setObject("Lyrics/Text", text);
@@ -80,6 +80,9 @@ public class FrameBodyUSLT extends AbstractID3v2FrameBody {
     public String getIdentifier() {
         return "USLT" + ((char) 0) + getLanguage() + ((char) 0) + getDescription();
     }
+
+    public void setTextEncoding(final byte textEncoding) { setObject(ObjectNumberHashMap.TEXT_ENCODING, new Byte(textEncoding)); }
+    public byte getTextEncoding() { return (byte) (long) (Long) getObject(ObjectNumberHashMap.TEXT_ENCODING); }
 
     public void setLanguage(final String language) {
         setObject("Language", language);
@@ -106,7 +109,7 @@ public class FrameBodyUSLT extends AbstractID3v2FrameBody {
     }
 
     protected void setupObjectList() {
-        appendToObjectList(new ObjectNumberHashMap("Text Encoding", 1));
+        appendToObjectList(new ObjectNumberHashMap(ObjectNumberHashMap.TEXT_ENCODING, 1));
         appendToObjectList(new ObjectStringHashMap("Language", 3));
         appendToObjectList(new ObjectStringNullTerminated("Description"));
         appendToObjectList(new ObjectStringSizeTerminated("Lyrics/Text"));

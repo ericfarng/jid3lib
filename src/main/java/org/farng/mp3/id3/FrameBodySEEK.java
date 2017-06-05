@@ -49,6 +49,9 @@ public class FrameBodySEEK extends AbstractID3v2FrameBody {
         this.read(file);
     }
 
+    public int getMinOffsetToNextTag() { return (int) (long) (Long) getObject("Minimum Offset to Next Tag"); }
+    public void setMinOffsetToNextTag(final int minOffsetToNextTag) { setObject("Minimum Offset to Next Tag", minOffsetToNextTag); }
+
     public String getIdentifier() {
         return "SEEK";
     }

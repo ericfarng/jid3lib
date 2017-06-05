@@ -168,20 +168,6 @@ public class ID3v2_2 extends AbstractID3v2 {
         super.append(tag);
     }
 
-    public boolean equals(final Object obj) {
-        if ((obj instanceof ID3v2_2) == false) {
-            return false;
-        }
-        final ID3v2_2 id3v2_2 = (ID3v2_2) obj;
-        if (this.compression != id3v2_2.compression) {
-            return false;
-        }
-        if (this.unsynchronization != id3v2_2.unsynchronization) {
-            return false;
-        }
-        return super.equals(obj);
-    }
-
     public void overwrite(final AbstractMP3Tag tag) {
         if (tag instanceof ID3v2_2) {
             this.unsynchronization = ((ID3v2_2) tag).unsynchronization;
@@ -519,5 +505,33 @@ public class ID3v2_2 extends AbstractID3v2 {
     }
     protected AbstractID3v2Frame createEmptyFrame() {
         return new ID3v2_2Frame();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+
+        ID3v2_2 id3v2_2 = (ID3v2_2) o;
+
+        if (compression != id3v2_2.compression) {
+            return false;
+        }
+        return unsynchronization == id3v2_2.unsynchronization;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (compression ? 1 : 0);
+        result = 31 * result + (unsynchronization ? 1 : 0);
+        return result;
     }
 }

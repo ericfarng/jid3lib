@@ -98,6 +98,37 @@ public class FrameBodyRVRB extends AbstractID3v2FrameBody {
         return "RVRB";
     }
 
+    public short getReverbLeft() { return (short) (long) (Long) getObject("Reverb Left"); }
+    public void setReverbLeft(final short reverbLeft) { setObject("Reverb Left", reverbLeft); }
+
+    public short getReverbRight() { return (short) (long) (Long) getObject("Reverb Right"); }
+    public void setReverbRight(final short reverbRight) { setObject("Reverb Right", reverbRight); }
+
+    public byte getReverbBouncesLeft() { return (byte) (long) (Long) getObject("Reverb Bounces Left"); }
+    public void setReverbBouncesLeft(final byte reverbBouncesLeft) { setObject("Reverb Bounces Left", reverbBouncesLeft); }
+
+    public byte getReverbBouncesRight() { return (byte) (long) (Long) getObject("Reverb Bounces Right"); }
+    public void setReverbBouncesRight(final byte reverbBouncesRight) { setObject("Reverb Bounces Right", reverbBouncesRight); }
+
+    public byte getReverbFeedbackLeftToLeft() { return (byte) (long) (Long) getObject("Reverb Feedback Left To Left"); }
+    public void setReverbFeedbackLeftToLeft(final byte reverbFeedbackLeftToLeft) { setObject("Reverb Feedback Left To Left", reverbFeedbackLeftToLeft); }
+
+    public byte getReverbFeedbackLeftToRight() { return (byte) (long) (Long) getObject("Reverb Feedback Left To Right"); }
+    public void setReverbFeedbackLeftToRight(final byte reverbFeedbackLeftToRight) { setObject("Reverb Feedback Left To Right", reverbFeedbackLeftToRight); }
+
+    public byte getReverbFeedbackRightToRight() { return (byte) (long) (Long) getObject("Reverb Feedback Right To Right"); }
+    public void setReverbFeedbackRightToRight(final byte reverbFeedbackRightToRight) { setObject("Reverb Feedback Right To Right", reverbFeedbackRightToRight); }
+
+    public byte getReverbFeedbackRightToLeft() { return (byte) (long) (Long) getObject("Reverb Feedback Right To Left"); }
+    public void setReverbFeedbackRightToLeft(final byte reverbFeedbackRightToLeft) { setObject("Reverb Feedback Right To Left", reverbFeedbackRightToLeft); }
+
+    public byte getPremixLeftToRight() { return (byte) (long) (Long) getObject("Premix Left To Right"); }
+    public void setPremixLeftToRight(final byte premixLeftToRight) { setObject("Premix Left To Right", premixLeftToRight); }
+
+    public byte getPremixRightToLeft() { return (byte) (long) (Long) getObject("Premix Right To Left"); }
+    public void setPremixRightToLeft(final byte premixRightToLeft) { setObject("Premix Right To Left", premixRightToLeft); }
+
+
     protected void setupObjectList() {
         appendToObjectList(new ObjectNumberFixedLength("Reverb Left", 2));
         appendToObjectList(new ObjectNumberFixedLength("Reverb Right", 2));

@@ -87,4 +87,24 @@ public abstract class AbstractFilenameComposite {
     }
 
     public abstract ID3v2_4 createId3Tag();
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        AbstractFilenameComposite that = (AbstractFilenameComposite) o;
+
+        return originalToken != null ? originalToken.equals(that.originalToken)
+                                     : that.originalToken == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return originalToken != null ? originalToken.hashCode() : 0;
+    }
 }

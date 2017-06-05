@@ -941,6 +941,7 @@ public class MP3File {
             if (TagOptionSingleton.getInstance().isLyrics3Save()) {
                 if (lyrics3tag == null) {
                     if (saveMode == TagConstant.MP3_FILE_SAVE_OVERWRITE) {
+                        (new Lyrics3v1()).delete(rfile);
                         (new Lyrics3v2()).delete(rfile);
                     }
                 } else {
@@ -1202,5 +1203,98 @@ public class MP3File {
             }
         }
         return syncFound;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        MP3File mp3File = (MP3File) o;
+
+        if (copyProtected != mp3File.copyProtected) {
+            return false;
+        }
+        if (home != mp3File.home) {
+            return false;
+        }
+        if (padding != mp3File.padding) {
+            return false;
+        }
+        if (privacy != mp3File.privacy) {
+            return false;
+        }
+        if (protection != mp3File.protection) {
+            return false;
+        }
+        if (variableBitRate != mp3File.variableBitRate) {
+            return false;
+        }
+        if (emphasis != mp3File.emphasis) {
+            return false;
+        }
+        if (layer != mp3File.layer) {
+            return false;
+        }
+        if (mode != mp3File.mode) {
+            return false;
+        }
+        if (modeExtension != mp3File.modeExtension) {
+            return false;
+        }
+        if (mpegVersion != mp3File.mpegVersion) {
+            return false;
+        }
+        if (Double.compare(mp3File.frequency, frequency) != 0) {
+            return false;
+        }
+        if (bitRate != mp3File.bitRate) {
+            return false;
+        }
+        if (id3v2tag != null ? !id3v2tag.equals(mp3File.id3v2tag) : mp3File.id3v2tag != null) {
+            return false;
+        }
+        if (lyrics3tag != null ? !lyrics3tag.equals(mp3File.lyrics3tag)
+                               : mp3File.lyrics3tag != null) {
+            return false;
+        }
+        if (mp3file != null ? !mp3file.equals(mp3File.mp3file) : mp3File.mp3file != null) {
+            return false;
+        }
+        if (filenameTag != null ? !filenameTag.equals(mp3File.filenameTag)
+                                : mp3File.filenameTag != null) {
+            return false;
+        }
+        return id3v1tag != null ? id3v1tag.equals(mp3File.id3v1tag) : mp3File.id3v1tag == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        result = id3v2tag != null ? id3v2tag.hashCode() : 0;
+        result = 31 * result + (lyrics3tag != null ? lyrics3tag.hashCode() : 0);
+        result = 31 * result + (mp3file != null ? mp3file.hashCode() : 0);
+        result = 31 * result + (filenameTag != null ? filenameTag.hashCode() : 0);
+        result = 31 * result + (id3v1tag != null ? id3v1tag.hashCode() : 0);
+        result = 31 * result + (copyProtected ? 1 : 0);
+        result = 31 * result + (home ? 1 : 0);
+        result = 31 * result + (padding ? 1 : 0);
+        result = 31 * result + (privacy ? 1 : 0);
+        result = 31 * result + (protection ? 1 : 0);
+        result = 31 * result + (variableBitRate ? 1 : 0);
+        result = 31 * result + (int) emphasis;
+        result = 31 * result + (int) layer;
+        result = 31 * result + (int) mode;
+        result = 31 * result + (int) modeExtension;
+        result = 31 * result + (int) mpegVersion;
+        temp = Double.doubleToLongBits(frequency);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + bitRate;
+        return result;
     }
 }

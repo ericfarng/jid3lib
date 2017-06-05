@@ -1,5 +1,7 @@
 package org.farng.mp3.id3;
 
+import java.util.HashMap;
+import java.util.Map;
 import org.farng.mp3.InvalidTagException;
 import org.farng.mp3.object.AbstractMP3Object;
 import org.farng.mp3.object.ObjectGroupRepeated;
@@ -81,9 +83,9 @@ public class FrameBodyEQU2 extends AbstractID3v2FrameBody {
                          final String owner,
                          final short frequency,
                          final short volumeAdjustment) {
-        setObject("Interpolation Method", new Byte(interpolationMethod));
+        setObject(ObjectNumberHashMap.INTERPOLATION_METHOD, new Byte(interpolationMethod));
         setObject("Owner", owner);
-        this.addGroup(frequency, volumeAdjustment);
+        this.addFrequencyVolumeAdjustment(frequency, volumeAdjustment);
     }
 
     /**
@@ -105,17 +107,41 @@ public class FrameBodyEQU2 extends AbstractID3v2FrameBody {
         setObject("Owner", description);
     }
 
-    public void addGroup(final short frequency, final short volumeAdjustment) {
+    public byte getInterpolationMethod() { return (byte) (long) (Long) getObject(ObjectNumberHashMap.INTERPOLATION_METHOD); }
+    public void setInterpolationMethod(final byte interpolationMethod) { setObject(ObjectNumberHashMap.INTERPOLATION_METHOD, interpolationMethod); }
+
+    public void addFrequencyVolumeAdjustment(final short frequency, final short volumeAdjustment) {
         final ObjectGroupRepeated group = (ObjectGroupRepeated) this.getObject("Data");
         final AbstractMP3Object freq = new ObjectNumberFixedLength("Frequency", 2);
+        freq.setValue(frequency);
         final AbstractMP3Object volume = new ObjectNumberFixedLength("Volume Adjustment", 2);
+        volume.setValue(volumeAdjustment);
         group.addObject(freq);
         group.addObject(volume);
         setObject("Data", group);
     }
 
+    public Map<Short, Short> getFrequencyVolumeAdjustment() {
+        final ObjectGroupRepeated group = (ObjectGroupRepeated) this.getObject("Data");
+        int counter = 0;
+        short frequency = 0;
+        short volumeAdjustment = 0;
+        Map<Short, Short> frequencyVolumeAdjustment = new HashMap<Short, Short>();
+        for (Object object : group.getObjectList()) {
+            AbstractMP3Object abstractMP3Object = (AbstractMP3Object) object;
+            if (counter % 2 == 0) {
+                frequency = (Short) abstractMP3Object.getValue();
+            } else {
+                volumeAdjustment = (Short) abstractMP3Object.getValue();
+                frequencyVolumeAdjustment.put(frequency, volumeAdjustment);
+            }
+            counter++;
+        }
+        return frequencyVolumeAdjustment;
+    }
+
     protected void setupObjectList() {
-        appendToObjectList(new ObjectNumberHashMap("Interpolation Method", 1));
+        appendToObjectList(new ObjectNumberHashMap(ObjectNumberHashMap.INTERPOLATION_METHOD, 1));
         appendToObjectList(new ObjectStringNullTerminated("Owner"));
         final ObjectGroupRepeated group = new ObjectGroupRepeated("Data");
         group.addProperty(new ObjectNumberFixedLength("Frequency", 2));

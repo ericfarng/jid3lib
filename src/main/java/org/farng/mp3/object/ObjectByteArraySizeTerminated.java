@@ -31,13 +31,6 @@ public class ObjectByteArraySizeTerminated extends AbstractMP3Object {
         return len;
     }
 
-    public boolean equals(final Object obj) {
-        if (obj instanceof ObjectByteArraySizeTerminated == false) {
-            return false;
-        }
-        return super.equals(obj);
-    }
-
     public void readByteArray(final byte[] arr, final int offset) {
         if (arr == null) {
             throw new NullPointerException("Byte array is null");
@@ -61,4 +54,5 @@ public class ObjectByteArraySizeTerminated extends AbstractMP3Object {
     public byte[] writeByteArray() {
         return (byte[]) this.value;
     }
+
 }

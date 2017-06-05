@@ -65,6 +65,12 @@ public class FrameBodyPOSS extends AbstractID3v2FrameBody {
         this.read(file);
     }
 
+    public byte getTimeStampFormat() { return (byte) (long) (Long) getObject(ObjectNumberHashMap.TIME_STAMP_FORMAT); }
+    public void setTimeStampFormat(final byte timeStampFormat) { setObject(ObjectNumberHashMap.TIME_STAMP_FORMAT, timeStampFormat); }
+
+    public long getPosition() { return (Long) getObject("Position"); }
+    public void setPosition(final long position) { setObject("Position", position); }
+
     public String getIdentifier() {
         return "POSS";
     }

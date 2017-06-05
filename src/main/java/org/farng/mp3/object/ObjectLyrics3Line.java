@@ -27,7 +27,7 @@ public class ObjectLyrics3Line extends AbstractMP3Object {
      */
     public ObjectLyrics3Line(final ObjectLyrics3Line copyObject) {
         super(copyObject);
-        this.lyric = new String(copyObject.lyric);
+        if (copyObject.lyric != null) this.lyric = new String(copyObject.lyric);
         ObjectLyrics3TimeStamp newTimeStamp;
         for (int i = 0; i < copyObject.timeStamp.size(); i++) {
             newTimeStamp = new ObjectLyrics3TimeStamp((ObjectLyrics3TimeStamp) copyObject.timeStamp.get(i));
@@ -74,20 +74,6 @@ public class ObjectLyrics3Line extends AbstractMP3Object {
 
     public void addTimeStamp(final ObjectLyrics3TimeStamp time) {
         this.timeStamp.add(time);
-    }
-
-    public boolean equals(final Object obj) {
-        if ((obj instanceof ObjectLyrics3Line) == false) {
-            return false;
-        }
-        final ObjectLyrics3Line objectLyrics3Line = (ObjectLyrics3Line) obj;
-        if (this.lyric.equals(objectLyrics3Line.lyric) == false) {
-            return false;
-        }
-        if (this.timeStamp.equals(objectLyrics3Line.timeStamp) == false) {
-            return false;
-        }
-        return super.equals(obj);
     }
 
     public boolean hasTimeStamp() {
@@ -137,5 +123,33 @@ public class ObjectLyrics3Line extends AbstractMP3Object {
             str += time.writeString();
         }
         return str + this.lyric;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+
+        ObjectLyrics3Line that = (ObjectLyrics3Line) o;
+
+        if (timeStamp != null ? !timeStamp.equals(that.timeStamp) : that.timeStamp != null) {
+            return false;
+        }
+        return lyric != null ? lyric.equals(that.lyric) : that.lyric == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (timeStamp != null ? timeStamp.hashCode() : 0);
+        result = 31 * result + (lyric != null ? lyric.hashCode() : 0);
+        return result;
     }
 }

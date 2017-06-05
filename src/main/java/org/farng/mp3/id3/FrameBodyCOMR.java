@@ -1,7 +1,9 @@
 package org.farng.mp3.id3;
 
 import org.farng.mp3.InvalidTagException;
+import org.farng.mp3.object.AbstractMP3Object;
 import org.farng.mp3.object.ObjectByteArraySizeTerminated;
+import org.farng.mp3.object.ObjectNumberFixedLength;
 import org.farng.mp3.object.ObjectNumberHashMap;
 import org.farng.mp3.object.ObjectStringDate;
 import org.farng.mp3.object.ObjectStringNullTerminated;
@@ -99,11 +101,11 @@ public class FrameBodyCOMR extends AbstractID3v2FrameBody {
                          final String description,
                          final String mimeType,
                          final byte[] sellerLogo) {
-        setObject("Text Encoding", new Byte(textEncoding));
+        setObject(ObjectNumberHashMap.TEXT_ENCODING, new Byte(textEncoding));
         setObject("Price String", priceString);
         setObject("Valid Until", validUntil);
         setObject("Contact URL", contactUrl);
-        setObject("Recieved As", new Byte(recievedAs));
+        setObject(ObjectNumberHashMap.RECIEVED_AS, new Byte(recievedAs));
         setObject("Name Of Seller", nameOfSeller);
         setObject("Description", description);
         setObject("Picture MIME Type", mimeType);
@@ -117,21 +119,42 @@ public class FrameBodyCOMR extends AbstractID3v2FrameBody {
         this.read(file);
     }
 
+    public void setTextEncoding(final byte textEncoding) { setObject(ObjectNumberHashMap.TEXT_ENCODING, new Byte(textEncoding)); }
+    public byte getTextEncoding() { return (byte) (long) (Long) getObject(ObjectNumberHashMap.TEXT_ENCODING); }
+
+    public String getPriceString() { return (String) getObject("Price String"); }
+    public void setPriceString(final String priceString) { setObject("Price String", priceString); }
+
+    public String getValidUntil() { return (String) getObject("Valid Until"); }
+    public void setValidUntil(final String validUntil) { setObject("Valid Until", validUntil); }
+
+    public String getContactUrl() { return (String) getObject("Contact URL"); }
+    public void setContactUrl(final String contactUrl) { setObject("Contact URL", contactUrl); }
+
+    public byte getRecievedAs() { return (byte) (long) (Long) getObject(ObjectNumberHashMap.RECIEVED_AS); }
+    public void setRecievedAs(final byte recievedAs) { setObject(ObjectNumberHashMap.RECIEVED_AS, recievedAs); }
+
+    public String getNameOfSeller() { return (String) getObject("Name Of Seller"); }
+    public void setNameOfSeller(final String nameOfSeller) { setObject("Name Of Seller", nameOfSeller); }
+
+    public String getDescription() { return (String) getObject("Description"); }
+    public void setDescription(final String description) { setObject("Description", description); }
+
+    public String getMimeType() { return (String) getObject("Picture MIME Type"); }
+    public void setMimeType(final String mimeType) { setObject("Picture MIME Type", mimeType); }
+
+    public byte[] getSellerLogo() { return (byte[]) getObject("Seller Logo"); }
+    public void setSellerLogo(final byte[] sellerLogo) { setObject("Seller Logo", sellerLogo); }
+
+
     public String getIdentifier() {
         String str = "COMR";
         final java.util.Iterator iterator = getObjectListIterator();
         while (iterator.hasNext()) {
-            str += (((char) 0) + getOwner());
+            AbstractMP3Object obj = (AbstractMP3Object) iterator.next();
+            str += (((char) 0) + obj.getValue().toString());
         }
         return str;
-    }
-
-    public String getOwner() {
-        return (String) getObject("Owner");
-    }
-
-    public void setOwner(final String description) {
-        setObject("Owner", description);
     }
 
     protected void setupObjectList() {

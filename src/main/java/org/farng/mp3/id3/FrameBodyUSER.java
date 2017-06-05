@@ -48,7 +48,7 @@ public class FrameBodyUSER extends AbstractID3v2FrameBody {
      * Creates a new FrameBodyUSER object.
      */
     public FrameBodyUSER(final byte textEncoding, final String language, final String text) {
-        setObject("Text Encoding", new Byte(textEncoding));
+        setObject(ObjectNumberHashMap.TEXT_ENCODING, new Byte(textEncoding));
         setObject("Language", language);
         setObject("Text", text);
     }
@@ -64,13 +64,14 @@ public class FrameBodyUSER extends AbstractID3v2FrameBody {
         return "USER" + ((char) 0) + getLanguage();
     }
 
-    public String getLanguage() {
-        return (String) getObject(ObjectStringHashMap.LANGUAGE);
-    }
+    public void setTextEncoding(final byte textEncoding) { setObject(ObjectNumberHashMap.TEXT_ENCODING, new Byte(textEncoding)); }
+    public byte getTextEncoding() { return (byte) (long) (Long) getObject(ObjectNumberHashMap.TEXT_ENCODING); }
 
-    public void setOwner(final String language) {
-        setObject(ObjectStringHashMap.LANGUAGE, language);
-    }
+    public String getLanguage() { return (String) getObject("Language"); }
+    public void setLanguage(final String language) { setObject("Language", language); }
+
+    public String getText() { return (String) getObject("Text"); }
+    public void setText(final String text) { setObject("Text", text); }
 
     protected void setupObjectList() {
         appendToObjectList(new ObjectNumberHashMap(ObjectNumberHashMap.TEXT_ENCODING, 1));

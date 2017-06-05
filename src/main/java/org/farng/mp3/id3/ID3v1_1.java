@@ -173,17 +173,6 @@ public class ID3v1_1 extends ID3v1 {
         super.append(tag);
     }
 
-    public boolean equals(final Object obj) {
-        if ((obj instanceof ID3v1_1) == false) {
-            return false;
-        }
-        final ID3v1_1 id3v1_1 = (ID3v1_1) obj;
-        if (this.track != id3v1_1.track) {
-            return false;
-        }
-        return super.equals(obj);
-    }
-
     public void overwrite(final AbstractMP3Tag tag) {
         final ID3v1_1 oldTag = this;
         ID3v1_1 newTag = null;
@@ -330,5 +319,27 @@ public class ID3v1_1 extends ID3v1 {
 
     public void setTrackNumberOnAlbum(String trackNumberOnAlbum) {
         setTrack(Byte.parseByte(trackNumberOnAlbum.trim()));
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+
+        ID3v1_1 id3v1_1 = (ID3v1_1) o;
+
+        return track == id3v1_1.track;
+    }
+
+    @Override
+    public int hashCode() {
+        return (int) track;
     }
 }

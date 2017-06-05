@@ -136,6 +136,11 @@ public abstract class AbstractMP3FragmentBody extends AbstractMP3FileItem {
                 object = abstractMP3Object.getValue();
             }
         }
+        if (object instanceof Float || object instanceof Double) {
+            return ((Number) object).doubleValue();
+        } else if (object instanceof Byte || object instanceof Short || object instanceof Integer || object instanceof Long) {
+            return ((Number) object).longValue();
+        }
         return object;
     }
 
@@ -180,25 +185,6 @@ public abstract class AbstractMP3FragmentBody extends AbstractMP3FileItem {
             }
         }
         return true;
-    }
-
-    /**
-     * Returns true if this object and its entire <code>MP3Object</code> array list equals the argument. This object is
-     * equal to the argument only if they are the same class.
-     *
-     * @param obj object to determine equality of
-     *
-     * @return true if this object and its entire <code>MP3Object</code> array list equals the argument.
-     */
-    public boolean equals(final Object obj) {
-        if (!(obj instanceof AbstractMP3FragmentBody)) {
-            return false;
-        }
-        final AbstractMP3FragmentBody abstractMP3FragmentBody = (AbstractMP3FragmentBody) obj;
-        if (!objectList.equals(abstractMP3FragmentBody.objectList)) {
-            return false;
-        }
-        return super.equals(obj);
     }
 
     /**
@@ -336,5 +322,27 @@ public abstract class AbstractMP3FragmentBody extends AbstractMP3FileItem {
             throw new UnsupportedOperationException("FragmentBody not called within ID3v2 tag.");
         }
         return has6ByteHeader;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+
+        AbstractMP3FragmentBody that = (AbstractMP3FragmentBody) o;
+
+        return objectList != null ? objectList.equals(that.objectList) : that.objectList == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return objectList != null ? objectList.hashCode() : 0;
     }
 }

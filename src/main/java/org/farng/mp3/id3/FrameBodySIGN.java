@@ -62,7 +62,7 @@ public class FrameBodySIGN extends AbstractID3v2FrameBody {
 
     public byte getGroupSymbol() {
         if (getObject("Group Symbol") != null) {
-            return ((Byte) getObject("Group Symbol")).byteValue();
+            return (byte) (long) (Long) getObject("Group Symbol");
         }
         return 0;
     }

@@ -1,5 +1,6 @@
 package org.farng.mp3.lyrics3;
 
+import java.util.List;
 import org.farng.mp3.AbstractMP3Tag;
 import org.farng.mp3.InvalidTagException;
 import org.farng.mp3.TagException;
@@ -14,6 +15,9 @@ import java.io.RandomAccessFile;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import org.farng.mp3.object.ObjectLyrics3Image;
+import org.farng.mp3.object.ObjectLyrics3Line;
+import org.farng.mp3.object.ObjectLyrics3TimeStamp;
 
 /**
  * <TABLE border=0> <TBODY> <TR> <TD class=h2>What is Lyrics3 v2.00?</TD></TR></TBODY></TABLE> <TABLE border=0> <TBODY>
@@ -212,17 +216,6 @@ public class Lyrics3v2 extends AbstractLyrics3 {
                 TagOptionSingleton.getInstance().setLyrics3SaveField(id, true);
             }
         }
-    }
-
-    public boolean equals(final Object obj) {
-        if ((obj instanceof Lyrics3v2) == false) {
-            return false;
-        }
-        final Lyrics3v2 lyrics3v2 = (Lyrics3v2) obj;
-        if (this.fieldMap.equals(lyrics3v2.fieldMap) == false) {
-            return false;
-        }
-        return super.equals(obj);
     }
 
     public boolean hasField(final String identifier) {
@@ -591,6 +584,7 @@ public class Lyrics3v2 extends AbstractLyrics3 {
         } else {
             ((FieldBodyLYR) field.getBody()).setLyric(songLyrics.trim());
         }
+        updateField("IND");
     }
 
     public void setAuthorComposer(String authorComposer) {
@@ -601,5 +595,95 @@ public class Lyrics3v2 extends AbstractLyrics3 {
         } else {
             ((FieldBodyAUT) field.getBody()).setAuthor(authorComposer.trim());
         }
+    }
+
+    public void addLyric(String lyric, Integer songMinute, Integer songSecond) {
+
+        ObjectLyrics3Line objectLyrics3Line = new ObjectLyrics3Line("Lyric Line");
+        objectLyrics3Line.setLyric(lyric);
+        if (songMinute != null && songSecond != null) {
+            ObjectLyrics3TimeStamp objectLyrics3TimeStamp =
+                new ObjectLyrics3TimeStamp("Time Stamp");
+            objectLyrics3TimeStamp.setMinute(songMinute);
+            objectLyrics3TimeStamp.setSecond(songSecond);
+            objectLyrics3Line.setTimeStamp(objectLyrics3TimeStamp);
+        }
+
+        Lyrics3v2Field field = getField("LYR");
+        if (field == null) {
+            field = new Lyrics3v2Field(new FieldBodyLYR(objectLyrics3Line));
+            setField(field);
+        } else {
+            ((FieldBodyLYR) field.getBody()).addLyric(objectLyrics3Line);
+        }
+    }
+
+    public List<ObjectLyrics3Line> getLyricList() {
+        Lyrics3v2Field field = getField("LYR");
+        if (field != null) {
+            return ((FieldBodyLYR) field.getBody()).getLyricList();
+        }
+        return null;
+    }
+
+    public void clearLyrics() {
+        removeField("LYR");
+    }
+
+    public void addImage(String filename, String description, Integer songMinute, Integer songSecond) {
+
+        ObjectLyrics3Image objectLyrics3Image = new ObjectLyrics3Image("Image");
+        objectLyrics3Image.setFilename(filename);
+        objectLyrics3Image.setDescription(description);
+        if (songMinute != null && songSecond != null) {
+            ObjectLyrics3TimeStamp objectLyrics3TimeStamp =
+                new ObjectLyrics3TimeStamp("Time Stamp");
+            objectLyrics3TimeStamp.setMinute(songMinute);
+            objectLyrics3TimeStamp.setSecond(songSecond);
+            objectLyrics3Image.setTimeStamp(objectLyrics3TimeStamp);
+        }
+
+
+        Lyrics3v2Field field = getField("IMG");
+        if (field == null) {
+            field = new Lyrics3v2Field(new FieldBodyIMG(objectLyrics3Image));
+            setField(field);
+        } else {
+            ((FieldBodyIMG) field.getBody()).addImage(objectLyrics3Image);
+        }
+    }
+
+    public List<ObjectLyrics3Image> getImages() {
+        Lyrics3v2Field field = getField("IMG");
+        if (field != null) {
+            return ((FieldBodyIMG) field.getBody()).getImageList();
+        }
+        return null;
+    }
+
+    public void clearImages() {
+        removeField("IMG");
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+
+        Lyrics3v2 lyrics3v2 = (Lyrics3v2) o;
+
+        return fieldMap != null ? fieldMap.equals(lyrics3v2.fieldMap) : lyrics3v2.fieldMap == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return fieldMap != null ? fieldMap.hashCode() : 0;
     }
 }

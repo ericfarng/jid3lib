@@ -107,6 +107,14 @@ public class FrameBodyLINK extends AbstractID3v2FrameBody {
         setObject("Frame Identifier", frameIdentifier);
     }
 
+    public String getUrl() {
+        return (String) getObject("URL");
+    }
+
+    public void setUrl(final String frameIdentifier) {
+        setObject("URL", frameIdentifier);
+    }
+
     public String getIdentifier() {
         return "LINK" + ((char) 0) + getFrameIdentifier() + ((char) 0) + getAdditionalData();
     }

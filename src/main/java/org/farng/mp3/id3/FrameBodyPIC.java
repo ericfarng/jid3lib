@@ -81,9 +81,9 @@ public class FrameBodyPIC extends AbstractID3v2FrameBody {
                         final byte pictureType,
                         final String description,
                         final byte[] data) {
-        setObject("Text Encoding", new Byte(textEncoding));
+        setObject(ObjectNumberHashMap.TEXT_ENCODING, new Byte(textEncoding));
         setObject("Image Format", imageFormat);
-        setObject("Picture Type", new Byte(pictureType));
+        setObject(ObjectNumberHashMap.PICTURE_TYPE, new Byte(pictureType));
         setObject("Description", description);
         setObject("Picture Data", data);
     }
@@ -95,16 +95,27 @@ public class FrameBodyPIC extends AbstractID3v2FrameBody {
         this.read(file);
     }
 
+    public byte getTextEncoding() { return (byte) (long) (Long) getObject(ObjectNumberHashMap.TEXT_ENCODING); }
+    public void setTextEncoding(final byte textEncoding) { setObject(ObjectNumberHashMap.TEXT_ENCODING, textEncoding); }
+
+    public String getImageFormat() { return (String) getObject("Image Format"); }
+    public void setImageFormat(final String imageFormat) { setObject("Image Format", imageFormat); }
+
+    public byte getPictureType() { return (byte) (long) (Long) getObject(ObjectNumberHashMap.PICTURE_TYPE); }
+    public void setPictureType(final byte pictureType) { setObject(ObjectNumberHashMap.PICTURE_TYPE, pictureType); }
+
     public void setDescription(final String description) {
         setObject("Description", description);
     }
-
     public String getDescription() {
         return (String) getObject("Description");
     }
 
+    public byte[] getPictureData() { return (byte[]) getObject("Picture Data"); }
+    public void setPictureData(final byte[] pictureData) { setObject("Picture Data", pictureData); }
+
     public String getIdentifier() {
-        return "PIC" + ((char) 0) + getDescription();
+        return "APIC" + (char) 0 + getPictureType() + (char) 0 + getDescription();
     }
 
     protected void setupObjectList() {

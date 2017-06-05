@@ -98,35 +98,6 @@ public class ObjectNumberHashMap extends ObjectNumberFixedLength implements Obje
         }
     }
 
-    public boolean equals(final Object obj) {
-        if ((obj instanceof ObjectNumberHashMap) == false) {
-            return false;
-        }
-        final ObjectNumberHashMap objectNumberHashMap = (ObjectNumberHashMap) obj;
-        if (this.hasEmptyValue != objectNumberHashMap.hasEmptyValue) {
-            return false;
-        }
-        if (this.idToString == null) {
-            if (objectNumberHashMap.idToString != null) {
-                return false;
-            }
-        } else {
-            if (this.idToString.equals(objectNumberHashMap.idToString) == false) {
-                return false;
-            }
-        }
-        if (this.stringToId == null) {
-            if (objectNumberHashMap.stringToId != null) {
-                return false;
-            }
-        } else {
-            if (this.stringToId.equals(objectNumberHashMap.stringToId) == false) {
-                return false;
-            }
-        }
-        return super.equals(obj);
-    }
-
     public Iterator iterator() {
         if (this.idToString == null) {
             return null;
@@ -148,5 +119,37 @@ public class ObjectNumberHashMap extends ObjectNumberFixedLength implements Obje
         } else {
             return this.idToString.get(this.value).toString();
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+
+        ObjectNumberHashMap that = (ObjectNumberHashMap) o;
+
+        if (hasEmptyValue != that.hasEmptyValue) {
+            return false;
+        }
+        if (idToString != null ? !idToString.equals(that.idToString) : that.idToString != null) {
+            return false;
+        }
+        return stringToId != null ? stringToId.equals(that.stringToId) : that.stringToId == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (idToString != null ? idToString.hashCode() : 0);
+        result = 31 * result + (stringToId != null ? stringToId.hashCode() : 0);
+        result = 31 * result + (hasEmptyValue ? 1 : 0);
+        return result;
     }
 }

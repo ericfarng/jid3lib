@@ -62,10 +62,10 @@ public class FrameBodyRBUF extends AbstractID3v2FrameBody {
     /**
      * Creates a new FrameBodyRBUF object.
      */
-    public FrameBodyRBUF(final byte bufferSize, final boolean embeddedInfoFlag, final byte offsetToNextTag) {
+    public FrameBodyRBUF(final byte bufferSize, final boolean embeddedInfoFlag, final byte offsetToNextFlag) {
         setObject("Buffer Size", new Byte(bufferSize));
         setObject("Embedded Info Flag", new Boolean(embeddedInfoFlag));
-        setObject("Offset to Next Flag", new Byte(offsetToNextTag));
+        setObject("Offset to Next Flag", new Byte(offsetToNextFlag));
     }
 
     /**
@@ -75,6 +75,16 @@ public class FrameBodyRBUF extends AbstractID3v2FrameBody {
         this.read(file);
     }
 
+    public byte getBufferSize() { return (byte) (long) (Long) getObject("Buffer Size"); }
+    public void setBufferSize(final byte bufferSize) { setObject("Buffer Size", bufferSize); }
+
+    public boolean getEmbeddedInfoFlag() { return (Boolean) getObject("Embedded Info Flag"); }
+    public void setEmbeddedInfoFlag(final boolean embeddedInfoFlag) { setObject("Embedded Info Flag", embeddedInfoFlag); }
+
+    public byte getOffsetToNextFlag() { return (byte) (long) (Long) getObject("Offset To Next Flag"); }
+    public void setOffsetToNextFlag(final byte offsetToNextFlag) { setObject("Offset To Next Flag", offsetToNextFlag); }
+
+
     public String getIdentifier() {
         return "RBUF";
     }
@@ -82,6 +92,6 @@ public class FrameBodyRBUF extends AbstractID3v2FrameBody {
     protected void setupObjectList() {
         appendToObjectList(new ObjectNumberFixedLength("Buffer Size", 3));
         appendToObjectList(new ObjectBooleanByte("Embedded Info Flag", (byte) 1));
-        appendToObjectList(new ObjectNumberFixedLength("Offset to Next Tag", 4));
+        appendToObjectList(new ObjectNumberFixedLength("Offset to Next Flag", 4));
     }
 }

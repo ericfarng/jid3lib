@@ -116,4 +116,9 @@ public abstract class AbstractMP3Fragment extends AbstractMP3FileItem {
         }
         return equals;
     }
+
+    @Override
+    public int hashCode() {
+        return body != null ? body.hashCode() : 0;
+    }
 }

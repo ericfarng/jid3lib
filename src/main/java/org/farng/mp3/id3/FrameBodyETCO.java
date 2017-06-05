@@ -1,5 +1,7 @@
 package org.farng.mp3.id3;
 
+import java.util.HashMap;
+import java.util.Map;
 import org.farng.mp3.InvalidTagException;
 import org.farng.mp3.object.AbstractMP3Object;
 import org.farng.mp3.object.ObjectGroupRepeated;
@@ -100,7 +102,7 @@ public class FrameBodyETCO extends AbstractID3v2FrameBody {
      * Creates a new FrameBodyETCO object.
      */
     public FrameBodyETCO(final byte timeStampFormat, final byte event, final int timeStamp) {
-        setObject("Time Stamp Format", new Long(timeStampFormat));
+        setObject(ObjectNumberHashMap.TIME_STAMP_FORMAT, new Long(timeStampFormat));
         this.addGroup(event, timeStamp);
     }
 
@@ -112,30 +114,56 @@ public class FrameBodyETCO extends AbstractID3v2FrameBody {
     }
 
     public String getIdentifier() {
-        return "ETCO" + ((char) 0) + getOwner();
+        String str = "ETCO" + ((char) 0) + getTimeStampFormat();
+
+
+        final ObjectGroupRepeated group = (ObjectGroupRepeated) this.getObject("Data");
+        for (Object object : group.getObjectList()) {
+            AbstractMP3Object obj = (AbstractMP3Object) object;
+            str += ((char) 0) + obj.getValue().toString();
+        }
+        return str;
+
     }
 
-    public String getOwner() {
-        return (String) getObject("Owner");
-    }
 
-    public void setOwner(final String description) {
-        setObject("Owner", description);
-    }
+    public byte getTimeStampFormat() { return (byte) (long) (Long) getObject(ObjectNumberHashMap.TIME_STAMP_FORMAT); }
+    public void setTimeStampFormat(final byte timeStampFormat) { setObject(ObjectNumberHashMap.TIME_STAMP_FORMAT, timeStampFormat); }
 
     public void addGroup(final byte event, final int timeStamp) {
         final ObjectGroupRepeated group = (ObjectGroupRepeated) this.getObject("Data");
-        final AbstractMP3Object ev = new ObjectNumberHashMap("Type Of Event", 1);
+        final AbstractMP3Object ev = new ObjectNumberHashMap(ObjectNumberHashMap.TYPE_OF_EVENT, 1);
+        ev.setValue(event);
         final AbstractMP3Object ts = new ObjectNumberFixedLength("Time Stamp", 4);
+        ts.setValue(timeStamp);
         group.addObject(ev);
         group.addObject(ts);
         setObject("Data", group);
     }
 
+    public Map<Byte, Integer> getEventTimeStamp() {
+        final ObjectGroupRepeated group = (ObjectGroupRepeated) this.getObject("Data");
+        int counter = 0;
+        byte event = 0;
+        int timestamp = 0;
+        Map<Byte, Integer> eventTimeStamp = new HashMap<Byte, Integer>();
+        for (Object object : group.getObjectList()) {
+            AbstractMP3Object abstractMP3Object = (AbstractMP3Object) object;
+            if (counter % 2 == 0) {
+                event = (Byte) abstractMP3Object.getValue();
+            } else {
+                timestamp = (Integer) abstractMP3Object.getValue();
+                eventTimeStamp.put(event, timestamp);
+            }
+            counter++;
+        }
+        return eventTimeStamp;
+    }
+
     protected void setupObjectList() {
-        appendToObjectList(new ObjectNumberHashMap("Time Stamp Format", 1));
+        appendToObjectList(new ObjectNumberHashMap(ObjectNumberHashMap.TIME_STAMP_FORMAT, 1));
         final ObjectGroupRepeated group = new ObjectGroupRepeated("Data");
-        group.addProperty(new ObjectNumberHashMap("Type Of Event", 1));
+        group.addProperty(new ObjectNumberHashMap(ObjectNumberHashMap.TYPE_OF_EVENT, 1));
         group.addProperty(new ObjectNumberFixedLength("Time Stamp", 4));
         appendToObjectList(group);
     }

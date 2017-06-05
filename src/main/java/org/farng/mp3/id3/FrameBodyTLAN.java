@@ -50,8 +50,8 @@ public class FrameBodyTLAN extends AbstractFrameBodyTextInformation {
         return "TLAN";
     }
 
-    protected void setupObjectList() {
-        appendToObjectList(new ObjectNumberHashMap("Text Encoding", 1));
-        appendToObjectList(new ObjectStringHashMap("Language", 3));
-    }
+//    protected void setupObjectList() {
+//        appendToObjectList(new ObjectNumberHashMap(ObjectNumberHashMap.TEXT_ENCODING, 1));
+//        appendToObjectList(new ObjectStringHashMap("Language", 3));
+//    }
 }

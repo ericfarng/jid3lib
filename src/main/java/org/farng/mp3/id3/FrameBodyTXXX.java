@@ -48,7 +48,7 @@ public class FrameBodyTXXX extends AbstractID3v2FrameBody {
      * Creates a new FrameBodyTXXX object.
      */
     public FrameBodyTXXX(final byte textEncoding, final String description, final String text) {
-        setObject("Text Encoding", new Byte(textEncoding));
+        setObject(ObjectNumberHashMap.TEXT_ENCODING, new Byte(textEncoding));
         setObject("Description", description);
         setObject("Text", text);
     }
@@ -63,6 +63,9 @@ public class FrameBodyTXXX extends AbstractID3v2FrameBody {
     public String getBriefDescription() {
         return this.getText();
     }
+
+    public void setTextEncoding(final byte textEncoding) { setObject(ObjectNumberHashMap.TEXT_ENCODING, new Byte(textEncoding)); }
+    public byte getTextEncoding() { return (byte) (long) (Long) getObject(ObjectNumberHashMap.TEXT_ENCODING); }
 
     public void setDescription(final String description) {
         setObject("Description", description);
@@ -85,7 +88,7 @@ public class FrameBodyTXXX extends AbstractID3v2FrameBody {
     }
 
     protected void setupObjectList() {
-        appendToObjectList(new ObjectNumberHashMap("Text Encoding", 1));
+        appendToObjectList(new ObjectNumberHashMap(ObjectNumberHashMap.TEXT_ENCODING, 1));
         appendToObjectList(new ObjectStringNullTerminated("Description"));
         appendToObjectList(new ObjectStringSizeTerminated("Text"));
     }

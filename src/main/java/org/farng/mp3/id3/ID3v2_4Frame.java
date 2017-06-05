@@ -357,20 +357,6 @@ public class ID3v2_4Frame extends ID3v2_3Frame {
         return this.getBody().getSize() + 4 + 2 + 4;
     }
 
-    public boolean equals(final Object obj) {
-        if ((obj instanceof ID3v2_4Frame) == false) {
-            return false;
-        }
-        final ID3v2_4Frame id3v2_4Frame = (ID3v2_4Frame) obj;
-        if (this.unsynchronization != id3v2_4Frame.unsynchronization) {
-            return false;
-        }
-        if (this.dataLengthIndicator != id3v2_4Frame.dataLengthIndicator) {
-            return false;
-        }
-        return super.equals(obj);
-    }
-
     public void read(final RandomAccessFile file) throws IOException, InvalidTagException {
         long filePointer;
         final byte[] buffer = new byte[4];
@@ -464,5 +450,34 @@ public class ID3v2_4Frame extends ID3v2_3Frame {
         file.write(buffer, 0, 2);
         file.seek(filePointer);
         this.getBody().write(file);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+
+        ID3v2_4Frame that = (ID3v2_4Frame) o;
+
+        if (dataLengthIndicator != that.dataLengthIndicator) {
+            return false;
+        }
+        return unsynchronization == that.unsynchronization;
+    }
+
+    @Override
+    public int hashCode() {
+
+        int result = super.hashCode();
+        result = 31 * result + (dataLengthIndicator ? 1 : 0);
+        result = 31 * result + (unsynchronization ? 1 : 0);
+        return result;
     }
 }

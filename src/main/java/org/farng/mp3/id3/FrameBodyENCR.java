@@ -80,6 +80,12 @@ public class FrameBodyENCR extends AbstractID3v2FrameBody {
         return (String) getObject("Owner");
     }
 
+    public byte getMethodSymbol() { return (byte) (long) (Long) getObject("Method Symbol"); }
+    public void setMethodSymbol(final byte methodSymbol) { setObject("Method Symbol", methodSymbol); }
+
+    public byte[] getEncryptedData() { return (byte[]) getObject("Encrypted datablock"); }
+    public void setEncryptedData(final byte[] data) { setObject("Encrypted datablock", data); }
+
     protected void setupObjectList() {
         appendToObjectList(new ObjectStringNullTerminated("Owner"));
         appendToObjectList(new ObjectNumberFixedLength("Method Symbol", 1));

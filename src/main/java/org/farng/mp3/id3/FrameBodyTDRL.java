@@ -58,6 +58,9 @@ public class FrameBodyTDRL extends AbstractFrameBodyTextInformation {
         return (String) getObject("Date Time");
     }
 
+    public void setTextEncoding(final byte textEncoding) { setObject(ObjectNumberHashMap.TEXT_ENCODING, new Byte(textEncoding)); }
+    public byte getTextEncoding() { return (byte) (long) (Long) getObject(ObjectNumberHashMap.TEXT_ENCODING); }
+
     protected void setupObjectList() {
         appendToObjectList(new ObjectNumberHashMap(ObjectNumberHashMap.TEXT_ENCODING, 1));
         appendToObjectList(new ObjectStringDateTime("Date Time"));

@@ -421,38 +421,6 @@ public class ID3v2_4 extends ID3v2_3 {
         super.append(tag);
     }
 
-    public boolean equals(final Object obj) {
-        if ((obj instanceof ID3v2_4) == false) {
-            return false;
-        }
-        final ID3v2_4 id3v2_4 = (ID3v2_4) obj;
-        if (this.footer != id3v2_4.footer) {
-            return false;
-        }
-        if (this.imageEncodingRestriction != id3v2_4.imageEncodingRestriction) {
-            return false;
-        }
-        if (this.imageSizeRestriction != id3v2_4.imageSizeRestriction) {
-            return false;
-        }
-        if (this.tagRestriction != id3v2_4.tagRestriction) {
-            return false;
-        }
-        if (this.tagSizeRestriction != id3v2_4.tagSizeRestriction) {
-            return false;
-        }
-        if (this.textEncodingRestriction != id3v2_4.textEncodingRestriction) {
-            return false;
-        }
-        if (this.textFieldSizeRestriction != id3v2_4.textFieldSizeRestriction) {
-            return false;
-        }
-        if (this.updateTag != id3v2_4.updateTag) {
-            return false;
-        }
-        return super.equals(obj);
-    }
-
     public void overwrite(final AbstractMP3Tag tag) {
         if (tag instanceof ID3v2_4) {
             this.updateTag = ((ID3v2_4) tag).updateTag;
@@ -785,4 +753,55 @@ public class ID3v2_4 extends ID3v2_3 {
         return new ID3v2_4Frame();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+
+        ID3v2_4 id3v2_4 = (ID3v2_4) o;
+
+        if (footer != id3v2_4.footer) {
+            return false;
+        }
+        if (tagRestriction != id3v2_4.tagRestriction) {
+            return false;
+        }
+        if (updateTag != id3v2_4.updateTag) {
+            return false;
+        }
+        if (imageEncodingRestriction != id3v2_4.imageEncodingRestriction) {
+            return false;
+        }
+        if (imageSizeRestriction != id3v2_4.imageSizeRestriction) {
+            return false;
+        }
+        if (tagSizeRestriction != id3v2_4.tagSizeRestriction) {
+            return false;
+        }
+        if (textEncodingRestriction != id3v2_4.textEncodingRestriction) {
+            return false;
+        }
+        return textFieldSizeRestriction == id3v2_4.textFieldSizeRestriction;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (footer ? 1 : 0);
+        result = 31 * result + (tagRestriction ? 1 : 0);
+        result = 31 * result + (updateTag ? 1 : 0);
+        result = 31 * result + (int) imageEncodingRestriction;
+        result = 31 * result + (int) imageSizeRestriction;
+        result = 31 * result + (int) tagSizeRestriction;
+        result = 31 * result + (int) textEncodingRestriction;
+        result = 31 * result + (int) textFieldSizeRestriction;
+        return result;
+    }
 }

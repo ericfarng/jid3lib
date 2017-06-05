@@ -188,4 +188,30 @@ public class FilenameParenthesis extends FilenameDelimiter {
             }
         }
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        FilenameParenthesis that = (FilenameParenthesis) o;
+
+        if (middleComposite != null ? !middleComposite.equals(that.middleComposite)
+                                    : that.middleComposite != null) {
+            return false;
+        }
+        return openDelimiter != null ? openDelimiter.equals(that.openDelimiter)
+                                     : that.openDelimiter == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = middleComposite != null ? middleComposite.hashCode() : 0;
+        result = 31 * result + (openDelimiter != null ? openDelimiter.hashCode() : 0);
+        return result;
+    }
 }

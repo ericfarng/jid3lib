@@ -2,6 +2,7 @@ package org.farng.mp3.lyrics3;
 
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.util.Arrays;
 
 /**
  * This is used if the field identifier is not recognized. the contents of the frame are read as a byte stream and kept
@@ -60,17 +61,6 @@ public class FieldBodyUnsupported extends AbstractLyrics3v2FieldBody {
         return super.isSubsetOf(object);
     }
 
-    public boolean equals(final Object obj) {
-        if ((obj instanceof FieldBodyUnsupported) == false) {
-            return false;
-        }
-        final FieldBodyUnsupported fieldBodyUnsupported = (FieldBodyUnsupported) obj;
-        if (java.util.Arrays.equals(this.value, fieldBodyUnsupported.value) == false) {
-            return false;
-        }
-        return super.equals(obj);
-    }
-
     protected void setupObjectList() {
 //        throw new UnsupportedOperationException();
     }
@@ -106,5 +96,29 @@ public class FieldBodyUnsupported extends AbstractLyrics3v2FieldBody {
         }
         file.write(buffer);
         file.write(this.value);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+
+        FieldBodyUnsupported that = (FieldBodyUnsupported) o;
+
+        return Arrays.equals(value, that.value);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + Arrays.hashCode(value);
+        return result;
     }
 }

@@ -1,5 +1,6 @@
 package org.farng.mp3.lyrics3;
 
+import java.util.List;
 import org.farng.mp3.InvalidTagException;
 import org.farng.mp3.TagConstant;
 import org.farng.mp3.TagOptionSingleton;
@@ -29,7 +30,7 @@ import java.util.Iterator;
  */
 public class FieldBodyIMG extends AbstractLyrics3v2FieldBody {
 
-    private ArrayList images = new ArrayList();
+    private ArrayList<ObjectLyrics3Image> images = new ArrayList<ObjectLyrics3Image>();
 
     /**
      * Creates a new FieldBodyIMG object.
@@ -80,9 +81,9 @@ public class FieldBodyIMG extends AbstractLyrics3v2FieldBody {
         ObjectLyrics3Image image;
         for (int i = 0; i < this.images.size(); i++) {
             image = (ObjectLyrics3Image) this.images.get(i);
-            size += (image.getSize() + 2); // add CRLF pair
+            size += (image.getSize() + TagConstant.SEPERATOR_LINE.length());
         }
-        return size - 2; // cut off trailing crlf pair
+        return size - TagConstant.SEPERATOR_LINE.length(); // cut off trailing crlf pair
     }
 
     public boolean isSubsetOf(final Object object) {
@@ -108,17 +109,6 @@ public class FieldBodyIMG extends AbstractLyrics3v2FieldBody {
 
     public void addImage(final ObjectLyrics3Image image) {
         this.images.add(image);
-    }
-
-    public boolean equals(final Object obj) {
-        if ((obj instanceof FieldBodyIMG) == false) {
-            return false;
-        }
-        final FieldBodyIMG fieldBodyIMG = (FieldBodyIMG) obj;
-        if (this.images.equals(fieldBodyIMG.images) == false) {
-            return false;
-        }
-        return super.equals(obj);
     }
 
     public Iterator iterator() {
@@ -194,7 +184,7 @@ public class FieldBodyIMG extends AbstractLyrics3v2FieldBody {
         while (delim >= 0) {
             token = imageString.substring(offset, delim);
             image = new ObjectLyrics3Image("Image");
-            image.setFilename(token);
+            image.readString(token);
             this.images.add(image);
             offset = delim + TagConstant.SEPERATOR_LINE.length();
             delim = imageString.indexOf(TagConstant.SEPERATOR_LINE, offset);
@@ -202,7 +192,7 @@ public class FieldBodyIMG extends AbstractLyrics3v2FieldBody {
         if (offset < imageString.length()) {
             token = imageString.substring(offset);
             image = new ObjectLyrics3Image("Image");
-            image.setFilename(token);
+            image.readString(token);
             this.images.add(image);
         }
     }
@@ -215,8 +205,36 @@ public class FieldBodyIMG extends AbstractLyrics3v2FieldBody {
             str += (image.writeString() + TagConstant.SEPERATOR_LINE);
         }
         if (str.length() > 2) {
-            return str.substring(0, str.length() - 2);
+            return str.substring(0, str.length() - TagConstant.SEPERATOR_LINE.length());
         }
         return str;
+    }
+
+    public List<ObjectLyrics3Image> getImageList() {
+        return this.images;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+
+        FieldBodyIMG that = (FieldBodyIMG) o;
+
+        return images != null ? images.equals(that.images) : that.images == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (images != null ? images.hashCode() : 0);
+        return result;
     }
 }

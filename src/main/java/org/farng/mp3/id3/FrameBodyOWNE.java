@@ -59,7 +59,7 @@ public class FrameBodyOWNE extends AbstractID3v2FrameBody {
                          final String pricePaid,
                          final String dateOfPurchase,
                          final String seller) {
-        setObject("Text Encoding", new Byte(textEncoding));
+        setObject(ObjectNumberHashMap.TEXT_ENCODING, new Byte(textEncoding));
         setObject("Price Paid", pricePaid);
         setObject("Date Of Purchase", dateOfPurchase);
         setObject("Seller", seller);
@@ -71,6 +71,20 @@ public class FrameBodyOWNE extends AbstractID3v2FrameBody {
     public FrameBodyOWNE(final RandomAccessFile file) throws IOException, InvalidTagException {
         this.read(file);
     }
+
+
+    public void setTextEncoding(final byte textEncoding) { setObject(ObjectNumberHashMap.TEXT_ENCODING, new Byte(textEncoding)); }
+    public byte getTextEncoding() { return (byte) (long) (Long) getObject(ObjectNumberHashMap.TEXT_ENCODING); }
+
+    public String getPricePaid() { return (String) getObject("Price Paid"); }
+    public void setPricePaid(final String pricePaid) { setObject("Price Paid", pricePaid); }
+
+    public String getDateOfPurchase() { return (String) getObject("Date Of Purchase"); }
+    public void setDateOfPurchase(final String dateOfPurchase) { setObject("Date Of Purchase", dateOfPurchase); }
+
+    public String getSeller() { return (String) getObject("Seller"); }
+    public void setSeller(final String seller) { setObject("Seller", seller); }
+
 
     public String getIdentifier() {
         return "OWNE";

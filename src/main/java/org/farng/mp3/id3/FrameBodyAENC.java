@@ -81,13 +81,14 @@ public class FrameBodyAENC extends AbstractID3v2FrameBody {
         return "AENC" + (char) 0 + getOwner();
     }
 
-    public String getOwner() {
-        return (String) getObject("Owner");
-    }
+    public String getOwner() { return (String) getObject("Owner"); }
+    public void setOwner(final String owner) { setObject("Owner", owner); }
 
-    public void setOwner(final String description) {
-        setObject("Owner", description);
-    }
+    public short getPreviewStart() {return (short) (long) (Long) getObject("Preview Start");}
+    public void setPreviewStart(short previewStart) {setObject("Preview Start", previewStart);};
+
+    public short getPreviewLength() {return (short) (long) (Long) getObject("Preview Length");}
+    public void setPreviewLength(short previewLength) {setObject("Preview Length", previewLength);};
 
     protected void setupObjectList() {
         appendToObjectList(new ObjectStringNullTerminated("Owner"));

@@ -103,7 +103,7 @@ public class FrameBodyCOMM extends AbstractID3v2FrameBody {
     }
 
     public byte getTextEncoding() {
-        return ((Byte) getObject(ObjectNumberHashMap.TEXT_ENCODING)).byteValue();
+        return (byte) (long) (Long) getObject(ObjectNumberHashMap.TEXT_ENCODING);
     }
 
     protected void setupObjectList() {

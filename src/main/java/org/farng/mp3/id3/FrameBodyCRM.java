@@ -81,6 +81,16 @@ public class FrameBodyCRM extends AbstractID3v2FrameBody {
         setObject("Owner", description);
     }
 
+    public void setDescription(final String description) {
+        setObject("Description", description);
+    }
+    public String getDescription() {
+        return (String) getObject("Description");
+    }
+
+    public byte[] getEncryptedData() { return (byte[]) getObject("Encrypted datablock"); }
+    public void setEncryptedData(final byte[] data) { setObject("Encrypted datablock", data); }
+
     protected void setupObjectList() {
         appendToObjectList(new ObjectStringNullTerminated("Owner"));
         appendToObjectList(new ObjectStringNullTerminated("Description"));

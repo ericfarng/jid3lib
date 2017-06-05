@@ -38,17 +38,6 @@ public class ObjectBooleanByte extends AbstractMP3Object {
         return 1;
     }
 
-    public boolean equals(final Object obj) {
-        if ((obj instanceof ObjectBooleanByte) == false) {
-            return false;
-        }
-        final ObjectBooleanByte objectBooleanByte = (ObjectBooleanByte) obj;
-        if (this.bitPosition != objectBooleanByte.bitPosition) {
-            return false;
-        }
-        return super.equals(obj);
-    }
-
     public void readByteArray(final byte[] arr, final int offset) {
         if (arr == null) {
             throw new NullPointerException("Byte array is null");
@@ -78,5 +67,30 @@ public class ObjectBooleanByte extends AbstractMP3Object {
             retValue[0] <<= this.bitPosition;
         }
         return retValue;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+
+        ObjectBooleanByte that = (ObjectBooleanByte) o;
+
+        return bitPosition == that.bitPosition;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + bitPosition;
+        return result;
     }
 }

@@ -189,4 +189,38 @@ public class FilenameDelimiter extends AbstractFilenameComposite {
             }
         }
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+
+        FilenameDelimiter that = (FilenameDelimiter) o;
+
+        if (afterComposite != null ? !afterComposite.equals(that.afterComposite)
+                                   : that.afterComposite != null) {
+            return false;
+        }
+        if (beforeComposite != null ? !beforeComposite.equals(that.beforeComposite)
+                                    : that.beforeComposite != null) {
+            return false;
+        }
+        return delimiter != null ? delimiter.equals(that.delimiter) : that.delimiter == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (afterComposite != null ? afterComposite.hashCode() : 0);
+        result = 31 * result + (beforeComposite != null ? beforeComposite.hashCode() : 0);
+        result = 31 * result + (delimiter != null ? delimiter.hashCode() : 0);
+        return result;
+    }
 }

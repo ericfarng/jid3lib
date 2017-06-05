@@ -457,4 +457,41 @@ public class FilenameTag extends AbstractMP3Tag {
             ((FrameBodyTCOM) field.getBody()).setText(authorComposer.trim());
         }
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+
+        FilenameTag that = (FilenameTag) o;
+
+        if (composite != null ? !composite.equals(that.composite) : that.composite != null) {
+            return false;
+        }
+        if (id3tag != null ? !id3tag.equals(that.id3tag) : that.id3tag != null) {
+            return false;
+        }
+        File thisMp3File = mp3file != null ? mp3file.getMp3file() : null;
+        File thatMp3File = that.mp3file != null ? that.mp3file.getMp3file() : null;
+        if (thisMp3File != null ? !thisMp3File.equals(thatMp3File) : thatMp3File != null) {
+            return false;
+        }
+        return extension != null ? extension.equals(that.extension) : that.extension == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = composite != null ? composite.hashCode() : 0;
+        result = 31 * result + (id3tag != null ? id3tag.hashCode() : 0);
+        result = 31 * result + (mp3file != null && mp3file.getMp3file() != null ? mp3file.getMp3file().hashCode() : 0);
+        result = 31 * result + (extension != null ? extension.hashCode() : 0);
+        return result;
+    }
 }

@@ -358,4 +358,192 @@ public class FrameBodyRVAD extends AbstractID3v2FrameBody {
         }
         file.write(buffer);
     }
+
+    public byte getBytesUsed() {
+        return bytesUsed;
+    }
+
+    public void setBytesUsed(byte bytesUsed) {
+        this.bytesUsed = bytesUsed;
+    }
+
+    public byte getIncrement() {
+        return increment;
+    }
+
+    public void setIncrement(byte increment) {
+        this.increment = increment;
+    }
+
+    public long getPeakBass() {
+        return peakBass;
+    }
+
+    public void setPeakBass(long peakBass) {
+        this.peakBass = peakBass;
+    }
+
+    public long getPeakCenter() {
+        return peakCenter;
+    }
+
+    public void setPeakCenter(long peakCenter) {
+        this.peakCenter = peakCenter;
+    }
+
+    public long getPeakLeft() {
+        return peakLeft;
+    }
+
+    public void setPeakLeft(long peakLeft) {
+        this.peakLeft = peakLeft;
+    }
+
+    public long getPeakLeftBack() {
+        return peakLeftBack;
+    }
+
+    public void setPeakLeftBack(long peakLeftBack) {
+        this.peakLeftBack = peakLeftBack;
+    }
+
+    public long getPeakRight() {
+        return peakRight;
+    }
+
+    public void setPeakRight(long peakRight) {
+        this.peakRight = peakRight;
+    }
+
+    public long getPeakRightBack() {
+        return peakRightBack;
+    }
+
+    public void setPeakRightBack(long peakRightBack) {
+        this.peakRightBack = peakRightBack;
+    }
+
+    public long getRelativeBass() {
+        return relativeBass;
+    }
+
+    public void setRelativeBass(long relativeBass) {
+        this.relativeBass = relativeBass;
+    }
+
+    public long getRelativeCenter() {
+        return relativeCenter;
+    }
+
+    public void setRelativeCenter(long relativeCenter) {
+        this.relativeCenter = relativeCenter;
+    }
+
+    public long getRelativeLeft() {
+        return relativeLeft;
+    }
+
+    public void setRelativeLeft(long relativeLeft) {
+        this.relativeLeft = relativeLeft;
+    }
+
+    public long getRelativeLeftBack() {
+        return relativeLeftBack;
+    }
+
+    public void setRelativeLeftBack(long relativeLeftBack) {
+        this.relativeLeftBack = relativeLeftBack;
+    }
+
+    public long getRelativeRight() {
+        return relativeRight;
+    }
+
+    public void setRelativeRight(long relativeRight) {
+        this.relativeRight = relativeRight;
+    }
+
+    public long getRelativeRightBack() {
+        return relativeRightBack;
+    }
+
+    public void setRelativeRightBack(long relativeRightBack) {
+        this.relativeRightBack = relativeRightBack;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+
+        FrameBodyRVAD that = (FrameBodyRVAD) o;
+
+        if (bytesUsed != that.bytesUsed) {
+            return false;
+        }
+        if (increment != that.increment) {
+            return false;
+        }
+        if (peakBass != that.peakBass) {
+            return false;
+        }
+        if (peakCenter != that.peakCenter) {
+            return false;
+        }
+        if (peakLeft != that.peakLeft) {
+            return false;
+        }
+        if (peakLeftBack != that.peakLeftBack) {
+            return false;
+        }
+        if (peakRight != that.peakRight) {
+            return false;
+        }
+        if (peakRightBack != that.peakRightBack) {
+            return false;
+        }
+        if (relativeBass != that.relativeBass) {
+            return false;
+        }
+        if (relativeCenter != that.relativeCenter) {
+            return false;
+        }
+        if (relativeLeft != that.relativeLeft) {
+            return false;
+        }
+        if (relativeLeftBack != that.relativeLeftBack) {
+            return false;
+        }
+        if (relativeRight != that.relativeRight) {
+            return false;
+        }
+        return relativeRightBack == that.relativeRightBack;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (int) bytesUsed;
+        result = 31 * result + (int) increment;
+        result = 31 * result + (int) (peakBass ^ (peakBass >>> 32));
+        result = 31 * result + (int) (peakCenter ^ (peakCenter >>> 32));
+        result = 31 * result + (int) (peakLeft ^ (peakLeft >>> 32));
+        result = 31 * result + (int) (peakLeftBack ^ (peakLeftBack >>> 32));
+        result = 31 * result + (int) (peakRight ^ (peakRight >>> 32));
+        result = 31 * result + (int) (peakRightBack ^ (peakRightBack >>> 32));
+        result = 31 * result + (int) (relativeBass ^ (relativeBass >>> 32));
+        result = 31 * result + (int) (relativeCenter ^ (relativeCenter >>> 32));
+        result = 31 * result + (int) (relativeLeft ^ (relativeLeft >>> 32));
+        result = 31 * result + (int) (relativeLeftBack ^ (relativeLeftBack >>> 32));
+        result = 31 * result + (int) (relativeRight ^ (relativeRight >>> 32));
+        result = 31 * result + (int) (relativeRightBack ^ (relativeRightBack >>> 32));
+        return result;
+    }
 }

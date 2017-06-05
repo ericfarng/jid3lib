@@ -35,11 +35,4 @@ public class ObjectStringDateTime extends ObjectStringSizeTerminated {
         }
         return null;
     }
-
-    public boolean equals(final Object obj) {
-        if (obj instanceof ObjectStringDateTime == false) {
-            return false;
-        }
-        return super.equals(obj);
-    }
 }

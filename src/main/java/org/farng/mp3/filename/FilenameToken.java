@@ -231,4 +231,29 @@ public class FilenameToken extends AbstractFilenameComposite {
     public String toString() {
         return id3v2FrameBodyClass + ": " + token;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        FilenameToken that = (FilenameToken) o;
+
+        if (id3v2FrameBodyClass != null ? !id3v2FrameBodyClass.equals(that.id3v2FrameBodyClass)
+                                        : that.id3v2FrameBodyClass != null) {
+            return false;
+        }
+        return token != null ? token.equals(that.token) : that.token == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id3v2FrameBodyClass != null ? id3v2FrameBodyClass.hashCode() : 0;
+        result = 31 * result + (token != null ? token.hashCode() : 0);
+        return result;
+    }
 }

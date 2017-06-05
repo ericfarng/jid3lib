@@ -183,29 +183,6 @@ public class ID3v2_3 extends ID3v2_2 {
         super.append(tag);
     }
 
-    public boolean equals(final Object obj) {
-        if ((obj instanceof ID3v2_3) == false) {
-            return false;
-        }
-        final ID3v2_3 id3v2_3 = (ID3v2_3) obj;
-        if (this.crcData != id3v2_3.crcData) {
-            return false;
-        }
-        if (this.crcDataFlag != id3v2_3.crcDataFlag) {
-            return false;
-        }
-        if (this.experimental != id3v2_3.experimental) {
-            return false;
-        }
-        if (this.extended != id3v2_3.extended) {
-            return false;
-        }
-        if (this.paddingSize != id3v2_3.paddingSize) {
-            return false;
-        }
-        return super.equals(obj);
-    }
-
     public void overwrite(final AbstractMP3Tag tag) {
         if (tag instanceof ID3v2_3) {
             this.experimental = ((ID3v2_3) tag).experimental;
@@ -388,5 +365,45 @@ public class ID3v2_3 extends ID3v2_2 {
 
     protected AbstractID3v2Frame createEmptyFrame() {
         return new ID3v2_3Frame();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+
+        ID3v2_3 id3v2_3 = (ID3v2_3) o;
+
+        if (crcDataFlag != id3v2_3.crcDataFlag) {
+            return false;
+        }
+        if (experimental != id3v2_3.experimental) {
+            return false;
+        }
+        if (extended != id3v2_3.extended) {
+            return false;
+        }
+        if (crcData != id3v2_3.crcData) {
+            return false;
+        }
+        return paddingSize == id3v2_3.paddingSize;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (crcDataFlag ? 1 : 0);
+        result = 31 * result + (experimental ? 1 : 0);
+        result = 31 * result + (extended ? 1 : 0);
+        result = 31 * result + crcData;
+        result = 31 * result + paddingSize;
+        return result;
     }
 }

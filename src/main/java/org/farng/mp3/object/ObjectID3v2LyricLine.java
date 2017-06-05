@@ -24,7 +24,7 @@ public class ObjectID3v2LyricLine extends AbstractMP3Object {
      */
     public ObjectID3v2LyricLine(final ObjectID3v2LyricLine copyObject) {
         super(copyObject);
-        this.text = new String(copyObject.text);
+        if (copyObject.text != null) this.text = new String(copyObject.text);
         this.timeStamp = copyObject.timeStamp;
     }
 
@@ -46,20 +46,6 @@ public class ObjectID3v2LyricLine extends AbstractMP3Object {
 
     public long getTimeStamp() {
         return this.timeStamp;
-    }
-
-    public boolean equals(final Object obj) {
-        if ((obj instanceof ObjectID3v2LyricLine) == false) {
-            return false;
-        }
-        final ObjectID3v2LyricLine objectID3v2LyricLine = (ObjectID3v2LyricLine) obj;
-        if (this.text.equals(objectID3v2LyricLine.text) == false) {
-            return false;
-        }
-        if (this.timeStamp != objectID3v2LyricLine.timeStamp) {
-            return false;
-        }
-        return super.equals(obj);
     }
 
     public void readByteArray(final byte[] arr, final int offset) {
@@ -97,5 +83,33 @@ public class ObjectID3v2LyricLine extends AbstractMP3Object {
         arr[i++] = (byte) ((this.timeStamp & 0x0000FF00) >> 8);
         arr[i] = (byte) (this.timeStamp & 0x000000FF);
         return arr;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+
+        ObjectID3v2LyricLine that = (ObjectID3v2LyricLine) o;
+
+        if (timeStamp != that.timeStamp) {
+            return false;
+        }
+        return text != null ? text.equals(that.text) : that.text == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (text != null ? text.hashCode() : 0);
+        result = 31 * result + (int) (timeStamp ^ (timeStamp >>> 32));
+        return result;
     }
 }

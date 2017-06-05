@@ -9,6 +9,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -431,11 +432,11 @@ public class TagUtility {
 //        } catch (NoSuchMethodException ex) {
 //            throw new IllegalArgumentException("NoSuchMethodException: Error finding constructor to create copy");
         } catch (IllegalAccessException ex) {
-            throw new IllegalArgumentException("IllegalAccessException: No access to run constructor to create copy");
+            throw new IllegalArgumentException("IllegalAccessException: No access to run constructor to create copy", ex);
         } catch (InstantiationException ex) {
-            throw new IllegalArgumentException("InstantiationException: Unable to instantiate constructor to copy");
+            throw new IllegalArgumentException("InstantiationException: Unable to instantiate constructor to copy", ex);
         } catch (java.lang.reflect.InvocationTargetException ex) {
-            throw new IllegalArgumentException("InvocationTargetException: Unable to invoke constructor to create copy");
+            throw new IllegalArgumentException("InvocationTargetException: Unable to invoke constructor to create copy", ex);
         }
         return null;
     }
@@ -825,5 +826,44 @@ public class TagUtility {
             }
         }
         return wordBuffer;
+    }
+
+    public static boolean compareTwoFiles(File file1, File file2) throws IOException {
+        FileInputStream fileInputStream1 = null;
+        FileInputStream fileInputStream2 = null;
+        BufferedInputStream bufferedInputStream1 = null;
+        BufferedInputStream bufferedInputStream2 = null;
+        try {
+            fileInputStream1 = new FileInputStream(file1);
+            fileInputStream2 = new FileInputStream(file2);
+
+            bufferedInputStream1 = new BufferedInputStream(fileInputStream1);
+            bufferedInputStream2 = new BufferedInputStream(fileInputStream2);
+
+            byte[] buffer1 = new byte[65536];
+            byte[] buffer2 = new byte[65536];
+
+            int byteCount1 = bufferedInputStream1.read(buffer1);
+            int byteCount2 = bufferedInputStream2.read(buffer2);
+
+            while (byteCount1 == 65536 && byteCount2 == 65536) {
+                if (Arrays.equals(buffer1, buffer2) == false) {
+                    return false;
+                }
+                byteCount1 = bufferedInputStream1.read(buffer1);
+                byteCount2 = bufferedInputStream2.read(buffer2);
+            }
+            if (byteCount1 != byteCount2)
+                return false;
+            return Arrays.equals(buffer1, buffer2);
+
+        } catch (IOException ex) {
+            if (fileInputStream1 != null) fileInputStream1.close();
+            if (fileInputStream2 != null) fileInputStream2.close();
+            if (bufferedInputStream1 != null) bufferedInputStream1.close();
+            if (bufferedInputStream2 != null) bufferedInputStream2.close();
+            throw ex;
+        }
+
     }
 }

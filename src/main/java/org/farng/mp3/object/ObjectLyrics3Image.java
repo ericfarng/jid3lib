@@ -10,8 +10,8 @@ package org.farng.mp3.object;
 public class ObjectLyrics3Image extends AbstractMP3Object {
 
     private ObjectLyrics3TimeStamp time = null;
-    private String description = "";
-    private String filename = "";
+    private String description = null;
+    private String filename = null;
 
     /**
      * Creates a new ObjectLyrics3Image object.
@@ -25,13 +25,17 @@ public class ObjectLyrics3Image extends AbstractMP3Object {
      */
     public ObjectLyrics3Image(final ObjectLyrics3Image copyObject) {
         super(copyObject);
-        this.time = new ObjectLyrics3TimeStamp(copyObject.time);
-        this.description = new String(copyObject.description);
-        this.filename = new String(copyObject.filename);
+        if (copyObject.time != null) this.time = new ObjectLyrics3TimeStamp(copyObject.time);
+        if (copyObject.description != null) this.description = new String(copyObject.description);
+        if (copyObject.filename != null) this.filename = new String(copyObject.filename);
     }
 
     public void setDescription(final String description) {
-        this.description = description;
+        if (description == null || description.trim().length() == 0) {
+            this.description = null;
+        } else {
+            this.description = description.trim();
+        }
     }
 
     public String getDescription() {
@@ -39,7 +43,11 @@ public class ObjectLyrics3Image extends AbstractMP3Object {
     }
 
     public void setFilename(final String filename) {
-        this.filename = filename;
+        if (filename == null || filename.trim().length() == 0) {
+            this.filename = null;
+        } else {
+            this.filename = filename.trim();
+        }
     }
 
     public String getFilename() {
@@ -47,11 +55,12 @@ public class ObjectLyrics3Image extends AbstractMP3Object {
     }
 
     public int getSize() {
-        int size;
-        size = this.filename.length() + 2 + this.description.length() + 2;
-        if (this.time != null) {
-            size += this.time.getSize();
-        }
+        int size = 0;
+        size += this.filename == null ? 0 : this.filename.length();
+        size += 2;
+        size += this.description == null ? 0 : this.description.length();
+        size += 2;
+        size += this.time == null ? 0 : this.time.getSize();
         return size;
     }
 
@@ -61,29 +70,6 @@ public class ObjectLyrics3Image extends AbstractMP3Object {
 
     public ObjectLyrics3TimeStamp getTimeStamp() {
         return this.time;
-    }
-
-    public boolean equals(final Object obj) {
-        if ((obj instanceof ObjectLyrics3Image) == false) {
-            return false;
-        }
-        final ObjectLyrics3Image objectLyrics3Image = (ObjectLyrics3Image) obj;
-        if (this.description.equals(objectLyrics3Image.description) == false) {
-            return false;
-        }
-        if (this.filename.equals(objectLyrics3Image.filename) == false) {
-            return false;
-        }
-        if (this.time == null) {
-            if (objectLyrics3Image.time != null) {
-                return false;
-            }
-        } else {
-            if (this.time.equals(objectLyrics3Image.time) == false) {
-                return false;
-            }
-        }
-        return super.equals(obj);
     }
 
     public void readString(final String imageString, int offset) {
@@ -102,7 +88,9 @@ public class ObjectLyrics3Image extends AbstractMP3Object {
         this.filename = imageString.substring(offset, delim);
         offset = delim + 2;
         delim = imageString.indexOf("||", offset);
-        this.description = imageString.substring(offset, delim);
+        if (offset < delim) {
+            this.description = imageString.substring(offset, delim);
+        }
         offset = delim + 2;
         timestamp = imageString.substring(offset);
         if (timestamp.length() == 7) {
@@ -136,5 +124,38 @@ public class ObjectLyrics3Image extends AbstractMP3Object {
             str += this.time.writeString();
         }
         return str;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+
+        ObjectLyrics3Image that = (ObjectLyrics3Image) o;
+
+        if (time != null ? !time.equals(that.time) : that.time != null) {
+            return false;
+        }
+        if (description != null ? !description.equals(that.description)
+                                : that.description != null) {
+            return false;
+        }
+        return filename != null ? filename.equals(that.filename) : that.filename == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (time != null ? time.hashCode() : 0);
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + (filename != null ? filename.hashCode() : 0);
+        return result;
     }
 }

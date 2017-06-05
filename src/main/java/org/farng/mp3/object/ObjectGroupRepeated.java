@@ -69,20 +69,6 @@ public class ObjectGroupRepeated extends AbstractMP3Object {
         this.propertyList.add(object);
     }
 
-    public boolean equals(final Object obj) {
-        if ((obj instanceof ObjectGroupRepeated) == false) {
-            return false;
-        }
-        final ObjectGroupRepeated objectGroupRepeated = (ObjectGroupRepeated) obj;
-        if (this.objectList.equals(objectGroupRepeated.objectList) == false) {
-            return false;
-        }
-        if (this.propertyList.equals(objectGroupRepeated.propertyList) == false) {
-            return false;
-        }
-        return super.equals(obj);
-    }
-
     public void readByteArray(final byte[] arr, int offset) {
         if (arr == null) {
             throw new NullPointerException("Byte array is null");
@@ -143,5 +129,34 @@ public class ObjectGroupRepeated extends AbstractMP3Object {
             System.arraycopy(objectArray, 0, totalArray, 0, totalArray.length);
         }
         return totalArray;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+
+        ObjectGroupRepeated that = (ObjectGroupRepeated) o;
+
+        if (objectList != null ? !objectList.equals(that.objectList) : that.objectList != null) {
+            return false;
+        }
+        return propertyList != null ? propertyList.equals(that.propertyList)
+                                    : that.propertyList == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (objectList != null ? objectList.hashCode() : 0);
+        result = 31 * result + (propertyList != null ? propertyList.hashCode() : 0);
+        return result;
     }
 }

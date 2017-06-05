@@ -54,6 +54,9 @@ public class FrameBodyPCNT extends AbstractID3v2FrameBody {
         this.read(file);
     }
 
+    public long getCounter() { return (Long) getObject("Counter"); }
+    public void setCounter(final long counter) { setObject("Counter", counter); }
+
     public String getIdentifier() {
         return "PCNT";
     }

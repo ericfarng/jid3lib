@@ -160,7 +160,7 @@ public class Lyrics3v2Field extends AbstractMP3Fragment {
 
         // is this a valid identifier?
         if (TagUtility.isLyrics3v2FieldIdentifier(identifier) == false) {
-            throw new InvalidTagException(identifier + " is not a valid ID3v2.4 frame");
+            throw new InvalidTagException(identifier + " is not a valid Lyrics3v2 frame");
         }
         this.setBody(readBody(identifier, file));
     }

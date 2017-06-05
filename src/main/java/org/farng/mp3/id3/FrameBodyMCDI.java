@@ -62,6 +62,9 @@ public class FrameBodyMCDI extends AbstractID3v2FrameBody {
         this.read(file);
     }
 
+    public byte[] getTableOfContents() { return (byte[]) getObject("CD Table of Contents"); }
+    public void setTableOfContents(final byte[] data) { setObject("CD Table of Contents", data); }
+
     public String getIdentifier() {
         return "MCDI";
     }

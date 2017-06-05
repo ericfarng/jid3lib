@@ -62,17 +62,6 @@ public class ObjectNumberVariableLength extends AbstractMP3Object {
         return (this.minLength > size) ? this.minLength : size;
     }
 
-    public boolean equals(final Object obj) {
-        if ((obj instanceof ObjectNumberVariableLength) == false) {
-            return false;
-        }
-        final ObjectNumberVariableLength objectNumberVariableLength = (ObjectNumberVariableLength) obj;
-        if (this.minLength != objectNumberVariableLength.minLength) {
-            return false;
-        }
-        return super.equals(obj);
-    }
-
     public void readByteArray(final byte[] arr, final int offset) {
         if (arr == null) {
             throw new NullPointerException("Byte array is null");
@@ -133,5 +122,29 @@ public class ObjectNumberVariableLength extends AbstractMP3Object {
             return "";
         }
         return this.value.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+
+        ObjectNumberVariableLength that = (ObjectNumberVariableLength) o;
+
+        return minLength == that.minLength;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + minLength;
+        return result;
     }
 }

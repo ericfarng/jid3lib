@@ -1,5 +1,6 @@
 package org.farng.mp3.id3;
 
+import java.util.Arrays;
 import org.farng.mp3.InvalidTagException;
 
 import java.io.IOException;
@@ -109,6 +110,7 @@ public class FrameBodyASPI extends AbstractID3v2FrameBody {
         read(file);
     }
 
+
     public String getIdentifier() {
         return "ASPI";
     }
@@ -170,5 +172,85 @@ public class FrameBodyASPI extends AbstractID3v2FrameBody {
         for (int i = 0; i < indexPoints; i++) {
             file.writeShort((int) fraction[i]);
         }
+    }
+
+    public short[] getFraction() {
+        return fraction;
+    }
+
+    public void setFraction(short[] fraction) {
+        this.fraction = fraction;
+    }
+
+    public int getBitsPerPoint() {
+        return bitsPerPoint;
+    }
+
+    public void setBitsPerPoint(int bitsPerPoint) {
+        this.bitsPerPoint = bitsPerPoint;
+    }
+
+    public int getDataLength() {
+        return dataLength;
+    }
+
+    public void setDataLength(int dataLength) {
+        this.dataLength = dataLength;
+    }
+
+    public int getDataStart() {
+        return dataStart;
+    }
+
+    public void setDataStart(int dataStart) {
+        this.dataStart = dataStart;
+    }
+
+    public int getIndexPoints() {
+        return indexPoints;
+    }
+
+    public void setIndexPoints(int indexPoints) {
+        this.indexPoints = indexPoints;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+
+        FrameBodyASPI that = (FrameBodyASPI) o;
+
+        if (bitsPerPoint != that.bitsPerPoint) {
+            return false;
+        }
+        if (dataLength != that.dataLength) {
+            return false;
+        }
+        if (dataStart != that.dataStart) {
+            return false;
+        }
+        if (indexPoints != that.indexPoints) {
+            return false;
+        }
+        return Arrays.equals(fraction, that.fraction);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + Arrays.hashCode(fraction);
+        result = 31 * result + bitsPerPoint;
+        result = 31 * result + dataLength;
+        result = 31 * result + dataStart;
+        result = 31 * result + indexPoints;
+        return result;
     }
 }

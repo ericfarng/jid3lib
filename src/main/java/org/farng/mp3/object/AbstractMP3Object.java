@@ -103,6 +103,14 @@ public abstract class AbstractMP3Object extends java.lang.Object {
 
     public abstract String toString();
 
+    public byte[] writeByteArray() {
+        return writeString().getBytes();
+    }
+
+    public String writeString() {
+        return new String(writeByteArray());
+    }
+
     public boolean equals(final Object obj) {
         if ((obj instanceof AbstractMP3Object) == false) {
             return false;
@@ -176,11 +184,10 @@ public abstract class AbstractMP3Object extends java.lang.Object {
         return true;
     }
 
-    public byte[] writeByteArray() {
-        return writeString().getBytes();
-    }
-
-    public String writeString() {
-        return new String(writeByteArray());
+    @Override
+    public int hashCode() {
+        int result = value != null ? value.hashCode() : 0;
+        result = 31 * result + (identifier != null ? identifier.hashCode() : 0);
+        return result;
     }
 }

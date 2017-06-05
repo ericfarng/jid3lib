@@ -115,17 +115,6 @@ public class Lyrics3v1 extends AbstractLyrics3 {
         }
     }
 
-    public boolean equals(final Object obj) {
-        if ((obj instanceof Lyrics3v1) == false) {
-            return false;
-        }
-        final Lyrics3v1 lyrics3v1 = (Lyrics3v1) obj;
-        if (this.lyric.equals(lyrics3v1.lyric) == false) {
-            return false;
-        }
-        return super.equals(obj);
-    }
-
     public Iterator iterator() {
         // todo Implement this org.farng.mp3.AbstractMP3Tag abstract method
         throw new java.lang.UnsupportedOperationException("Method iterator() not yet implemented.");
@@ -150,7 +139,7 @@ public class Lyrics3v1 extends AbstractLyrics3 {
         if (seek(file) == false) {
             throw new TagNotFoundException("ID3v1 tag not found");
         }
-        file.read(buffer);
+        int bytesRead = file.read(buffer);
         lyricBuffer = new String(buffer);
         this.lyric = lyricBuffer.substring(0, lyricBuffer.indexOf("LYRICSEND"));
     }
@@ -158,7 +147,6 @@ public class Lyrics3v1 extends AbstractLyrics3 {
     public boolean seek(final RandomAccessFile file) throws IOException {
         final byte[] buffer = new byte[5100 + 9 + 11];
         String lyricsEnd;
-        final String lyricsStart;
         long offset;
 
         // check right before the ID3 1.0 tag for the lyrics tag
@@ -184,12 +172,22 @@ public class Lyrics3v1 extends AbstractLyrics3 {
         offset -= (5100 + 9 + 11);
         file.seek(offset);
         file.read(buffer);
-        lyricsStart = new String(buffer);
 
-        // search for the tag
-        final int i = lyricsStart.indexOf("LYRICSBEGIN");
-        if (i == -1) {
-            return false;
+        int i = 0;
+        for (i = 0; i < buffer.length - 11; i++) {
+            if (buffer[i] == 'L' &&
+                buffer[i+1] == 'Y' &&
+                buffer[i+2] == 'R' &&
+                buffer[i+3] == 'I' &&
+                buffer[i+4] == 'C' &&
+                buffer[i+5] == 'S' &&
+                buffer[i+6] == 'B' &&
+                buffer[i+7] == 'E' &&
+                buffer[i+8] == 'G' &&
+                buffer[i+9] == 'I' &&
+                buffer[i+10] == 'N') {
+                break;
+            }
         }
         file.seek(offset + i + 11);
         return true;
@@ -312,5 +310,27 @@ public class Lyrics3v1 extends AbstractLyrics3 {
 
     public void setAuthorComposer(String authorComposer) {
         throw new UnsupportedOperationException("This tag does not contain that information");
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+
+        Lyrics3v1 lyrics3v1 = (Lyrics3v1) o;
+
+        return lyric != null ? lyric.equals(lyrics3v1.lyric) : lyrics3v1.lyric == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return lyric != null ? lyric.hashCode() : 0;
     }
 }

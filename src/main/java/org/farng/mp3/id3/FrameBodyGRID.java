@@ -77,7 +77,7 @@ public class FrameBodyGRID extends AbstractID3v2FrameBody {
 
     public byte getGroupSymbol() {
         if (getObject("Group Symbol") != null) {
-            return ((Byte) getObject("Group Symbol")).byteValue();
+            return (byte) (long) (Long) getObject("Group Symbol");
         }
         return 0;
     }
@@ -93,6 +93,9 @@ public class FrameBodyGRID extends AbstractID3v2FrameBody {
     public String getOwner() {
         return (String) getObject("Owner");
     }
+
+    public byte[] getGroupDependentData() { return (byte[]) getObject("Group Dependent Data"); }
+    public void setGroupDependentData(final byte[] data) { setObject("Group Dependent Data", data); }
 
     protected void setupObjectList() {
         appendToObjectList(new ObjectStringNullTerminated("Owner"));

@@ -46,17 +46,6 @@ public class ObjectNumberFixedLength extends AbstractMP3Object {
         return this.length;
     }
 
-    public boolean equals(final Object obj) {
-        if ((obj instanceof ObjectNumberFixedLength) == false) {
-            return false;
-        }
-        final ObjectNumberFixedLength objectNumberFixedLength = (ObjectNumberFixedLength) obj;
-        if (this.length != objectNumberFixedLength.length) {
-            return false;
-        }
-        return super.equals(obj);
-    }
-
     public void readByteArray(final byte[] arr, final int offset) {
         if (arr == null) {
             throw new NullPointerException("Byte array is null");
@@ -114,5 +103,29 @@ public class ObjectNumberFixedLength extends AbstractMP3Object {
             return String.valueOf(new char[this.length]);
         }
         return this.value.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+
+        ObjectNumberFixedLength that = (ObjectNumberFixedLength) o;
+
+        return length == that.length;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + length;
+        return result;
     }
 }

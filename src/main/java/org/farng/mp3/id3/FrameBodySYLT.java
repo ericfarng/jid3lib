@@ -341,4 +341,69 @@ public class FrameBodySYLT extends AbstractID3v2FrameBody {
         }
         return arr;
     }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
+    public void setContentType(byte contentType) {
+        this.contentType = contentType;
+    }
+
+    public void setTextEncoding(byte textEncoding) {
+        this.textEncoding = textEncoding;
+    }
+
+    public void setTimeStampFormat(byte timeStampFormat) {
+        this.timeStampFormat = timeStampFormat;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+
+        FrameBodySYLT that = (FrameBodySYLT) o;
+
+        if (contentType != that.contentType) {
+            return false;
+        }
+        if (textEncoding != that.textEncoding) {
+            return false;
+        }
+        if (timeStampFormat != that.timeStampFormat) {
+            return false;
+        }
+        if (lines != null ? !lines.equals(that.lines) : that.lines != null) {
+            return false;
+        }
+        if (description != null ? !description.equals(that.description)
+                                : that.description != null) {
+            return false;
+        }
+        return language != null ? language.equals(that.language) : that.language == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (lines != null ? lines.hashCode() : 0);
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + (language != null ? language.hashCode() : 0);
+        result = 31 * result + (int) contentType;
+        result = 31 * result + (int) textEncoding;
+        result = 31 * result + (int) timeStampFormat;
+        return result;
+    }
 }

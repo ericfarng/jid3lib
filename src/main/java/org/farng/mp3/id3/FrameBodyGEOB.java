@@ -59,7 +59,7 @@ public class FrameBodyGEOB extends AbstractID3v2FrameBody {
                          final String filename,
                          final String description,
                          final byte[] object) {
-        setObject("TextEncoding", new Byte(textEncoding));
+        setObject(ObjectNumberHashMap.TEXT_ENCODING, new Byte(textEncoding));
         setObject("MIME Type", mimeType);
         setObject("Filename", filename);
         setObject("Description", description);
@@ -73,6 +73,16 @@ public class FrameBodyGEOB extends AbstractID3v2FrameBody {
         this.read(file);
     }
 
+    public void setTextEncoding(final byte textEncoding) { setObject(ObjectNumberHashMap.TEXT_ENCODING, new Byte(textEncoding)); }
+    public byte getTextEncoding() { return (byte) (long) (Long) getObject(ObjectNumberHashMap.TEXT_ENCODING); }
+
+    public String getMimeType() { return (String) getObject("MIME Type"); }
+    public void setMimeType(final String mimeType) { setObject("MIME Type", mimeType); }
+
+    public String getFilename() { return (String) getObject("Filename"); }
+    public void setFilename(final String filename) { setObject("Filename", filename); }
+
+
     public void setDescription(final String description) {
         setObject("Description", description);
     }
@@ -82,8 +92,12 @@ public class FrameBodyGEOB extends AbstractID3v2FrameBody {
     }
 
     public String getIdentifier() {
-        return "GEOB" + ((char) 0) + getDescription();
+        return "GEOB" + ((char) 0) + getFilename();
     }
+
+    public byte[] getEncapsulatedObject() { return (byte[]) getObject("Encapsulated Object"); }
+    public void setEncapsulatedObject(final byte[] data) { setObject("Encapsulated Object", data); }
+
 
     protected void setupObjectList() {
         appendToObjectList(new ObjectNumberHashMap(ObjectNumberHashMap.TEXT_ENCODING, 1));
