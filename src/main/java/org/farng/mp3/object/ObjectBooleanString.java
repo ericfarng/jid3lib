@@ -52,5 +52,4 @@ public class ObjectBooleanString extends AbstractMP3Object {
         }
         return ((Boolean) this.value).booleanValue() ? "1" : "0";
     }
-
 }

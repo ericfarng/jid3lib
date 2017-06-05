@@ -272,8 +272,8 @@ public class ID3v2_4 extends ID3v2_3 {
      * Creates a new ID3v2_4 object.
      */
     public ID3v2_4() {
-        setMajorVersion((byte) 2);
-        setRevision((byte) 4);
+        setMajorVersion((byte) 4);
+        setRevision((byte) 0);
     }
 
 //    /**
@@ -295,6 +295,8 @@ public class ID3v2_4 extends ID3v2_3 {
      * Creates a new ID3v2_4 object.
      */
     public ID3v2_4(final AbstractMP3Tag mp3tag) {
+        setMajorVersion((byte) 4);
+        setRevision((byte) 0);
         if (mp3tag != null) {
             // if we get a tag, we want to convert to id3v2_4
             // both id3v1 and lyrics3 convert to this type
@@ -377,6 +379,8 @@ public class ID3v2_4 extends ID3v2_3 {
      * Creates a new ID3v2_4 object.
      */
     public ID3v2_4(final RandomAccessFile file) throws TagException, IOException {
+        setMajorVersion((byte) 4);
+        setRevision((byte) 0);
         this.read(file);
     }
 

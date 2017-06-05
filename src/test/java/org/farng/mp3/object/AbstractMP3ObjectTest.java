@@ -693,7 +693,7 @@ public class AbstractMP3ObjectTest extends TestCase {
         testObject = new ObjectStringDate(testString);
         assertFalse(mp3Object.equals(testObject));
         testObject = new ObjectStringDateTime(testString);
-        assertTrue(mp3Object.equals(testObject));
+        assertFalse(mp3Object.equals(testObject));
         testObject = new ObjectStringFixedLength(testString, 4);
         assertFalse(mp3Object.equals(testObject));
         testObject = new ObjectStringHashMap(ObjectStringHashMap.LANGUAGE, 4);

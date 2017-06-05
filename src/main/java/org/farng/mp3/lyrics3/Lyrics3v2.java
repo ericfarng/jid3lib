@@ -338,15 +338,19 @@ public class Lyrics3v2 extends AbstractLyrics3 {
     public void updateField(final String identifier) {
         Lyrics3v2Field lyrField;
         if (identifier.equals("IND")) {
-            final boolean lyricsPresent = this.fieldMap.containsKey("LYR");
-            boolean timeStampPresent = false;
-            if (lyricsPresent) {
-                lyrField = (Lyrics3v2Field) this.fieldMap.get("LYR");
-                final FieldBodyLYR lyrBody = (FieldBodyLYR) lyrField.getBody();
-                timeStampPresent = lyrBody.hasTimeStamp();
+            if (this.fieldMap.size() == 0 || (this.fieldMap.size() == 1 && this.fieldMap.containsKey("IND"))) {
+                // don't create IND field if it is the only one.
+            } else {
+                final boolean lyricsPresent = this.fieldMap.containsKey("LYR");
+                boolean timeStampPresent = false;
+                if (lyricsPresent) {
+                    lyrField = (Lyrics3v2Field) this.fieldMap.get("LYR");
+                    final FieldBodyLYR lyrBody = (FieldBodyLYR) lyrField.getBody();
+                    timeStampPresent = lyrBody.hasTimeStamp();
+                }
+                lyrField = new Lyrics3v2Field(new FieldBodyIND(lyricsPresent, timeStampPresent));
+                setField(lyrField);
             }
-            lyrField = new Lyrics3v2Field(new FieldBodyIND(lyricsPresent, timeStampPresent));
-            setField(lyrField);
         }
     }
 

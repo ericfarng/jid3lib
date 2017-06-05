@@ -97,8 +97,8 @@ public class ID3v2_3 extends ID3v2_2 {
      * Creates a new ID3v2_3 object.
      */
     public ID3v2_3() {
-        setMajorVersion((byte) 2);
-        setRevision((byte) 3);
+        setMajorVersion((byte) 3);
+        setRevision((byte) 0);
     }
 
 //    /**
@@ -117,6 +117,8 @@ public class ID3v2_3 extends ID3v2_2 {
      * Creates a new ID3v2_3 object.
      */
     public ID3v2_3(final AbstractMP3Tag mp3tag) {
+        setMajorVersion((byte) 3);
+        setRevision((byte) 0);
         if (mp3tag != null) {
             final ID3v2_3 convertedTag;
             if (mp3tag instanceof ID3v2_3) {
@@ -147,6 +149,8 @@ public class ID3v2_3 extends ID3v2_2 {
      * Creates a new ID3v2_3 object.
      */
     public ID3v2_3(final RandomAccessFile file) throws TagException, IOException {
+        setMajorVersion((byte) 3);
+        setRevision((byte) 0);
         this.read(file);
     }
 

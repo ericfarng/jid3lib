@@ -182,7 +182,8 @@ public class MP3FileTest extends TestCase {
         // compare new tag
         randomAccessFile = new RandomAccessFile(mp3file.getMp3file(), "r");
         ID3v2_4 tagNew = new ID3v2_4(randomAccessFile);
-        assertTrue(tagNew.equals(tag));
+        assertEquals(tag, tagNew);
+//        assertTrue(tagNew.equals(tag));
         assertFalse(mp3file.adjustID3v2Padding(1, false, true));
         assertEquals(this.paddingSize, mp3file.getMp3StartByte());
 
@@ -613,7 +614,7 @@ public class MP3FileTest extends TestCase {
         id3v2 = new ID3v2_4();
         lyrics3 = new Lyrics3v2();
         filename = FilenameTagBuilder.createEmptyFilenameTag();
-        frame = new ID3v2_4Frame(new FrameBodySYLT((byte) 0, "ENG", (byte) 0, (byte) 0, "description"));
+        frame = new ID3v2_4Frame(new FrameBodySYLT((byte) 0, "ENG", (byte) 2, (byte) 1, null));
         ((FrameBodySYLT) frame.getBody()).addLyric(0, testString);
         id3v2.setFrame(frame);
         try {
@@ -969,7 +970,8 @@ public class MP3FileTest extends TestCase {
         mp3file.save();
         mp3file = new MP3File(mp3file.getMp3file());
         assertNull(mp3file.getID3v1Tag());
-        assertTrue(mp3file.getID3v2Tag().equals(id3v2));
+        assertEquals(id3v2, mp3file.getID3v2Tag());
+//        assertTrue(mp3file.getID3v2Tag().equals(id3v2));
         assertNull(mp3file.getLyrics3Tag());
         assertEquals(1, (mp3file.getFilenameTag().getId3tag()).getFrameCount());
         tearDown();

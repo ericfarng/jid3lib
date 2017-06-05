@@ -309,7 +309,7 @@ public class ID3v2_4Frame extends ID3v2_3Frame {
 
             // we'll create only one frame here.
             // if there is any timestamp at all, we will create a sync'ed frame.
-            sync = new FrameBodySYLT((byte) 0, "ENG", (byte) 2, (byte) 1, "");
+            sync = new FrameBodySYLT((byte) 0, "ENG", (byte) 2, (byte) 1, null);
             unsync = new FrameBodyUSLT((byte) 0, "ENG", "", "");
             while (iterator.hasNext()) {
                 line = (ObjectLyrics3Line) iterator.next();

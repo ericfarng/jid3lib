@@ -112,7 +112,7 @@ public abstract class AbstractMP3Object extends java.lang.Object {
     }
 
     public boolean equals(final Object obj) {
-        if ((obj instanceof AbstractMP3Object) == false) {
+        if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
         final AbstractMP3Object abstractMp3Object = (AbstractMP3Object) obj;

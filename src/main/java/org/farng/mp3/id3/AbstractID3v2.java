@@ -380,15 +380,15 @@ public abstract class AbstractID3v2 extends AbstractID3 {
         if (emptyFrameBytes != that.emptyFrameBytes) {
             return false;
         }
-        if (fileReadSize != that.fileReadSize) {
-            return false;
-        }
-        if (invalidFrameBytes != that.invalidFrameBytes) {
-            return false;
-        }
-        if (padding != that.padding) {
-            return false;
-        }
+//        if (fileReadSize != that.fileReadSize) {
+//            return false;
+//        }
+//        if (invalidFrameBytes != that.invalidFrameBytes) {
+//            return false;
+//        }
+//        if (padding != that.padding) {
+//            return false;
+//        }
         if (frameMap != null ? !frameMap.equals(that.frameMap) : that.frameMap != null) {
             return false;
         }
@@ -404,9 +404,9 @@ public abstract class AbstractID3v2 extends AbstractID3 {
         result = 31 * result + (int) revision;
         result = 31 * result + duplicateBytes;
         result = 31 * result + emptyFrameBytes;
-        result = 31 * result + fileReadSize;
-        result = 31 * result + invalidFrameBytes;
-        result = 31 * result + padding;
+//        result = 31 * result + fileReadSize;
+//        result = 31 * result + invalidFrameBytes;
+//        result = 31 * result + padding;
         return result;
     }
 }
